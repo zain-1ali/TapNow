@@ -77,7 +77,7 @@ console.log(user)
 
 
       </div>
-      <Mobilecontainer/>
+      <Mobilecontainer user={user} link={link}/>
     </div>
   );
 };

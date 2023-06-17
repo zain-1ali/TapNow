@@ -2,7 +2,7 @@ import React from "react";
 import {MdOutlineOpenInNew} from 'react-icons/md'
 import Mobile from "./Mobile";
 
-const Mobilecontainer = () => {
+const Mobilecontainer = ({user,link}) => {
   return (
     <div className="h-[540px] rounded-r-2xl bg-white w-[320px] mt-5 flex items-center flex-col overflow-y-scroll scrollbar-hide shadow-xl">
       <div class="w-[100%] h-[55px]  mt-[22px] flex justify-center">
@@ -13,7 +13,7 @@ const Mobilecontainer = () => {
 
 
       </div>
-      <Mobile/>
+      <Mobile user={user} link={link}/>
     </div>
   );
 };

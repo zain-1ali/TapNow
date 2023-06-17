@@ -16,7 +16,7 @@ import twitter from './socialLink/twitter.png'
 import linkedin from './socialLink/linkedin.png'
 import twitch from './socialLink/twitch.png'
 import pinterest from './socialLink/pinterest.png'
-import youtube from './socialLink/twitter.png'
+import youtube from './socialLink/youtube.png'
 
 import snapchat from './socialLink/snapchat.png'
 import telegram from './socialLink/telegram.png'

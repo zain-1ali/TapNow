@@ -6,9 +6,15 @@ import { RiAddFill } from "react-icons/ri";
 import { returnIcons } from "../../assets/ReturnSocialIcons";
 import { ref, update } from "firebase/database";
 import { db } from "../../Firebase";
+import { useSelector,useDispatch } from "react-redux";
+import { openLinkModal,openLinkEditModal,openLinkUpdateModal,openModal,closeAllModal } from '../../Redux/Modalslice'
+import LinksModal from "../LinksModal";
 
 const Content = ({ user, link }) => {
-  // Handle to change direct mode
+
+
+let dispatch =useDispatch()
+  // ---------------------------------------Handle to change direct mode----------------------------------
 
   let handleChangeDirect = () => {
     if (user?.directMode) {
@@ -24,7 +30,7 @@ const Content = ({ user, link }) => {
     }
   };
 
-  // Handle to change Lead mode
+  // -----------------------------------------Handle to change Lead mode------------------------------------------
 
   let handleChangeLead = () => {
     update(ref(db, `User/${user?.id}`), { LeadMode: !user?.LeadMode });
@@ -65,7 +71,7 @@ const Content = ({ user, link }) => {
               />
             </div>
           </div>
-          <div class="h-[40px] w-[42%] rounded-3xl flex border bg-black text-white p-2 items-center cursor-pointer justify-center">
+          <div class="h-[40px] w-[42%] rounded-3xl flex border bg-black text-white p-2 items-center cursor-pointer justify-center" onClick={()=>dispatch(openModal())}>
             <RiAddFill className="text-white text-2xl" />
             <p class="text-sm ml-1 font-medium ">Add Links and Contact</p>
           </div>
@@ -128,7 +134,7 @@ const Content = ({ user, link }) => {
                     </div>
                     <div class="w-[15%]">
                       <Switch
-                        checked={!elm?.isHide}
+                        checked={elm?.isHide}
                         onChange={() =>
                           handleHidelLink(elm?.title, elm?.isHide)
                         }
@@ -141,6 +147,7 @@ const Content = ({ user, link }) => {
           )}
         </div>
       </div>
+      <LinksModal user={user} link={link} />
     </>
   );
 };
