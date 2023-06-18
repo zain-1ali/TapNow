@@ -27,7 +27,7 @@ import telegram from './socialLink/telegram.png'
 
 export const contactIcons=[
 {
-    name:'Phone',
+    name:'Call',
     img:call,
     placeholder:'Phone Number*'
 },

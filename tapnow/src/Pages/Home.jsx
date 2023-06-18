@@ -83,7 +83,7 @@ console.log(childs)
   return (
     <div className="w-[100%] flex min-h-[100vh]">
       <Sidebar />
-      <div className="w-[85%] border]">
+      <div className="w-[85%]  pb-4">
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
           <div className="w-[90%] flex justify-between">
             <h2 className="text-4xl font-[500]">My Profiles</h2>
@@ -129,7 +129,7 @@ console.log(childs)
           </div>
         </div>
 <div className="w-[100%] flex justify-center">
-        <div className="w-[90%]  grid grid-cols-3 gap-x-4 mt-6">
+        <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4  mt-6">
           <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center ">
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
               <img

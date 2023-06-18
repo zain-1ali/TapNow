@@ -2,9 +2,27 @@ import React from "react";
 import {BiSignal4} from 'react-icons/bi'
 import {AiOutlineWifi} from 'react-icons/ai'
 import { returnIcons } from "../../assets/ReturnSocialIcons";
+import { useDispatch, useSelector } from "react-redux";
 
 const Mobile = ({user,link}) => {
-  console.log(link)
+
+
+
+  let dispatch = useDispatch();
+  // ----------------------------------------------------State from redux---------------------------------------------
+  const singlelink = useSelector(
+    (state) => state.singleLinkHandeler.singleLink
+  );
+
+
+  let checkAdded=(name)=>{
+
+    return link?.some((elm)=>{
+    return elm?.title===name
+    })
+      }
+
+
   return (
     <div className=" min-h-[90vh] w-[260px] border-[3px] rounded-3xl mt-5 border-[#e0e0e0] relative">
       <div className="w-[100%]  flex justify-center h-[45px] rounded-t-3xl  bg-[#eaf2fd] ">
@@ -60,9 +78,20 @@ const Mobile = ({user,link}) => {
           </div>
         </div>
         <div className="w-[100%] grid grid-cols-3 gap-x-4 ">
+
+      {singlelink.img &&  <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={checkAdded(singlelink?.name) ?{display:'none'}:null}>
+<img
+  src={singlelink.img}
+  alt="social"
+  className="h-[40px] w-[40px] "
+/>
+<p className="text-[11px] mt-1 font-medium">{singlelink?.name}</p>
+</div>}
+
+
           {
             link?.map((elm)=>{
-return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={elm?.isHide===false ?{display:'none'}:null}>
+return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={elm?.isHide===true ?{display:'none'}:null}>
 <img
   src={returnIcons(elm?.title)}
   alt="social"

@@ -14,6 +14,11 @@ import { contactIcons , socialIcons } from "../assets/ReturnSocialIcons";
 import {RxCross2} from 'react-icons/rx'
 import {HiBadgeCheck} from 'react-icons/hi'
 import Linkeditmodal from "./Linkeditmodal";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
+import LinkupdateModal from "./LinkupdateModal";
+
+// import { removeLink } from "../Redux/Singlelinkslice";
 
 
 
@@ -54,7 +59,7 @@ return elm?.title===name
     <>
       <Modal
         open={modal}
-        onClose={() => dispatch(closeAllModal())}
+        onClose={() => {dispatch(closeAllModal()),dispatch(removeLink())}}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -64,7 +69,7 @@ linkModal &&
            
           <div className="overflow-y-scroll h-[100%] scrollbar-hide">
             <div className="w-[100%] relative">
-              <div className="cursor-pointer absolute right-0 top-0 " onClick={()=>dispatch(closeAllModal())}>
+              <div className="cursor-pointer absolute right-0 top-0 " onClick={()=>{dispatch(closeAllModal()),dispatch(removeLink())}}>
                 <RxCross2 className="text-2xl"/>
               </div>
             </div>
@@ -77,7 +82,7 @@ linkModal &&
               <div className=" flex justify-around flex-wrap">
                 {
                     contactIcons.map((elm)=>{
-return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={checkAdded(elm?.name) ? ()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
     {
     checkAdded(elm?.name) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
@@ -104,7 +109,7 @@ return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] ho
                   <div className=" flex justify-around flex-wrap">
                     {
                         socialIcons.map((elm)=>{
-return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
     checkAdded(elm?.name) &&
@@ -135,8 +140,12 @@ return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7
           
            }
            {linkEditmodal && <Linkeditmodal user={user} link={link}/>}
+           {linkupdateModal && <LinkupdateModal user={user} link={link}/>}
+
         </Box>
       </Modal>
+      <ToastContainer position="top-center" autoClose={2000} />
+
     </>
   );
 };

@@ -1,28 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
- singleLink:{
-  name:'',
-  img:'',
-  placeholder:''
- }
+  isContent: true,
+  isAbout: false,
+  isQr: false,
+  isLead: false,
 };
 
 export const profileEditSlice = createSlice({
   name: "profileEditHandeler",
   initialState,
   reducers: {
-    addLink: (state,action) => {
-      state.singleLink=action.payload
+    openContent: (state) => {
+      state.isContent = true;
+      state.isAbout = false;
+      state.isQr = false;
+      state.isLead = false;
+
+
     },
     
 
-    removeLink: (state) => {
-      state.singleLink={
-        name:'',
-        img:'',
-        placeholder:''
-       }
+    openAbout: (state) => {
+      state.isAbout = true;
+      state.isContent = false;
+      state.isQr = false;
+      state.isLead = false;
+
+
+
     },
    
 

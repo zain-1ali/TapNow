@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Mobilecontainer from "./Editprofilecomponents/Mobilecontainer";
 import Mobile from "./Editprofilecomponents/Mobile";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Switch } from "@mui/material";
-import {update,ref} from 'firebase/database'
+import {update,ref, remove} from 'firebase/database'
 
 import {
   openLinkModal,
@@ -17,13 +17,20 @@ import { addLink, removeLink } from "../Redux/Singlelinkslice";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { db } from "../Firebase";
+import {AiTwotoneDelete} from 'react-icons/ai'
 
-const Linkeditmodal = ({ user, link }) => {
+const LinkupdateModal = ({ user, link }) => {
   let dispatch = useDispatch();
+
+ 
+ 
   // ----------------------------------------------------State from redux---------------------------------------------
   const singlelink = useSelector(
     (state) => state.singleLinkHandeler.singleLink
   );
+
+
+
 
   let [theLink,settheLink] = useState({
     isHide: false,
@@ -33,6 +40,31 @@ const Linkeditmodal = ({ user, link }) => {
     value: "",
     description:""
   });
+
+  // ----------------------------------------------------Finding link to update---------------------------------------------
+
+  let  linkToUpdate=link?.filter((elm)=>{
+return singlelink.name===elm?.title
+  })
+
+
+  useEffect(()=>{
+    if(linkToUpdate[0]){
+    settheLink({
+        isHide: linkToUpdate[0]?.isHide,
+        isHighLighted:linkToUpdate[0]?.isHighLighted ,
+        name: linkToUpdate[0]?.name,
+        title: linkToUpdate[0]?.title,
+        value: linkToUpdate[0]?.value,
+        description:linkToUpdate[0]?.description
+      })
+    }
+    console.log(linkToUpdate)
+  },[linkToUpdate[0]])
+
+
+
+  
 
 
 
@@ -60,7 +92,7 @@ const Linkeditmodal = ({ user, link }) => {
     if (theLink.value && theLink.name) {
         
         update(ref(db, `User/${user?.id}/links/${singlelink.name}`),  theLink).then(()=>{
-          toast.success('Link added successfuly')
+          toast.success('Link updated successfuly')
 settheLink({
   
     isHide: false,
@@ -72,13 +104,17 @@ settheLink({
   
 })
         });
-      
-        
-
-
-
-
     }
+}
+
+
+  // ----------------------------------------------------Delete link to database---------------------------------------------
+
+
+
+const handleDelete = () => {
+    remove(ref(db, `User/${user?.id}/links/${singlelink.name}`))
+    toast.success('Link deleted successfuly')
 }
 
   return (
@@ -160,7 +196,14 @@ settheLink({
             />
           </div>
          } 
-          <div className="w-[55%] h-[70px]  absolute bottom- flex flex-row-reverse ">
+          <div className="w-[55%] h-[70px]  absolute bottom- flex justify-between items-center mt-5">
+
+<div className=" flex h-[40px] w-[100px] justify-center items-center cursor-pointer rounded-3xl hover:bg-[#f7f7f7]" onClick={()=>{handleDelete(),dispatch(openLinkModal()),dispatch(removeLink())}}>
+<AiTwotoneDelete className="text-red-600 text-lg mr-[1px]"/>
+<h1 class="text-red-600  font-medium ml-[1px]">Remove</h1>
+</div>
+
+
             <div className="flex justify-between items-center w-[250px]">
               <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white" onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}>
                 <p className="text-sm font-medium ml-[3px] ">Cancel</p>
@@ -185,4 +228,4 @@ settheLink({
   );
 };
 
-export default Linkeditmodal;
+export default LinkupdateModal;

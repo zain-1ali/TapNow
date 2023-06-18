@@ -8,6 +8,7 @@ import { ref, update } from "firebase/database";
 import { db } from "../../Firebase";
 import { useSelector,useDispatch } from "react-redux";
 import { openLinkModal,openLinkEditModal,openLinkUpdateModal,openModal,closeAllModal } from '../../Redux/Modalslice'
+
 import LinksModal from "../LinksModal";
 
 const Content = ({ user, link }) => {
@@ -134,7 +135,7 @@ let dispatch =useDispatch()
                     </div>
                     <div class="w-[15%]">
                       <Switch
-                        checked={elm?.isHide}
+                        checked={!elm?.isHide}
                         onChange={() =>
                           handleHidelLink(elm?.title, elm?.isHide)
                         }

@@ -6,18 +6,24 @@ import {FiFilter} from 'react-icons/fi'
 import { useSelector, useDispatch } from 'react-redux'
 import { openContent,openAbout,openQr,openLead } from '../../Redux/Profileeditslice'
 import Content from "./Content";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import { db } from "../../Firebase";
 import Mobilecontainer from "./Mobilecontainer";
+import About from "./About";
+import Qrcode from "./Qrcode";
+import Leadcapture from "./Leadcapture";
+import { setName,setBio,setColor,setCompany,setJob,setLocation } from '../../Redux/UserinfoSlice'
+
 
 
 const Editcard = ({userID}) => {
 
-    const iscount = useSelector((state) => state.profileEditHandeler.isContent)
+    const iscontent = useSelector((state) => state.profileEditHandeler.isContent)
     const isabout = useSelector((state) => state.profileEditHandeler.isAbout)
     const isqr = useSelector((state) => state.profileEditHandeler.isQr)
     const islead = useSelector((state) => state.profileEditHandeler.isLead)
 
+    const dispatch = useDispatch()
 
 
     let [user,setuser]=useState({})
@@ -35,6 +41,8 @@ const Editcard = ({userID}) => {
                 MediaKeyStatusMap
                 setuser(data)
                 setlink(Object.values(data?.links))
+
+
   
                 // updateStarCount(postElement, data);
             });
@@ -45,10 +53,11 @@ const Editcard = ({userID}) => {
   
     }, [])
 
+    
+
 console.log(user)
 
 
-    const dispatch = useDispatch()
 
   return (
     <div className="flex">
@@ -73,7 +82,13 @@ console.log(user)
 
         </div>
 
-<Content user={user} link={link}/>
+        {iscontent &&  <Content user={user} link={link}/>}
+        {isabout &&  <About user={user} link={link}/>}
+        {isqr &&  <Qrcode user={user} link={link}/>}
+        {islead &&  <Leadcapture user={user} link={link}/>}
+
+
+
 
 
       </div>
