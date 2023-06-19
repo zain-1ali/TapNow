@@ -15,6 +15,7 @@ import { uploadString , ref as sRef, getDownloadURL} from "firebase/storage";
 
 const About = ({user,link}) => {
 
+// ----------------------------------------------------State setup for profile img crop---------------------------------------------
 
     let [prflimg, setprflimg] = useState(null)
     let [cropModal, setcropModal] = useState(false)
@@ -53,6 +54,88 @@ const About = ({user,link}) => {
         }
       }
 
+
+
+// ----------------------------------------------------State setup for LOGO img crop---------------------------------------------
+
+let [logoimg, setlogoimg] = useState(null)
+// let [cropModal, setcropModal] = useState(false)
+let [mylogoimg, setmylogoimg] = useState(null)
+let [croplogo, setCroplogo] = useState({
+  unit: '%',
+  x: 50,
+  y: 50,
+  width: 25,
+  height: 25
+})
+
+
+// let handleclosecropper = () => {
+//     setcropModal(false)
+    
+//   }
+
+
+
+  let handlelogoImageChange = (event) => {
+    // profileImage
+    setlogoimg('')
+    const { files } = event.target
+
+    // setKey(key + 1);
+    if (files && files?.length > 0) {
+      const reader = new FileReader()
+      reader.readAsDataURL(files[0])
+      reader.addEventListener('load', () => {
+        setlogoimg(reader.result)
+        // dispatch(setProfileImg(reader.result))
+
+        setcropModal(true)
+      })
+    }
+  }
+
+// ----------------------------------------------------State setup for bg img crop---------------------------------------------
+
+let [bgimg, setbgimg] = useState(null)
+// let [cropModal, setcropModal] = useState(false)
+let [mybgimg, setmybgimg] = useState(null)
+let [cropbg, setCropbg] = useState({
+  unit: '%',
+  x: 50,
+  y: 50,
+  width: 25,
+  height: 25
+})
+
+
+// let handleclosecropper = () => {
+//     setcropModal(false)
+    
+//   }
+
+
+
+  let handlebgImageChange = (event) => {
+    // profileImage
+    setbgimg('')
+    const { files } = event.target
+
+    // setKey(key + 1);
+    if (files && files?.length > 0) {
+      const reader = new FileReader()
+      reader.readAsDataURL(files[0])
+      reader.addEventListener('load', () => {
+        setbgimg(reader.result)
+        // dispatch(setProfileImg(reader.result))
+
+        setcropModal(true)
+      })
+    }
+  }
+
+
+
 // ----------------------------------------------------State from redux---------------------------------------------
 
 const name = useSelector((state) => state.userInfoHandeler.userInfo.name)
@@ -68,7 +151,7 @@ const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
 
 
 
-
+console.log(colorCode)
 
 
 
@@ -84,10 +167,10 @@ useEffect(()=>{
     dispatch(setBio(user?.bio))
     dispatch(setProfileImg(user?.profileUrl))
     dispatch(setlogoImg(user?.logoImg))
+    dispatch(setBgImg(user?.bgImg))
+
+
     
-
-
-    // ,,setBgImg
         },[user])
 
         console.log(name)
@@ -127,6 +210,30 @@ const addData = async () => {
                 console.log(error)
             })
         }
+
+
+
+        if (bgimg) {
+          let name = new Date().getTime() + user?.id;
+          const storageRef = sRef(storage, name);
+          uploadString(storageRef, bgImg.slice(23), "base64", {
+              contentType: "image/png",
+            }).then(() => {
+              console.log('img testing')
+              getDownloadURL(storageRef).then((URL) => {
+                  // console.log(URL)
+                  update(ref(db, `User/${user?.id}`), { bgImg: URL });
+                  setBgImg('')
+                  // window.location.reload();
+
+              }).catch((error) => {
+                  console.log(error)
+              });
+              // setimg(null)
+          }).catch((error) => {
+              console.log(error)
+          })
+      }
       
     }
 }
@@ -135,32 +242,40 @@ const addData = async () => {
 
 
   return (
-    <div class="w-[530px] h-[100%] p-4 relative">
+    <div className="w-[530px] h-[100%] p-4 relative">
+      {/* --------------------------------------------croper for profile image------------------------------------------------  */}
         <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={prflimg} myimg={myprflimg} setmyimg={setmyprflimg} setcrop={setCropPrfl} crop={cropPrfl} aspect={1/1} setReduxState={setProfileImg}/>
-      <div class="w-[100%] h-[80%] overflow-y-scroll scrollbar-hide">
-        <div class="w-[100%]">
-          <h2 class="text-xs font-medium">Card Title</h2>
+
+     {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+        <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={bgimg} myimg={mybgimg} setmyimg={setmybgimg} setcrop={setCropbg} crop={cropbg} aspect={4/2} setReduxState={setBgImg}/>
+
+    {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+
+    <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={logoimg} myimg={mylogoimg} setmyimg={setmylogoimg} setcrop={setCroplogo} crop={croplogo} aspect={1/1} setReduxState={setlogoImg}/>
+      <div className="w-[100%] h-[80%] overflow-y-scroll scrollbar-hide">
+        <div className="w-[100%]">
+          <h2 className="text-xs font-medium">Card Title</h2>
           <input
             type="text"
             placeholder="Card Title"
-            class="mt-2 outline-none border-none w-[220px] h-[40px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+            className="mt-2 outline-none border-none w-[220px] h-[40px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
           />
         </div>
-        <div class="w-[100%] flex justify-around mt-[30px]">
+        <div className="w-[100%] flex justify-around mt-[30px]">
           <div>
-            <p class="font-medium text-xs text-center">Profile picture</p>
-            <div class="h-[90px] w-[90px] rounded-full mt-2 relative ">
+            <p className="font-medium text-xs text-center">Profile picture</p>
+            <div className="h-[90px] w-[90px] rounded-full mt-2 relative ">
               <label
                 for="img"
-                class="absolute right-[0px] top-[-1px] cursor-pointer"
+                className="absolute right-[0px] top-[-1px] cursor-pointer"
               >
-                <MdAddCircleOutline class='text-2xl'/>
+                <MdAddCircleOutline className='text-2xl'/>
                 
                 <input
                   type="file"
                   name="img"
                   id="img"
-                  class="opacity-0 w-[0px] h-[0px]"
+                  className="opacity-0 w-[0px] h-[0px]"
                   onChange={handlePrflImageChange}
                 //   onChange={()=> dispatch(setProfileImg())}
                 />
@@ -168,70 +283,71 @@ const addData = async () => {
               <img
                 src={profileUrl}
                 alt="profile"
-                class="h-[90px] w-[90px] rounded-full border-2"
+                className="h-[90px] w-[90px] rounded-full border-2"
               />
             </div>
           </div>
           <div>
-            <p class="font-medium text-xs text-center">Cover photo</p>
-            <div class="h-[90px] w-[240px] rounded-lg mt-2 relative">
+            <p className="font-medium text-xs text-center">Cover photo</p>
+            <div className="h-[90px] w-[240px] rounded-lg mt-2 relative">
               <label
                 for="coverImg"
-                class="absolute right-[-10px] top-[-4px] cursor-pointer"
+                className="absolute right-[-10px] top-[-4px] cursor-pointer"
               >
-                <MdAddCircleOutline class='text-2xl'/>
+                <MdAddCircleOutline className='text-2xl'/>
 
                 
                 <input
                   type="file"
                   name="coverImg"
                   id="coverImg"
-                  class="opacity-0 w-[0px] h-[0px]"
+                  className="opacity-0 w-[0px] h-[0px]"
+                  onChange={handlebgImageChange}
                 //   ,setlogoImg,setBgImg
                 />
               </label>
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/tap-now-ae13b.appspot.com/o/1686130659502szZBjgVlYHcnTHFRIn3qiHl40sJ3?alt=media&amp;token=fe89883f-8d52-433d-90fc-b29bcbf84a3a"
+                src={bgImg}
                 alt="profile"
-                class="h-[90px] w-[240px] rounded-lg object-cover"
+                className="h-[90px] w-[240px] rounded-lg object-cover"
               />
             </div>
           </div>
           <div>
-            <p class="font-medium text-xs text-center">Company Logo</p>
-            <div class="h-[90px] w-[90px] rounded-full mt-2 relative">
+            <p className="font-medium text-xs text-center">Company Logo</p>
+            <div className="h-[90px] w-[90px] rounded-full mt-2 relative">
               <label
                 for="logoImg"
-                class="absolute right-[0px] top-[-1px] cursor-pointer"
+                className="absolute right-[0px] top-[-1px] cursor-pointer"
               >
                
 
-<MdAddCircleOutline class='text-2xl'/>
+<MdAddCircleOutline className='text-2xl'/>
 
                 <input
                   type="file"
                   name="logoImg"
                   id="logoImg"
-                  class="opacity-0 w-[0px] h-[0px]"
-                //   ,setlogoImg,setBgImg
+                  className="opacity-0 w-[0px] h-[0px]"
+                onChange={handlelogoImageChange}
                 />
               </label>
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/tap-now-ae13b.appspot.com/o/1686124129211szZBjgVlYHcnTHFRIn3qiHl40sJ3?alt=media&amp;token=e6635e4e-7ad0-4a81-9031-d3cf74106f05"
+                src={logoImg}
                 alt="profile"
-                class="h-[90px] w-[90px] rounded-full object-cover"
+                className="h-[90px] w-[90px] rounded-full object-cover"
               />
             </div>
           </div>
         </div>
-        <div class="w-[100%] mt-10">
-          <h2 class="text-xs font-medium">Card Color</h2>
-          <div class="w-[100%] flex justify-around mt-3">
+        <div className="w-[100%] mt-10">
+          <h2 className="text-xs font-medium">Card Color</h2>
+          <div className="w-[100%] flex justify-around mt-3">
             <label for="color">
-              <div class="h-[26px] w-[26px] rounded-full border flex justify-center items-center cursor-pointer ">
+              <div className="h-[26px] w-[26px] rounded-full border flex justify-center items-center cursor-pointer ">
                 <IoMdColorFilter/>
                 {/* <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSize15px css-jpbqk9"
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSize15px css-jpbqk9"
                   focusable="false"
                   aria-hidden="true"
                   viewBox="0 0 24 24"
@@ -244,86 +360,90 @@ const addData = async () => {
                 type="color"
                 name="color"
                 id="color"
-                class="opacity-0 w-[0px] h-[0px]"
-                onChange={(e)=>dispatch(setColor(e.target.value))}
+                className="opacity-0 w-[0px] h-[0px]"
+                onChange={e=>dispatch(setColor(e.target.value))}
 
               />
             </label>
-            <div class="h-[26px] w-[26px] rounded-full border flex justify-center items-center cursor-pointer bg-[#ffffff]" onClick={()=>dispatch(setColor("#ffffff"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#000000]" onClick={()=>dispatch(setColor("#000000"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#eb5757]" onClick={()=>dispatch(setColor("#eb5757"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2994a]" onClick={()=>dispatch(setColor("#f2994a"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2c94c]" onClick={()=>dispatch(setColor("#f2c94c"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#219653]" onClick={()=>dispatch(setColor("#219653"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#2f80ed]" onClick={()=>dispatch(setColor("#2f80ed"))}></div>
-            <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#9b51e0]" onClick={()=>dispatch(setColor("#9b51e0"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full border flex justify-center items-center cursor-pointer bg-[#ffffff]" onClick={()=>dispatch(setColor("#ffffff"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#000000]" onClick={()=>dispatch(setColor("#000000"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#eb5757]" onClick={()=>dispatch(setColor("#eb5757"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2994a]" onClick={()=>dispatch(setColor("#f2994a"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2c94c]" onClick={()=>dispatch(setColor("#f2c94c"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#219653]" onClick={()=>dispatch(setColor("#219653"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#2f80ed]" onClick={()=>dispatch(setColor("#2f80ed"))}></div>
+            <div className="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#9b51e0]" onClick={()=>dispatch(setColor("#9b51e0"))}></div>
           </div>
         </div>
-        <div class="w-[100%] mt-8">
-          <div class="flex justify-between w-[100%]">
+        <div className="w-[100%] mt-8">
+          <div className="flex justify-between w-[100%]">
             <div>
-              <h2 class="text-xs font-medium">Name</h2>
+              <h2 className="text-xs font-medium">Name</h2>
               <input
                 type="text"
                 placeholder="Name"
-                class="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
                 onChange={(e)=>dispatch(setName(e.target.value))}
                 value={name}
               />
             </div>
             <div>
-              <h2 class="text-xs font-medium">Location</h2>
+              <h2 className="text-xs font-medium">Location</h2>
               <input
                 type="text"
                 placeholder="Location"
-                class="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
                 onChange={(e)=>dispatch(setLocation(e.target.value))}
                 value={location}
               />
             </div>
           </div>
-          <div class="flex justify-between w-[100%] mt-5">
+          <div className="flex justify-between w-[100%] mt-5">
             <div>
-              <h2 class="text-xs font-medium">Job Title</h2>
+              <h2 className="text-xs font-medium">Job Title</h2>
               <input
                 type="text"
                 placeholder="Job Title"
-                class="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
                 onChange={(e)=>dispatch(setJob(e.target.value))}
                 value={job}
               />
             </div>
             <div>
-              <h2 class="text-xs font-medium">Company</h2>
+              <h2 className="text-xs font-medium">Company</h2>
               <input
                 type="text"
                 placeholder="Company"
-                class="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none w-[240px] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
                 onChange={(e)=>dispatch(setCompany(e.target.value))}
                 value={company}
               />
             </div>
           </div>
-          <div class=" w-[100%] mt-5">
-            <h2 class="text-xs font-medium">Bio</h2>
-            <input
+          <div className=" w-[100%] mt-5">
+            <h2 className="text-xs font-medium">Bio</h2>
+            <textarea  rows="4" cols="50" className="mt-2 outline-none border-none w-[100%]  bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"  onChange={(e)=>dispatch(setBio(e.target.value))}
+                value={bio}>
+
+            </textarea>
+            {/* <input
               type="text"
               placeholder="Bio"
-              class="mt-2 outline-none border-none w-[100%] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+              className="mt-2 outline-none border-none w-[100%] h-[45px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
               onChange={(e)=>dispatch(setBio(e.target.value))}
                 value={bio}
-            />
+            /> */}
           </div>
         </div>
         <br />
       </div>
-      <div class="w-[95%] h-[70px]  absolute bottom-0 flex flex-row-reverse border-t">
-        <div class="flex justify-between items-center w-[250px]">
-          <div class="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white">
-            <p class="text-sm font-medium ml-[3px] ">Cancel</p>
+      <div className="w-[95%] h-[70px]  absolute bottom-0 flex flex-row-reverse border-t">
+        <div className="flex justify-between items-center w-[250px]">
+          <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white">
+            <p className="text-sm font-medium ml-[3px] ">Cancel</p>
           </div>
-          <div class="h-[40px] w-[120px] border rounded-3xl ml-2 bg-black flex items-center justify-center cursor-pointer" onClick={()=>addData()}>
-            <p class="text-sm font-medium ml-[3px] text-white">Update</p>
+          <div className="h-[40px] w-[120px] border rounded-3xl ml-2 bg-black flex items-center justify-center cursor-pointer" onClick={()=>addData()}>
+            <p className="text-sm font-medium ml-[3px] text-white">Update</p>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ const initialState = {
         job:'',
         company:'',
         bio:'',
-        colorCode:'',
+        colorCode:'#2f80ed',
         profileUrl:'',
         logoImg:'',
         bgImg:''

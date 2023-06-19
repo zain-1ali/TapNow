@@ -14,6 +14,18 @@ const Mobile = ({user,link}) => {
     (state) => state.singleLinkHandeler.singleLink
   );
 
+  // ----------------------------------------------------State from redux---------------------------------------------
+
+const name = useSelector((state) => state.userInfoHandeler.userInfo.name)
+const location = useSelector((state) => state.userInfoHandeler.userInfo.location)
+const job = useSelector((state) => state.userInfoHandeler.userInfo.job)
+const company = useSelector((state) => state.userInfoHandeler.userInfo.company)
+const bio = useSelector((state) => state.userInfoHandeler.userInfo.bio)
+const colorCode = useSelector((state) => state.userInfoHandeler.userInfo.colorCode)
+const profileUrl = useSelector((state) => state.userInfoHandeler.userInfo.profileUrl)
+const logoImg = useSelector((state) => state.userInfoHandeler.userInfo.logoImg)
+const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
+
 
   let checkAdded=(name)=>{
 
@@ -22,6 +34,7 @@ const Mobile = ({user,link}) => {
     })
       }
 
+      console.log(colorCode)
 
   return (
     <div className=" min-h-[90vh] w-[260px] border-[3px] rounded-3xl mt-5 border-[#e0e0e0] relative">
@@ -35,20 +48,20 @@ const Mobile = ({user,link}) => {
         <div className="w-[100%]  relative ">
           <div>
             <img
-              src={user?.bgImg}
+              src={bgImg}
               alt=""
               className="w-[100%] h-[90px] object-cover "
             />
             <div className="  absolute  left-[30%] top-[37px]">
               <div className="h-[95px] w-[95px] rounded-full   border-[5px] border-white relative ">
                 <img
-                  src={user?.profileUrl}
+                  src={profileUrl}
                   alt=""
                   className="h-[100%] w-[100%] rounded-full "
                 />
                 <div className="h-[35px] w-[35px] rounded-full   absolute bottom-[-5px] right-[-4px] ">
                   <img
-                    src={user?.logoImg}
+                    src={logoImg}
                     alt="logo"
                     className="h-[100%] w-[100%] rounded-full object-cover   shadow-md border-[2px] border-white"
                   />
@@ -59,18 +72,19 @@ const Mobile = ({user,link}) => {
         </div>
         <div className="w-[100%] min-h-[150px] bg-[#eaf2fd] shadow-lg shadow-[#eaf2fd]">
           <div className="w-[100%] flex flex-col items-center">
-            <h2 className="text-sm font-medium mt-[52px] ">{user?.name}</h2>
+            <h2 className="text-sm font-medium mt-[52px] ">{name}</h2>
             <p className="text-[9px] mt-1  text-[#a8aeb6]">
-            {user?.job} at {user?.company}
+            {job} at {company}
             </p>
-            <p className="text-[9px] mt-1  text-[#a8aeb6]">{user?.location}</p>
+            <p className="text-[9px] mt-1  text-[#a8aeb6]">{location}</p>
             <div className="w-[90%]">
               <p className="text-[9px] mt-2 text-center text-[#a8aeb6] ">
-              {user?.bio}
+              {bio}
               </p>
             </div>
             <div
-              className="h-[36px] w-[80%] rounded-3xl border mt-3 bg-[#2f80ed] flex justify-center items-center text-sm font-medium text-white cursor-pointer"
+            style={{backgroundColor:colorCode}}
+              className={`h-[36px] w-[80%] rounded-3xl border mt-3  flex justify-center items-center text-sm font-medium text-white cursor-pointer` }
             //   style="background-color: rgb(235, 87, 87);"
             >
               Save Contact

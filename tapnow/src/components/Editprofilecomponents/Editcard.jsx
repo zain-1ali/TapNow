@@ -12,7 +12,9 @@ import Mobilecontainer from "./Mobilecontainer";
 import About from "./About";
 import Qrcode from "./Qrcode";
 import Leadcapture from "./Leadcapture";
-import { setName,setBio,setColor,setCompany,setJob,setLocation } from '../../Redux/UserinfoSlice'
+import { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg } from '../../Redux/UserinfoSlice'
+import Qrcontainer from "./Qrcontainer";
+
 
 
 
@@ -28,6 +30,23 @@ const Editcard = ({userID}) => {
 
     let [user,setuser]=useState({})
     let [link,setlink]=useState([])
+
+
+
+    useEffect(()=>{
+      dispatch(setName(user?.name))
+      dispatch(setLocation(user?.location))
+      dispatch(setCompany(user?.company))
+      dispatch(setJob(user?.job))
+      dispatch(setColor(user?.colorCode))
+      dispatch(setBio(user?.bio))
+      dispatch(setProfileImg(user?.profileUrl))
+      dispatch(setlogoImg(user?.logoImg))
+      dispatch(setBgImg(user?.bgImg))
+  
+  
+      
+          },[user])
 
     // --------------------------geting the user data from firebase------------------------
 
@@ -92,7 +111,8 @@ console.log(user)
 
 
       </div>
-      <Mobilecontainer user={user} link={link}/>
+      
+      {isqr ? <Qrcontainer user={user}/> : <Mobilecontainer user={user} link={link}/>}
     </div>
   );
 };
