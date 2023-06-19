@@ -1,12 +1,114 @@
-import React from "react";
+import React, { useState } from "react";
 import {BiDownload} from 'react-icons/bi'
 import {BsFillWalletFill} from 'react-icons/bs'
 import {IoMdColorFilter} from 'react-icons/io'
+import {MdAddCircleOutline} from 'react-icons/md'
+import Cropper from "./Cropper";
+import { useSelector,useDispatch } from "react-redux";
+import {setQrLogo,setQrColor} from '../../Redux/UserinfoSlice'
+import { ref, update } from "firebase/database";
+import { db, storage } from "../../Firebase";
+import { uploadString,ref as sRef, getDownloadURL } from "firebase/storage";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
 
-const Qrcode = () => {
+
+
+
+const Qrcode = ({user}) => {
+
+
+
+  const name = useSelector((state) => state.userInfoHandeler.userInfo.name)
+  const qrLogo = useSelector((state) => state.userInfoHandeler.userInfo.qrLogo)
+  const qrColor = useSelector((state) => state.userInfoHandeler.userInfo.qrColor)
+
+  let dispatch=useDispatch()
+  console.log(qrColor)
+  
+  
+  // ----------------------------------------------------State setup for LOGO img crop---------------------------------------------
+  
+  let [logoimg, setlogoimg] = useState(null)
+  let [cropModal, setcropModal] = useState(false)
+  let [mylogoimg, setmylogoimg] = useState(null)
+  let [croplogo, setCroplogo] = useState({
+    unit: '%',
+    x: 50,
+    y: 50,
+    width: 25,
+    height: 25
+  })
+  
+  
+  let handleclosecropper = () => {
+      setcropModal(false)
+      
+    }
+  
+  
+  
+    let handlelogoImageChange = (event) => {
+      // profileImage
+      setlogoimg('')
+      const { files } = event.target
+  
+      // setKey(key + 1);
+      if (files && files?.length > 0) {
+        const reader = new FileReader()
+        reader.readAsDataURL(files[0])
+        reader.addEventListener('load', () => {
+          setlogoimg(reader.result)
+          // dispatch(setProfileImg(reader.result))
+  
+          setcropModal(true)
+        })
+      }
+    }
+
+
+
+
+
+    const addData = async () => {
+      if (qrColor || qrLogo) {
+          update(ref(db, `User/${user?.id}`), { qrColor }).then(()=>{
+              toast.success('Information updated successfuly')
+          });
+          if (logoimg) {
+              let name = new Date().getTime() + user?.id;
+              const storageRef = sRef(storage, name);
+              uploadString(storageRef, qrLogo.slice(23), "base64", {
+                  contentType: "image/png",
+                }).then(() => {
+                  console.log('img testing')
+                  getDownloadURL(storageRef).then((URL) => {
+                      // console.log(URL)
+                      update(ref(db, `User/${user?.id}`), { qrLogo: URL });
+                      setlogoimg('')
+                      // window.location.reload();
+  
+                  }).catch((error) => {
+                      console.log(error)
+                  });
+                  // setimg(null)
+              }).catch((error) => {
+                  console.log(error)
+              })
+          }
+
+        
+      }
+  }
+
+
   return (
     <div class="w-[530px] p-5 relative">
+      
+    {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+
+    <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={logoimg} myimg={mylogoimg} setmyimg={setmylogoimg} setcrop={setCroplogo} crop={croplogo} aspect={1/1} setReduxState={setQrLogo}/>
       <div class="flex justify-between">
         <h2 class="font-medium">Qr Code</h2>
         <div class="flex justify-between  w-[76%]">
@@ -59,14 +161,15 @@ const Qrcode = () => {
               name="qrcolor"
               id="qrcolor"
               class="opacity-0 w-[0px] h-[0px]"
+              onChange={(e)=>dispatch(setQrColor(e.target.value))}
             />
           </label>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#000000]"></div>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#eb5757]"></div>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2994a]"></div>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#219653]"></div>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#2f80ed]"></div>
-          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#9b51e0]"></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#000000]" onClick={()=>dispatch(setQrColor("#000000"))}></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#eb5757]" onClick={()=>dispatch(setQrColor("#eb5757"))}></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#f2994a]" onClick={()=>dispatch(setQrColor("#f2994a"))}></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#219653]" onClick={()=>dispatch(setQrColor("#219653"))}></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#2f80ed]" onClick={()=>dispatch(setQrColor("#2f80ed"))}></div>
+          <div class="h-[26px] w-[26px] rounded-full  flex justify-center items-center cursor-pointer bg-[#9b51e0]" onClick={()=>dispatch(setQrColor("#9b51e0"))}></div>
         </div>
       </div>
       <div class="w-[100%] mt-10">
@@ -77,7 +180,7 @@ const Qrcode = () => {
               for="qrimg"
               class="absolute right-[-4px] top-[-6px] cursor-pointer"
             >
-              <svg
+              {/* <svg
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
                 focusable="false"
                 aria-hidden="true"
@@ -85,16 +188,18 @@ const Qrcode = () => {
                 data-testid="ControlPointOutlinedIcon"
               >
                 <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-              </svg>
+              </svg> */}
+              <MdAddCircleOutline className='text-2xl'/>
               <input
                 type="file"
                 name="qrimg"
                 id="qrimg"
                 class="opacity-0 w-[0px] h-[0px]"
+                onChange={handlelogoImageChange}
               />
             </label>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/tap-now-ae13b.appspot.com/o/1685700437799szZBjgVlYHcnTHFRIn3qiHl40sJ3?alt=media&amp;token=8fcf40c0-14e4-451a-ad2a-6709feabb1cc"
+              src={qrLogo}
               alt="profile"
               class="h-[80px] w-[80px] rounded-xl"
             />
@@ -105,13 +210,13 @@ const Qrcode = () => {
         </div>
       </div>
       <div class="w-[95%] h-[70px]  absolute bottom-[30px] right-[20px] flex flex-row-reverse ">
-        <div class="flex justify-end items-center w-[250px]">
+        <div class="flex justify-end items-center w-[250px]" onClick={()=>addData()}>
           <div class="h-[40px] w-[120px] border rounded-3xl mr-2 bg-black flex items-center justify-center cursor-pointer">
             <p class="text-sm font-medium ml-[3px] text-white">Update</p>
           </div>
         </div>
       </div>
-      <div class="Toastify"></div>
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

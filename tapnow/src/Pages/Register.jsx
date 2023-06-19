@@ -24,7 +24,7 @@ const addData = async () => {
               // Signed in 
               const user = userCredential.user;
               // console.log(user.uid)
-              update(ref(db, `User/${user.uid}`), { id: user.uid , name:data.name,username:data.username,email:data.email,bgImg:'',bio:'',job:'',colorCode:'',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:''}).then(()=>{
+              update(ref(db, `User/${user.uid}`), { id: user.uid , name:data?.name,userName:data?.userName,email:data.email,bgImg:'',bio:'',job:'',colorCode:'#2f80ed',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:''}).then(()=>{
                 localStorage.setItem('tapNowUid',user.uid)
               toast.success('New user created sucessfuly')
 

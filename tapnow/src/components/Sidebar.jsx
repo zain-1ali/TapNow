@@ -55,7 +55,7 @@ const Sidebar = () => {
             </div>
             <a
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href="/shop"
+              href=""
             >
               {" "}
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
@@ -65,7 +65,7 @@ const Sidebar = () => {
             </a>
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href="/orders"
+              href=""
             >
               {" "}
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">

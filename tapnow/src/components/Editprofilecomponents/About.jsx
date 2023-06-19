@@ -281,7 +281,7 @@ const addData = async () => {
                 />
               </label>
               <img
-                src={profileUrl}
+                src={profileUrl ? profileUrl :"https://placehold.co/90x90"}
                 alt="profile"
                 className="h-[90px] w-[90px] rounded-full border-2"
               />
@@ -307,7 +307,7 @@ const addData = async () => {
                 />
               </label>
               <img
-                src={bgImg}
+                src={bgImg ? bgImg :"https://placehold.co/240x90"}
                 alt="profile"
                 className="h-[90px] w-[240px] rounded-lg object-cover"
               />
@@ -333,7 +333,7 @@ const addData = async () => {
                 />
               </label>
               <img
-                src={logoImg}
+                src={logoImg ? logoImg :"https://placehold.co/90x90"}
                 alt="profile"
                 className="h-[90px] w-[90px] rounded-full object-cover"
               />

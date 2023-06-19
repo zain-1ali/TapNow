@@ -1,18 +1,25 @@
 import React from "react";
 import {BiDownload} from 'react-icons/bi'
 import { QRCode } from 'react-qrcode-logo';
+import { useSelector } from "react-redux";
 
 
 
-const Qrcontainer = () => {
+const Qrcontainer = ({user}) => {
+
+
+  const qrLogo = useSelector((state) => state.userInfoHandeler.userInfo.qrLogo)
+  const qrColor = useSelector((state) => state.userInfoHandeler.userInfo.qrColor)
+
   return (
     <div class="h-[540px] rounded-r-xl bg-white w-[320px] mt-5 flex items-center flex-col p-4 shadow-xl">
-      <h2 class="font-medium">zain Ali3's Qr Code</h2>
-      <div class="mt-[75px]">
+
+      <h2 class="font-medium">{user?.name}'s Qr Code</h2>
+      <div class="mt-[75px] " >
         
       
       
-      <QRCode value="https://github.com/gcoro/react-qrcode-logo" size='200'/>
+      <QRCode value="https://github.com/gcoro/react-qrcode-logo" size='200' logoImage={qrLogo} fgColor={qrColor} logoOpacity='0.8' logoWidth='90' logoHeight='90'/>
       
         {/* <canvas
           id="react-qrcode-logo"

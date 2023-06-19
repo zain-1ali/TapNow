@@ -3,6 +3,7 @@ import {BiSignal4} from 'react-icons/bi'
 import {AiOutlineWifi} from 'react-icons/ai'
 import { returnIcons } from "../../assets/ReturnSocialIcons";
 import { useDispatch, useSelector } from "react-redux";
+import LeadForm from "./LeadForm";
 
 const Mobile = ({user,link}) => {
 
@@ -34,11 +35,30 @@ const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
     })
       }
 
-      console.log(colorCode)
+// -----------------------------------------hex to rgba for bg color-------------------------------------
+
+let hexToRGBA=(hex)=> {
+  // Remove the '#' character if present
+  hex = hex?.replace('#', '');
+  
+  // Convert the hex value to RGB
+  const red = parseInt(hex?.substring(0, 2), 16);
+  const green = parseInt(hex?.substring(2, 4), 16);
+  const blue = parseInt(hex?.substring(4, 6), 16);
+  
+  // Convert RGB to RGBA with alpha value 0.1
+  const rgba = `rgba(${red}, ${green}, ${blue}, 0.1)`;
+  
+  return rgba;
+}
 
   return (
     <div className=" min-h-[90vh] w-[260px] border-[3px] rounded-3xl mt-5 border-[#e0e0e0] relative">
-      <div className="w-[100%]  flex justify-center h-[45px] rounded-t-3xl  bg-[#eaf2fd] ">
+      <div className="w-[100%]  flex justify-center h-[45px] rounded-t-3xl   " style={{backgroundColor:hexToRGBA(colorCode)}}>
+        
+      { user?.leadMode && <LeadForm user={user}/>}
+
+        
         <p className="text-xs font-medium mr-3 mt-1">5:34</p>
         <div className="bg-[#e0e0e0] h-[18px] w-[60%] rounded-b-2xl"></div>
         <BiSignal4 className='mt-1 ml-[2px]'/>
@@ -48,20 +68,20 @@ const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
         <div className="w-[100%]  relative ">
           <div>
             <img
-              src={bgImg}
+              src={bgImg ? bgImg :"https://placehold.co/260x90"}
               alt=""
               className="w-[100%] h-[90px] object-cover "
             />
             <div className="  absolute  left-[30%] top-[37px]">
               <div className="h-[95px] w-[95px] rounded-full   border-[5px] border-white relative ">
                 <img
-                  src={profileUrl}
+                  src={profileUrl ? profileUrl :"https://placehold.co/95x95"}
                   alt=""
                   className="h-[100%] w-[100%] rounded-full "
                 />
                 <div className="h-[35px] w-[35px] rounded-full   absolute bottom-[-5px] right-[-4px] ">
                   <img
-                    src={logoImg}
+                    src={logoImg ? logoImg : "https://placehold.co/35x35"}
                     alt="logo"
                     className="h-[100%] w-[100%] rounded-full object-cover   shadow-md border-[2px] border-white"
                   />
@@ -70,12 +90,21 @@ const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
             </div>
           </div>
         </div>
-        <div className="w-[100%] min-h-[150px] bg-[#eaf2fd] shadow-lg shadow-[#eaf2fd]">
+        <div className={`w-[100%] min-h-[150px] shadow-lg `} style={{backgroundColor:hexToRGBA(colorCode),boxShadow:`10px 10px 5px 12px ${hexToRGBA(colorCode)}`}}>
           <div className="w-[100%] flex flex-col items-center">
             <h2 className="text-sm font-medium mt-[52px] ">{name}</h2>
-            <p className="text-[9px] mt-1  text-[#a8aeb6]">
-            {job} at {company}
-            </p>
+            {
+              job && company ? <p className="text-[9px] mt-1  text-[#a8aeb6]">
+              {job} at {company}
+              </p>
+              :
+              <>
+              <p className="text-[9px] mt-1  text-[#a8aeb6]">{job}</p>
+              <p className="text-[9px] mt-1  text-[#a8aeb6]">{company}</p>
+
+              </>
+            }
+            
             <p className="text-[9px] mt-1  text-[#a8aeb6]">{location}</p>
             <div className="w-[90%]">
               <p className="text-[9px] mt-2 text-center text-[#a8aeb6] ">
@@ -91,7 +120,7 @@ const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
             </div>
           </div>
         </div>
-        <div className="w-[100%] grid grid-cols-3 gap-x-4 ">
+        <div className="w-[100%] grid grid-cols-3 gap-x-4 mt-3">
 
       {singlelink.img &&  <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={checkAdded(singlelink?.name) ?{display:'none'}:null}>
 <img

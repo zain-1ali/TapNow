@@ -10,7 +10,11 @@ const initialState = {
         colorCode:'#2f80ed',
         profileUrl:'',
         logoImg:'',
-        bgImg:''
+        bgImg:'',
+        qrLogo:'',
+        qrColor:'',
+        LeadMode:'',
+        formHeader:''
 
     }
 };
@@ -50,11 +54,24 @@ export const userinfoSlice = createSlice({
       setBgImg: (state,action) => {
         state.userInfo.bgImg = action.payload;
       },
+      setQrLogo: (state,action) => {
+        state.userInfo.qrLogo = action.payload;
+      },
+      setQrColor: (state,action) => {
+        state.userInfo.qrColor = action.payload;
+      },
+      setLeadMode: (state,action) => {
+        state.userInfo.qrColor = action.payload;
+      },
+      setFormHeader: (state,action) => {
+        state.userInfo.formHeader = action.payload;
+      },
+
     
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg } = userinfoSlice.actions;
+export const { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg,setQrLogo,setQrColor,setLeadMode,setFormHeader } = userinfoSlice.actions;
 
 export default userinfoSlice.reducer;

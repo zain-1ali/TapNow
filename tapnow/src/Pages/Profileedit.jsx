@@ -23,7 +23,7 @@ const Profileedit = () => {
             <MdOutlineKeyboardArrowLeft className="text-[40px] cursor-pointer"/>
             <div className="flex items-center w-[300px] text-[#000000de] ml-1">
               <img
-                src={profileimg}
+                src={profileimg ? profileimg: "https://placehold.co/50x50"}
                 alt=""
                 className="h-[50px] w-[50px] object-cover rounded-full shadow-md"
               />

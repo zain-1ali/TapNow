@@ -14,6 +14,10 @@ import Qrcode from "./Qrcode";
 import Leadcapture from "./Leadcapture";
 import { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg } from '../../Redux/UserinfoSlice'
 import Qrcontainer from "./Qrcontainer";
+import {setQrLogo,setQrColor} from '../../Redux/UserinfoSlice'
+import {setFormHeader} from '../../Redux/UserinfoSlice'
+
+
 
 
 
@@ -43,6 +47,10 @@ const Editcard = ({userID}) => {
       dispatch(setProfileImg(user?.profileUrl))
       dispatch(setlogoImg(user?.logoImg))
       dispatch(setBgImg(user?.bgImg))
+      dispatch(setQrColor(user?.qrColor))
+      dispatch(setQrLogo(user?.qrLogo))
+dispatch(setFormHeader(user?.formHeader))
+
   
   
       

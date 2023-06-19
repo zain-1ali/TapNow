@@ -11,6 +11,7 @@ import {GrAdd} from 'react-icons/gr'
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
 import { useNavigate } from "react-router-dom";
+import OptionModal from "../components/CreateNewPrflModal/OptionModal";
 
 const Home = () => {
   let [selectVal, setselectVal] = useState("");
@@ -65,25 +66,64 @@ let [childs,setChilds]=useState([])
         });
     }
 
-    getingdata().then(()=>{
-     let thechilds=  alluser?.filter((elm)=>{
-      if(elm?.parentId){
-       return elm?.parentId===userId
+    getingdata()
+    // .then(()=>{
+    //  let thechilds=  alluser?.filter((elm)=>{
+    //   if(elm?.parentId){
+    //    return elm?.parentId===userId
 
-      }
-      })
-      setChilds(thechilds)
-    });
+    //   }
+    //   })
+    //   setChilds(thechilds)
+    // });
 
 
 }, [user])
-console.log(childs)
 
+useEffect(()=>{
+  let thechilds=  alluser?.filter((elm)=>{
+    if(elm?.parentId){
+     return elm?.parentId===userId
+
+    }
+    })
+    setChilds(thechilds)
+  },[alluser]);
+
+
+// console.log(childs)
+
+
+let [modal,setModal]=useState(false)
+
+let handleModal=()=>{
+  setModal(!modal)
+}
+
+
+
+// -----------------------------------------hex to rgba for bg color-------------------------------------
+
+let hexToRGBA=(hex)=> {
+  // Remove the '#' character if present
+  hex = hex?.replace('#', '');
+  
+  // Convert the hex value to RGB
+  const red = parseInt(hex?.substring(0, 2), 16);
+  const green = parseInt(hex?.substring(2, 4), 16);
+  const blue = parseInt(hex?.substring(4, 6), 16);
+  
+  // Convert RGB to RGBA with alpha value 0.1
+  const rgba = `rgba(${red}, ${green}, ${blue}, 0.1)`;
+  
+  return rgba;
+}
 
   return (
     <div className="w-[100%] flex min-h-[100vh]">
       <Sidebar />
       <div className="w-[85%]  pb-4">
+        <OptionModal modal={modal} handleModal={handleModal} user={user}/>
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
           <div className="w-[90%] flex justify-between">
             <h2 className="text-4xl font-[500]">My Profiles</h2>
@@ -130,7 +170,7 @@ console.log(childs)
         </div>
 <div className="w-[100%] flex justify-center">
         <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4  mt-6">
-          <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center ">
+          <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
               <img
                 src={user?.bgImg}
@@ -177,25 +217,25 @@ console.log(childs)
             </div>
           </div>
 
-          {childs && childs?.map((elm)=>{
+          { childs?.map((elm)=>{
             return <>
-                 <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center ">
+                 <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(elm?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
               <img
-                src={elm?.bgImg}
+                src={elm?.bgImg ? elm?.bgImg :"https://placehold.co/285x140"}
                 alt=""
                 className="object-cover h-[100px] w-[100%] rounded-md"
               />
               <div className="h-[95px] w-[95px] absolute z-10 top-[30px] left-[90px]">
                 <div className="h-[95px] w-[95px] relative">
                   <img
-                    src={elm?.profileUrl}
+                    src={elm?.profileUrl?elm?.profileUrl:"https://placehold.co/95x95"}
                     alt="proflie"
                     className="h-[95px] w-[95px] border-4 border-white rounded-full"
                   />
                   <div className="h-[40px] w-[40px] rounded-full   absolute top-[65px] right-[-2px] ">
                     <img
-                      src={elm?.logoImg}
+                      src={elm?.logoImg ? elm?.logoImg :"https://placehold.co/40x40"}
                       alt="logo"
                       className="h-[35px] w-[35px] rounded-full object-cover   shadow-md border-2 border-white"
                     />
@@ -229,7 +269,7 @@ console.log(childs)
           })
 
           }
-          <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col justify-center items-center cursor-pointer">
+          <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col justify-center items-center cursor-pointer" onClick={()=>handleModal()}>
             <div className="h-[65px] w-[65px] rounded-full border flex justify-center items-center bg-gray-300">
              <GrAdd/>
             </div>
