@@ -5,13 +5,16 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import {MdOutlineModeEdit} from 'react-icons/md'
+import {MdAdminPanelSettings, MdOutlineModeEdit} from 'react-icons/md'
 import {FaShare} from 'react-icons/fa'
 import {GrAdd} from 'react-icons/gr'
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
 import { useNavigate } from "react-router-dom";
 import OptionModal from "../components/CreateNewPrflModal/OptionModal";
+import TeamProfileModal from "../components/CreateNewPrflModal/TeamProfileModal";
+import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Home = () => {
   let [selectVal, setselectVal] = useState("");
@@ -24,6 +27,7 @@ let userId=localStorage.getItem('tapNowUid')
 let [user,setuser]=useState({})
 let [alluser,setalluser]=useState([])
 let [childs,setChilds]=useState([])
+let [filtered,setfiltered]=useState([])
 
     // --------------------------geting the user data from firebase------------------------
 
@@ -88,6 +92,7 @@ useEffect(()=>{
     }
     })
     setChilds(thechilds)
+    setfiltered(thechilds)
   },[alluser]);
 
 
@@ -119,11 +124,37 @@ let hexToRGBA=(hex)=> {
   return rgba;
 }
 
+
+let [teamModal,setTeamModal]=useState(false)
+
+let handleTeamModal=()=>{
+  setTeamModal(!teamModal)
+}
+
+
+  //---------------------------------------------------(search functionality)-----------------------------------------------
+
+
+let [search , setsearch]=useState('')
+
+  useEffect(() => {
+    const result = childs.filter((user) => {
+      return user?.name.toLowerCase().match(search.toLowerCase()) 
+
+    })
+
+    setfiltered(result);
+  }, [search])
+
   return (
     <div className="w-[100%] flex min-h-[100vh]">
       <Sidebar />
+      {
+        user?.id ?
+
       <div className="w-[85%]  pb-4">
-        <OptionModal modal={modal} handleModal={handleModal} user={user}/>
+        <OptionModal modal={modal} handleModal={handleModal} user={user} handleTeamModal={handleTeamModal}/>
+        <TeamProfileModal teamModal={teamModal} handleTeamModal={handleTeamModal} />
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
           <div className="w-[90%] flex justify-between">
             <h2 className="text-4xl font-[500]">My Profiles</h2>
@@ -146,6 +177,8 @@ let hexToRGBA=(hex)=> {
                 type="text"
                 placeholder="Search..."
                 className="border-none outline-none ml-2 w-[150px]"
+                onChange={(e)=>setsearch(e.target.value)}
+                value={search}
               />
             </div>
 
@@ -172,6 +205,11 @@ let hexToRGBA=(hex)=> {
         <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4  mt-6">
           <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
+              {/* <MdAdminPanelSettings className="absolute text-3xl text-[#0b567f] left-[5px] top-[5px]"/> */}
+              <div className="h-[30px] w-[30px] absolute left-[5px] top-[5px] bg-white  rounded-full flex justify-center items-center">
+              <MdAdminPanelSettings className=" text-2xl text-[#0b567f] "/>
+              
+              </div>
               <img
                 src={user?.bgImg}
                 alt=""
@@ -217,10 +255,17 @@ let hexToRGBA=(hex)=> {
             </div>
           </div>
 
-          { childs?.map((elm)=>{
+          { filtered?.map((elm)=>{
             return <>
                  <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(elm?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
+              <div className="h-[30px] w-[30px] absolute left-[5px] top-[5px] bg-white  rounded-full flex justify-center items-center">
+                { elm?.isSelf ?
+              <BsPersonFill className=" text-xl text-[#0b567f] "/>
+              :
+              <BsFillPeopleFill className=" text-xl text-[#0b567f] "/>
+                }
+              </div>
               <img
                 src={elm?.bgImg ? elm?.bgImg :"https://placehold.co/285x140"}
                 alt=""
@@ -278,6 +323,11 @@ let hexToRGBA=(hex)=> {
         </div>
         </div>
       </div>
+      :
+      <div className="w-[85%] flex justify-center items-center">
+      <CircularProgress/>
+      </div>
+        }
     </div>
   );
 };

@@ -1,5 +1,7 @@
 
 import './App.css'
+import Analytics from './Pages/Analytics'
+import Contact from './Pages/Contact'
 import Home from './Pages/Home'
 import Login from './Pages/Login'
 import Profileedit from './Pages/Profileedit'
@@ -18,6 +20,10 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/home' element={<Home />} />
           <Route path='/profileedit' element={<Profileedit />} />
+          <Route path='/contacts' element={<Contact />} />
+          <Route path='/analytics' element={<Analytics />} />
+
+
 
 
 

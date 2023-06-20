@@ -8,6 +8,8 @@ import { ref, update } from "firebase/database";
 import { db } from "../../Firebase";
 import { useSelector,useDispatch } from "react-redux";
 import { openLinkModal,openLinkEditModal,openLinkUpdateModal,openModal,closeAllModal } from '../../Redux/Modalslice'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 import LinksModal from "../LinksModal";
 
@@ -52,7 +54,11 @@ let dispatch =useDispatch()
   console.log(user);
   return (
     <>
+
       <div class="w-[530px] h-[100%] ">
+        {
+          user?.id ?
+       <>
         <div class="w-[100%] h-[80px]  flex items-center justify-around shadow-sm">
           <div class="h-[40px] w-[250px] rounded-3xl flex border p-2 justify-around">
             <div class="flex">
@@ -77,6 +83,8 @@ let dispatch =useDispatch()
             <p class="text-sm ml-1 font-medium ">Add Links and Contact</p>
           </div>
         </div>
+        {
+          link[0] ?
         <div className="w-[100%] h-[400px] p-5  overflow-y-scroll ">
           {user?.directMode ? (
             <>
@@ -93,7 +101,9 @@ let dispatch =useDispatch()
                 </div>
               </div>
 
-              {link?.map((elm) => {
+              { 
+              
+              link?.map((elm) => {
                 return (
                   <>
                     <div
@@ -147,6 +157,18 @@ let dispatch =useDispatch()
             })
           )}
         </div>
+        :
+        <div className="w-[100%] h-[400px] flex justify-center items-center text-lg font-medium">
+No Links To Show
+        </div>
+        }
+        </>
+        :
+        <div className="w-[100%] h-[100%] flex justify-center items-center">
+          <CircularProgress/>
+        </div>
+        }
+       
       </div>
       <LinksModal user={user} link={link} />
     </>

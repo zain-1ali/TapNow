@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 
 
-const OptionModal = ({modal,handleModal,user}) => {
+const OptionModal = ({modal,handleModal,user,handleTeamModal}) => {
 
     let [showmsg,setshowmsg]=useState(false)
 
@@ -73,7 +73,7 @@ Who is this card for ?
 </div>
 
 
-<div className='border h-[100px] w-[120px] rounded-xl ml-4 flex flex-col items-center justify-center cursor-pointer'>
+<div className='border h-[100px] w-[120px] rounded-xl ml-4 flex flex-col items-center justify-center cursor-pointer' onClick={()=>{handleTeamModal(),handleModal()}}>
 <BsFillPeopleFill className='text-3xl'/>
 <h2 className='font-medium text-sm'>A Team Member</h2>
 </div>

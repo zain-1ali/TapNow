@@ -73,6 +73,7 @@ let dispatch=useDispatch()
                   aria-describedby="modal-modal-description"
                 >
                   <Box sx={style2}>
+                    
                     <ReactCrop crop={crop} onChange={(c) => { setcrop(c) }}  aspect={aspect} >
                       <img src={theimg} alt="img" onLoad={(e) => setmyimg(e.target)} style={{maxWidth:'995px',maxHeight:'calc(100vh - 150px)'}}/>
                     </ReactCrop>
@@ -80,9 +81,10 @@ let dispatch=useDispatch()
 
 
                       <button onClick={() => getProfileCropImage()} style={{ backgroundColor: 'black', outline: "none", marginRight: '10px', border: 'none', color: 'white', height: '40px', width: '105px', borderRadius: '20px', cursor: 'pointer' }}>Crop</button>
-                      {/* saveImageInDb */}
+                    
                       <button onClick={() => handleclosecropper()} style={{ backgroundColor: 'white', outline: "none", marginLeft: '10px', border: 'none', color: 'black', height: '40px', width: '105px', borderRadius: '20px', cursor: 'pointer' }} className='hover: bg-gray-500' >Cancel</button>
                     </div>
+                    
                   </Box>
                 </Modal >
     </>

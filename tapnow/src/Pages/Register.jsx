@@ -12,13 +12,13 @@ let [data,setdata]=useState({
   email:'',
   password:'',
   name:'',
-  username:''
+  userName:''
 })
 
 
 // -----------------------------------Handle register------------------------------------ 
 const addData = async () => {
-  if (data.username && data.email && data.password) {
+  if (data.userName && data.email && data.password) {
       await createUserWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
               // Signed in 

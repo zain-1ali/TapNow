@@ -19,7 +19,7 @@ const Qrcontainer = ({user}) => {
         
       
       
-      <QRCode value="https://github.com/gcoro/react-qrcode-logo" size='200' logoImage={qrLogo} fgColor={qrColor} logoOpacity='0.8' logoWidth='90' logoHeight='90'/>
+      <QRCode value="https://github.com/gcoro/react-qrcode-logo" size='200' logoImage={qrLogo} fgColor={qrColor?qrColor:'black'} logoOpacity='0.8' logoWidth='90' logoHeight='90'/>
       
         {/* <canvas
           id="react-qrcode-logo"

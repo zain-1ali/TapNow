@@ -59,7 +59,7 @@ const About = ({user,link}) => {
 // ----------------------------------------------------State setup for LOGO img crop---------------------------------------------
 
 let [logoimg, setlogoimg] = useState(null)
-// let [cropModal, setcropModal] = useState(false)
+let [logoCropModal, setLogocropModal] = useState(false)
 let [mylogoimg, setmylogoimg] = useState(null)
 let [croplogo, setCroplogo] = useState({
   unit: '%',
@@ -70,10 +70,10 @@ let [croplogo, setCroplogo] = useState({
 })
 
 
-// let handleclosecropper = () => {
-//     setcropModal(false)
+let handlecloselogocropper = () => {
+    setLogocropModal(false)
     
-//   }
+  }
 
 
 
@@ -90,7 +90,7 @@ let [croplogo, setCroplogo] = useState({
         setlogoimg(reader.result)
         // dispatch(setProfileImg(reader.result))
 
-        setcropModal(true)
+        setLogocropModal(true)
       })
     }
   }
@@ -98,7 +98,7 @@ let [croplogo, setCroplogo] = useState({
 // ----------------------------------------------------State setup for bg img crop---------------------------------------------
 
 let [bgimg, setbgimg] = useState(null)
-// let [cropModal, setcropModal] = useState(false)
+let [bgCropModal, setBgcropModal] = useState(false)
 let [mybgimg, setmybgimg] = useState(null)
 let [cropbg, setCropbg] = useState({
   unit: '%',
@@ -109,10 +109,10 @@ let [cropbg, setCropbg] = useState({
 })
 
 
-// let handleclosecropper = () => {
-//     setcropModal(false)
+let handleclosebgcropper = () => {
+    setBgcropModal(false)
     
-//   }
+  }
 
 
 
@@ -129,7 +129,7 @@ let [cropbg, setCropbg] = useState({
         setbgimg(reader.result)
         // dispatch(setProfileImg(reader.result))
 
-        setcropModal(true)
+        setBgcropModal(true)
       })
     }
   }
@@ -234,6 +234,30 @@ const addData = async () => {
               console.log(error)
           })
       }
+
+
+
+      if (logoimg) {
+        let name = new Date().getTime() + user?.id;
+        const storageRef = sRef(storage, name);
+        uploadString(storageRef, logoImg.slice(23), "base64", {
+            contentType: "image/png",
+          }).then(() => {
+            console.log('img testing')
+            getDownloadURL(storageRef).then((URL) => {
+                // console.log(URL)
+                update(ref(db, `User/${user?.id}`), { logoImg: URL });
+                setlogoImg('')
+                // window.location.reload();
+
+            }).catch((error) => {
+                console.log(error)
+            });
+            // setimg(null)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
       
     }
 }
@@ -247,11 +271,11 @@ const addData = async () => {
         <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={prflimg} myimg={myprflimg} setmyimg={setmyprflimg} setcrop={setCropPrfl} crop={cropPrfl} aspect={1/1} setReduxState={setProfileImg}/>
 
      {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
-        <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={bgimg} myimg={mybgimg} setmyimg={setmybgimg} setcrop={setCropbg} crop={cropbg} aspect={4/2} setReduxState={setBgImg}/>
+        <Cropper cropModal={bgCropModal} handleclosecropper={handleclosebgcropper} theimg={bgimg} myimg={mybgimg} setmyimg={setmybgimg} setcrop={setCropbg} crop={cropbg} aspect={4/2} setReduxState={setBgImg}/>
 
     {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
 
-    <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={logoimg} myimg={mylogoimg} setmyimg={setmylogoimg} setcrop={setCroplogo} crop={croplogo} aspect={1/1} setReduxState={setlogoImg}/>
+    <Cropper cropModal={logoCropModal} handleclosecropper={handlecloselogocropper} theimg={logoimg} myimg={mylogoimg} setmyimg={setmylogoimg} setcrop={setCroplogo} crop={croplogo} aspect={1/1} setReduxState={setlogoImg}/>
       <div className="w-[100%] h-[80%] overflow-y-scroll scrollbar-hide">
         <div className="w-[100%]">
           <h2 className="text-xs font-medium">Card Title</h2>

@@ -106,7 +106,7 @@ const Qrcode = ({user}) => {
   return (
     <div class="w-[530px] p-5 relative">
       
-    {/* --------------------------------------------croper for Cover image------------------------------------------------  */}
+    {/* --------------------------------------------croper for logo image------------------------------------------------  */}
 
     <Cropper cropModal={cropModal} handleclosecropper={handleclosecropper} theimg={logoimg} myimg={mylogoimg} setmyimg={setmylogoimg} setcrop={setCroplogo} crop={croplogo} aspect={1/1} setReduxState={setQrLogo}/>
       <div class="flex justify-between">
@@ -199,7 +199,7 @@ const Qrcode = ({user}) => {
               />
             </label>
             <img
-              src={qrLogo}
+              src={qrLogo ? qrLogo : "https://placehold.co/80x80"}
               alt="profile"
               class="h-[80px] w-[80px] rounded-xl"
             />

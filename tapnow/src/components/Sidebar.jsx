@@ -36,7 +36,7 @@ const Sidebar = () => {
             </div>
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href="/contacts"
+              onClick={()=>navigate("/contacts")}
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <BsFillPeopleFill className='text-[#0b567f] text-xl ml-2 '/>
@@ -45,7 +45,9 @@ const Sidebar = () => {
             </div>
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href="/analytics"
+              onClick={()=>navigate('/analytics')}
+
+              
             >
               
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
