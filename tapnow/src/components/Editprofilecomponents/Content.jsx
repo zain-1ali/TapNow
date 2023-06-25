@@ -36,7 +36,7 @@ let dispatch =useDispatch()
   // -----------------------------------------Handle to change Lead mode------------------------------------------
 
   let handleChangeLead = () => {
-    update(ref(db, `User/${user?.id}`), { LeadMode: !user?.LeadMode });
+    update(ref(db, `User/${user?.id}`), { leadMode: !user?.leadMode });
   };
 
   // Handle to hide or show link
@@ -64,7 +64,7 @@ let dispatch =useDispatch()
             <div class="flex">
               <p class="text-sm font-medium">Lead Mode</p>
               <Switch
-                checked={user?.LeadMode}
+                checked={user?.leadMode}
                 size="small"
                 onChange={() => handleChangeLead()}
               />

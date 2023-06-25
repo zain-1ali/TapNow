@@ -12,6 +12,18 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   let navigate=useNavigate()
+
+let logOut=()=>{
+  let promise = new Promise((res,rej)=>{
+  
+  res(localStorage.removeItem('tapNowUid'))
+  })
+
+  promise.then(()=>{
+    navigate('/')
+  })
+}
+
   return (
     <div className="w-[15%] min-h-[100vh] border-r flex flex-col sticky">
       <div className="h-[90vh]  w-[100%] flex flex-col justify-between items-center">
@@ -55,16 +67,16 @@ const Sidebar = () => {
                 <p className="ml-[10px] text-base ">Analytics</p>
               </div>
             </div>
-            <a
+            <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href=""
+              
             >
-              {" "}
+              
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <FaShoppingCart className='text-[#0b567f] text-xl ml-2 '/>
                 <p className="ml-[10px] text-base ">Shop</p>
               </div>
-            </a>
+            </div>
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               href=""
@@ -78,9 +90,9 @@ const Sidebar = () => {
           
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
-              href="/settings"
+              onClick={()=>navigate('/settings')}
             >
-              {" "}
+              
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
               <AiFillSetting  className='text-[#0b567f] text-xl ml-2 '/>
                 <p className="ml-[10px] text-base ">Settings</p>
@@ -93,7 +105,7 @@ const Sidebar = () => {
             <BiHelpCircle className='text-gray-500 text-xl '/>
             <p className="ml-[10px] text-base text-gray-500">Help</p>
           </div>
-          <div className="h-[20%]  w-[100%] flex items-center rounded-md cursor-pointer ml-2">
+          <div className="h-[20%]  w-[100%] flex items-center rounded-md cursor-pointer ml-2" onClick={()=>logOut()}>
            <LuLogOut className='text-gray-500 text-xl '/>
             <p className="ml-[10px] text-base text-gray-500">Logout</p>
           </div>

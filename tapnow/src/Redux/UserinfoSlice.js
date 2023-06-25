@@ -14,7 +14,10 @@ const initialState = {
         qrLogo:'',
         qrColor:'',
         LeadMode:'',
-        formHeader:''
+        formHeader:'',
+        linkName:'',
+        linkDescription:'',
+linkHighlighted:false
 
     }
 };
@@ -66,12 +69,21 @@ export const userinfoSlice = createSlice({
       setFormHeader: (state,action) => {
         state.userInfo.formHeader = action.payload;
       },
+      setLinkName: (state,action) => {
+        state.userInfo.linkName = action.payload;
+      },
+      setLinkDescription: (state,action) => {
+        state.userInfo.linkDescription = action.payload;
+      },
+      setLinkHighlight: (state,action) => {
+        state.userInfo.linkHighlighted = action.payload;
+      },
 
     
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg,setQrLogo,setQrColor,setLeadMode,setFormHeader } = userinfoSlice.actions;
+export const { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,setlogoImg,setBgImg,setQrLogo,setQrColor,setLeadMode,setFormHeader,setLinkName,setLinkDescription,setLinkHighlight } = userinfoSlice.actions;
 
 export default userinfoSlice.reducer;

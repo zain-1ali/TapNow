@@ -31,7 +31,7 @@ let parentId=localStorage.getItem('tapNowUid')
                 // Signed in 
                 const user = userCredential.user;
                 // console.log(user.uid)
-                update(ref(db, `User/${user.uid}`), {parentId, id: user.uid , name:data?.name,userName:data?.userName,email:data.email,bgImg:'',bio:'',job:'',colorCode:'#2f80ed',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:'',isSelf:false}).then(()=>{
+                update(ref(db, `User/${user.uid}`), {parentId, id: user.uid , name:data?.name,userName:data?.userName,email:data.email,bgImg:'',bio:'',job:'',colorCode:'#2f80ed',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:'',isSelf:false,allowTeamLogin:true,loginAllow:true}).then(()=>{
                 toast.success('New user created sucessfuly')
                 handleTeamModal()
   

@@ -187,7 +187,7 @@ useEffect(()=>{
 const addData = async () => {
     if (name || location || job || company || bio|| colorCode) {
         update(ref(db, `User/${user?.id}`), { name,location,colorCode,job,company,bio }).then(()=>{
-            toast.success('Link added successfuly')
+            toast.success('Information updated sucessfuly')
         });
         if (prflimg) {
             let name = new Date().getTime() + user?.id;

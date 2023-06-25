@@ -7,6 +7,7 @@ import {BsFillPeopleFill} from 'react-icons/bs'
 import { db } from '../../Firebase'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
+import { RxCross2 } from 'react-icons/rx'
 
 
 const OptionModal = ({modal,handleModal,user,handleTeamModal}) => {
@@ -24,7 +25,7 @@ let randNum=()=>{
 
 
 let createSelfProfile=()=>{
-  let pushkey=  push(ref(db , `User/` ), { parentId: user?.id , name:user?.name,userName:user?.userName + randNum() , email:user?.email,bgImg:'',bio:'',job:'',colorCode:'#2f80ed',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:''}).key
+  let pushkey=  push(ref(db , `User/` ), { parentId: user?.id , name:user?.name,userName:user?.userName + randNum() , email:user?.email,bgImg:'',bio:'',job:'',colorCode:'#2f80ed',company:'',directMode:false ,qrColor:'',qrLogo:'',phone:'',logoImg:'',leadForm:{Fname:true,company:true,email:true,job:true,note:true,phone:true},leadMode:false ,location:'',formHeader:'',isSelf:true}).key
   update(ref(db , `User/${pushkey}` ),{id:pushkey}).then(()=>{
     handleModal()
     toast.success('New profile created successfuly')
@@ -62,11 +63,13 @@ let createSelfProfile=()=>{
 {
     !showmsg ?
     <>
-    
-<div className='w-[90%]  h-[25px] mt-3 font-medium text-lg'>
+    <div className='w-[94%] flex justify-end  mt-[6px]'> 
+    <RxCross2 className="text-black cursor-pointer" onClick={() =>handleModal()}/>
+    </div>
+<div className='w-[90%]  h-[25px]  font-medium text-lg'>
 Who is this card for ?
 </div>
-<div className='w-[100%] flex justify-center mt-4'>
+<div className='w-[100%] flex justify-center mt-3'>
 <div className='border h-[100px] w-[120px] rounded-xl mr-4 flex flex-col items-center justify-center cursor-pointer' onClick={()=>setshowmsg(true)}>
 <BsFillPersonFill className='text-3xl'/>
 <h2 className='font-medium text-sm'>Myself</h2>

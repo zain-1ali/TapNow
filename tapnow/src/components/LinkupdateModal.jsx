@@ -120,7 +120,7 @@ const handleDelete = () => {
   return (
     <>
       <div className="flex w-[100%] h-[100%]">
-        <div className="w-[65%]">
+        <div className="w-[65%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
             onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}
@@ -216,11 +216,11 @@ const handleDelete = () => {
             </div>
           </div>
         </div>
-        <div className="w-[35%] h-[100%] border-l relative ">
-          <div className="w-[100%] flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
+        {/* <div className="w-[35%] h-[100%] border-l relative "> */}
+          <div className="w-[35%] border-l flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
             <Mobile user={user} link={link} />
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <ToastContainer position="top-center" autoClose={2000} />
 

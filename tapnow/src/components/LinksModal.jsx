@@ -10,13 +10,15 @@ import {
 } from "../Redux/Modalslice";
 import {addLink,removeLink} from '../Redux/Singlelinkslice'
 import { Box } from "@mui/material";
-import { contactIcons , socialIcons } from "../assets/ReturnSocialIcons";
+import { contactIcons , socialIcons ,media,payment,more } from "../assets/ReturnSocialIcons";
 import {RxCross2} from 'react-icons/rx'
 import {HiBadgeCheck} from 'react-icons/hi'
 import Linkeditmodal from "./Linkeditmodal";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import LinkupdateModal from "./LinkupdateModal";
+import {setLinkHighlight} from '../Redux/UserinfoSlice'
+
 
 // import { removeLink } from "../Redux/Singlelinkslice";
 
@@ -42,9 +44,10 @@ const LinksModal = ({user, link} ) => {
     width: 1000,
     height: 600,
     bgcolor: "white",
+    // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,
-    p: "32px",
+    p: linkModal ?"32px":'2px',
   };
 
 
@@ -59,7 +62,7 @@ return elm?.title===name
     <>
       <Modal
         open={modal}
-        onClose={() => {dispatch(closeAllModal()),dispatch(removeLink())}}
+        onClose={() => {dispatch(closeAllModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false))}}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -69,7 +72,7 @@ linkModal &&
            
           <div className="overflow-y-scroll h-[100%] scrollbar-hide">
             <div className="w-[100%] relative">
-              <div className="cursor-pointer absolute right-0 top-0 " onClick={()=>{dispatch(closeAllModal()),dispatch(removeLink())}}>
+              <div className="cursor-pointer absolute right-0 top-0 " onClick={()=>{dispatch(closeAllModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false))}}>
                 <RxCross2 className="text-2xl"/>
               </div>
             </div>
@@ -77,9 +80,15 @@ linkModal &&
             <p className="text-sm mt-2 text-[#4F4F4F]">
               Select from our wide variety of links and contact info below.
             </p>
+
+
+{/* ------------------------------------------Contact icons------------------------------------  */}
+
+
             <div className="mt-10">
               <h2 className="font-medium text-[#4F4F4F]">Contact</h2>
-              <div className=" flex justify-around flex-wrap">
+              <div className="grid grid-cols-3 gap-x-4 ">
+              {/* flex justify-around flex-wrap */}
                 {
                     contactIcons.map((elm)=>{
 return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={checkAdded(elm?.name) ? ()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
@@ -104,11 +113,121 @@ return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] ho
                 }
                 
                 </div>
+
+{/* ------------------------------------------Social icons------------------------------------  */}
+
+
                 <div className="mt-10">
                   <h2 className="font-medium text-[#4F4F4F]">Social</h2>
-                  <div className=" flex justify-around flex-wrap">
+                  <div className="  grid grid-cols-3 gap-x-4">
+                  {/* flex justify-around flex-wrap */}
                     {
                         socialIcons.map((elm)=>{
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+
+{
+    checkAdded(elm?.name) &&
+<HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
+}
+
+<div className="flex justify-between items-center w-[100%]">
+  <div className="flex h-[100%] items-center">
+    <img
+      src={elm.img}
+      className="h-[45px] w-[45px] "
+    />
+    <p className="text-sm font-medium ml-[11px]">{elm.name}</p>
+  </div>
+  <div className="h-[32px] w-[64px] bg-white  flex justify-center items-center border rounded-2xl hover:bg-[#f7f7f7]">
+    +
+  </div>
+</div>
+</div>
+                        })
+                    }
+             
+                  </div>
+                </div>
+
+
+{/* ------------------------------------------Music icons------------------------------------  */}
+
+                <div className="mt-10">
+                  <h2 className="font-medium text-[#4F4F4F]">Music Media</h2>
+                  <div className="  grid grid-cols-3 gap-x-4">
+                  {/* flex justify-around flex-wrap */}
+                    {
+                        media?.map((elm)=>{
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+
+{
+    checkAdded(elm?.name) &&
+<HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
+}
+
+<div className="flex justify-between items-center w-[100%]">
+  <div className="flex h-[100%] items-center">
+    <img
+      src={elm.img}
+      className="h-[45px] w-[45px] "
+    />
+    <p className="text-sm font-medium ml-[11px]">{elm.name}</p>
+  </div>
+  <div className="h-[32px] w-[64px] bg-white  flex justify-center items-center border rounded-2xl hover:bg-[#f7f7f7]">
+    +
+  </div>
+</div>
+</div>
+                        })
+                    }
+             
+                  </div>
+                </div>
+
+
+{/* ------------------------------------------Payment icons------------------------------------  */}
+<div className="mt-10">
+                  <h2 className="font-medium text-[#4F4F4F]">Payment</h2>
+                  <div className="  grid grid-cols-3 gap-x-4">
+                  {/* flex justify-around flex-wrap */}
+                    {
+                        payment?.map((elm)=>{
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+
+{
+    checkAdded(elm?.name) &&
+<HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
+}
+
+<div className="flex justify-between items-center w-[100%]">
+  <div className="flex h-[100%] items-center">
+    <img
+      src={elm.img}
+      className="h-[45px] w-[45px] "
+    />
+    <p className="text-sm font-medium ml-[11px]">{elm.name}</p>
+  </div>
+  <div className="h-[32px] w-[64px] bg-white  flex justify-center items-center border rounded-2xl hover:bg-[#f7f7f7]">
+    +
+  </div>
+</div>
+</div>
+                        })
+                    }
+             
+                  </div>
+                </div>
+
+
+
+
+                {/* ------------------------------------------More icons------------------------------------  */}
+<div className="mt-10">
+                  <h2 className="font-medium text-[#4F4F4F]">More</h2>
+                  <div className="  grid grid-cols-3 gap-x-4">
+                  {/* flex justify-around flex-wrap */}
+                    {
+                        more?.map((elm)=>{
 return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {

@@ -13,10 +13,11 @@ import {
   openModal,
   closeAllModal,
 } from "../Redux/Modalslice";
-import { addLink, removeLink } from "../Redux/Singlelinkslice";
+import { addLink, removeLink,changeLinkName } from "../Redux/Singlelinkslice";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { db } from "../Firebase";
+import {setLinkHighlight,setLinkDescription} from '../Redux/UserinfoSlice'
 
 const Linkeditmodal = ({ user, link }) => {
   let dispatch = useDispatch();
@@ -43,9 +44,12 @@ const Linkeditmodal = ({ user, link }) => {
   let handleLinkHihlight=()=>{
     if(theLink.isHighLighted){
       settheLink({...theLink,isHighLighted:false})
+      dispatch(setLinkHighlight(false))
     }
     else{
       settheLink({...theLink,isHighLighted:true})
+      dispatch(setLinkHighlight(true))
+
     }
   }
 
@@ -61,6 +65,10 @@ const Linkeditmodal = ({ user, link }) => {
         
         update(ref(db, `User/${user?.id}/links/${singlelink.name}`),  theLink).then(()=>{
           toast.success('Link added successfuly')
+          dispatch(openLinkModal())
+          dispatch(removeLink())
+          dispatch(setLinkHighlight(false))
+          dispatch(setLinkDescription(''))
 settheLink({
   
     isHide: false,
@@ -84,20 +92,11 @@ settheLink({
   return (
     <>
       <div className="flex w-[100%] h-[100%]">
-        <div className="w-[65%]">
+        <div className="w-[65%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
-            onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}
+            onClick={() => {dispatch(openLinkModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false)),dispatch(setLinkDescription(''))}}
           >
-            {/* <svg
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall cursor-pointer css-1k33q06"
-            focusable="false"
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            data-testid="ArrowBackIosNewIcon"
-          >
-            <path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
-          </svg> */}
             <MdArrowBackIosNew className="cursor-pointer" />
             <p className="ml-1">Back</p>
           </div>
@@ -130,7 +129,7 @@ settheLink({
             <h3 className="text-sm font-medium">{singlelink.placeholder}</h3>
             <input
               type="text"
-              placeholder="Phone number"
+              placeholder={singlelink?.name}
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
               onChange={(e)=>settheLink({...theLink,value:e.target.value,title:singlelink.name})}
               value={theLink.value}
@@ -142,7 +141,7 @@ settheLink({
               type="text"
               placeholder={singlelink.name}
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,name:e.target.value})}
+              onChange={(e)=>{settheLink({...theLink,name:e.target.value}),dispatch(changeLinkName(e.target.value))}}
               value={theLink.name}
             />
           </div>
@@ -155,17 +154,17 @@ settheLink({
               type="text"
               placeholder="description"
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,description:e.target.value})}
+              onChange={(e)=>{settheLink({...theLink,description:e.target.value}),dispatch(setLinkDescription(e.target.value))}}
               value={theLink.description}
             />
           </div>
          } 
           <div className="w-[55%] h-[70px]  absolute bottom- flex flex-row-reverse ">
             <div className="flex justify-between items-center w-[250px]">
-              <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white" onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}>
+              <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white" onClick={() => {dispatch(openLinkModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false)),dispatch(setLinkDescription(''))}}>
                 <p className="text-sm font-medium ml-[3px] ">Cancel</p>
               </div>
-              <div className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer" style={theLink.value && theLink.name ? {backgroundColor:'black',color:'white'}:{backgroundColor:'#f7f7f7',color:'#a6a3af'}} onClick={()=>{addData(),dispatch(openLinkModal()),dispatch(removeLink())}}>
+              <div className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer" style={theLink.value && theLink.name ? {backgroundColor:'black',color:'white'}:{backgroundColor:'#f7f7f7',color:'#a6a3af'}} onClick={()=>addData()}>
                 <p className="text-sm font-medium ml-[3px] ">
                   Update
                 </p>
@@ -173,11 +172,11 @@ settheLink({
             </div>
           </div>
         </div>
-        <div className="w-[35%] h-[100%] border-l relative ">
-          <div className="w-[100%] flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
+        {/* <div className="w-[35%] h-[100%] border-l relative "> */}
+          <div className="border-l w-[35%]  flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide ">
             <Mobile user={user} link={link} />
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <ToastContainer position="top-center" autoClose={2000} />
 

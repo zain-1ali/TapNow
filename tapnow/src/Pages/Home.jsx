@@ -10,13 +10,20 @@ import {FaShare} from 'react-icons/fa'
 import {GrAdd} from 'react-icons/gr'
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import OptionModal from "../components/CreateNewPrflModal/OptionModal";
 import TeamProfileModal from "../components/CreateNewPrflModal/TeamProfileModal";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import CircularProgress from '@mui/material/CircularProgress';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
+import {getData} from '../Redux/Adminslice'
+import { useDispatch } from "react-redux";
 
 const Home = () => {
+
+
+  let dispatch=useDispatch()
   let [selectVal, setselectVal] = useState("");
   let handleChange = () => {};
 
@@ -40,6 +47,8 @@ let [filtered,setfiltered]=useState([])
               //  console.log(data)
               MediaKeyStatusMap
               setuser(data)
+              dispatch(getData(data))
+              
 
               // updateStarCount(postElement, data);
           });
@@ -146,30 +155,82 @@ let [search , setsearch]=useState('')
     setfiltered(result);
   }, [search])
 
+  //---------------------------------------------------(For Securing routes)-----------------------------------------------
+
+
+//   let currentUser=localStorage.getItem('tapNowUid')
+
+//   useEffect(()=>{
+// if(!currentUser){
+// <Navigate to={'/'}/>
+// }else{
+// <Navigate to={'/home'}/>
+
+// }
+//   },[])
+
+
+// console.log(Date.now())
+
   return (
-    <div className="w-[100%] flex min-h-[100vh]">
+    <div className="w-[100%] flex max-h-[100vh]">
       <Sidebar />
       {
         user?.id ?
 
-      <div className="w-[85%]  pb-4">
+      <div className="w-[85%]  pb-4 overflow-y-scroll scrollbar-hide">
         <OptionModal modal={modal} handleModal={handleModal} user={user} handleTeamModal={handleTeamModal}/>
         <TeamProfileModal teamModal={teamModal} handleTeamModal={handleTeamModal} />
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
-          <div className="w-[90%] flex justify-between">
+          <div className="w-[95%] flex justify-between">
             <h2 className="text-4xl font-[500]">My Profiles</h2>
-            <div className="h-[50px] w-[280px]  flex justify-between">
+            {/* <div className="h-[50px] w-[280px]  flex justify-between">
               <div className="border h-[45px] w-[180px] flex justify-center items-center rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer">
                 Activate products
               </div>
               <div className="border h-[45px] w-[80px] flex justify-center items-center rounded-md bg-[#0b567f] text-white cursor-pointer">
                 Shop
               </div>
+            </div> */}
+
+
+
+<div className="flex w-[500px]  justify-center">
+            <div className=" ml-[5px] border h-[40px] rounded-md w-[200px] flex justify-center items-center">
+              <AiOutlineSearch className="text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border-none outline-none ml-2 w-[150px]"
+                onChange={(e)=>setsearch(e.target.value)}
+                value={search}
+              />
             </div>
+
+            <div className="ml-[10px]">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectVal}
+                  label="Age"
+                  style={{ width: "150px", height: "40px" }}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+
+
           </div>
         </div>
 
-        <div className="flex justify-end h-[60px]">
+        {/* <div className="flex justify-end h-[60px]">
           <div className="flex w-[500px]  justify-center">
             <div className=" ml-[5px] border h-[40px] rounded-md w-[200px] flex justify-center items-center">
               <AiOutlineSearch className="text-gray-500" />
@@ -200,31 +261,31 @@ let [search , setsearch]=useState('')
               </FormControl>
             </div>
           </div>
-        </div>
+        </div> */}
 <div className="w-[100%] flex justify-center">
-        <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4  mt-6">
+        <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4 ">
           <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
-            <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative">
+            <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative ">
               {/* <MdAdminPanelSettings className="absolute text-3xl text-[#0b567f] left-[5px] top-[5px]"/> */}
               <div className="h-[30px] w-[30px] absolute left-[5px] top-[5px] bg-white  rounded-full flex justify-center items-center">
               <MdAdminPanelSettings className=" text-2xl text-[#0b567f] "/>
               
               </div>
               <img
-                src={user?.bgImg}
+                src={user?.bgImg ? user?.bgImg :"https://placehold.co/285x140"}
                 alt=""
                 className="object-cover h-[100px] w-[100%] rounded-md"
               />
               <div className="h-[95px] w-[95px] absolute z-10 top-[30px] left-[90px]">
                 <div className="h-[95px] w-[95px] relative">
                   <img
-                    src={user?.profileUrl}
+                    src={user?.profileUrl ? user?.profileUrl  :"https://placehold.co/95x95"}
                     alt="proflie"
                     className="h-[95px] w-[95px] border-4 border-white rounded-full"
                   />
                   <div className="h-[40px] w-[40px] rounded-full   absolute top-[65px] right-[-2px] ">
                     <img
-                      src={user?.logoImg}
+                      src={user?.logoImg ? user?.logoImg :"https://placehold.co/95x95"}
                       alt="logo"
                       className="h-[35px] w-[35px] rounded-full object-cover   shadow-md border-2 border-white"
                     />
@@ -235,18 +296,26 @@ let [search , setsearch]=useState('')
             <div className="w-[100%] text-center mt-1 text-xl font-medium">
               {user?.name}
             </div>
+            {user?.job && user?.company ?
             <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
               {user?.job} at {user?.company}
             </div>
-            <div className="w-[100%]  mt-5 flex justify-center">
-              <div className="h-[35px] w-[110px] border rounded-2xl mr-2 flex items-center justify-center cursor-pointer " onClick={()=>navigate('/profileedit',{state:{id:userId,name:user?.name,profileUrl:user?.profileUrl}})}>
+            :
+
+            <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
+              {user?.job}
+            </div>
+
+}
+            <div className="w-[100%]  mt-[13px] flex justify-center">
+              <div className="h-[35px] w-[110px] border border-gray-500 rounded-2xl mr-2 flex items-center justify-center cursor-pointer " onClick={()=>navigate('/profileedit',{state:{id:userId,name:user?.name,profileUrl:user?.profileUrl}})}>
                 <MdOutlineModeEdit className="text-gray-500"/>
                 <p className="text-sm font-medium ml-[3px] text-gray-500">
-                  {" "}
+                 
                   Edit card
                 </p>
               </div>
-              <div className="h-[35px] w-[110px] border rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer">
+              <div className="h-[35px] w-[110px] border  rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer">
                 <FaShare className="text-white"/>
                 <p className="text-sm font-medium ml-[3px] text-white">
                   Share card
@@ -291,14 +360,20 @@ let [search , setsearch]=useState('')
             <div className="w-[100%] text-center mt-1 text-xl font-medium">
               {elm?.name}
             </div>
+            {elm?.job && elm?.company ?
             <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
               {elm?.job} at {elm?.company}
             </div>
-            <div className="w-[100%]  mt-5 flex justify-center">
-              <div className="h-[35px] w-[110px] border rounded-2xl mr-2 flex items-center justify-center cursor-pointer " onClick={()=>navigate('/profileedit',{state:{id:elm?.id,name:elm?.name,profileUrl:elm?.profileUrl}})}>
+            :
+            <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
+              {elm?.job}
+            </div>
+          }
+            <div className="w-[100%]  mt-[13px] flex justify-center">
+              <div className="h-[35px] w-[110px] border border-gray-500 rounded-2xl mr-2 flex items-center justify-center cursor-pointer " onClick={()=>navigate('/profileedit',{state:{id:elm?.id,name:elm?.name,profileUrl:elm?.profileUrl}})}>
                 <MdOutlineModeEdit className="text-gray-500"/>
                 <p className="text-sm font-medium ml-[3px] text-gray-500">
-                  {" "}
+                  
                   Edit card
                 </p>
               </div>
@@ -328,6 +403,8 @@ let [search , setsearch]=useState('')
       <CircularProgress/>
       </div>
         }
+      <ToastContainer position="top-center" autoClose={2000} />
+
     </div>
   );
 };
