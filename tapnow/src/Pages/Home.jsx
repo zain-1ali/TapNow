@@ -19,6 +19,7 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import {getData} from '../Redux/Adminslice'
 import { useDispatch } from "react-redux";
+import ShareCardModal from "../components/ShareCardModal";
 
 const Home = () => {
 
@@ -48,9 +49,6 @@ let [filtered,setfiltered]=useState([])
               MediaKeyStatusMap
               setuser(data)
               dispatch(getData(data))
-              
-
-              // updateStarCount(postElement, data);
           });
       }
 
@@ -157,7 +155,7 @@ let [search , setsearch]=useState('')
 
   //---------------------------------------------------(For Securing routes)-----------------------------------------------
 
-
+  
 //   let currentUser=localStorage.getItem('tapNowUid')
 
 //   useEffect(()=>{
@@ -172,6 +170,13 @@ let [search , setsearch]=useState('')
 
 // console.log(Date.now())
 
+
+let [shareModal,setshareModal]=useState(false)
+
+let handleShareModal=()=>{
+  setshareModal(!shareModal)
+}
+
   return (
     <div className="w-[100%] flex max-h-[100vh]">
       <Sidebar />
@@ -179,6 +184,7 @@ let [search , setsearch]=useState('')
         user?.id ?
 
       <div className="w-[85%]  pb-4 overflow-y-scroll scrollbar-hide">
+      <ShareCardModal shareModal={shareModal} handleShareModal={handleShareModal}/>
         <OptionModal modal={modal} handleModal={handleModal} user={user} handleTeamModal={handleTeamModal}/>
         <TeamProfileModal teamModal={teamModal} handleTeamModal={handleTeamModal} />
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
@@ -377,7 +383,7 @@ let [search , setsearch]=useState('')
                   Edit card
                 </p>
               </div>
-              <div className="h-[35px] w-[110px] border rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer">
+              <div className="h-[35px] w-[110px] border rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer" onClick={()=>handleShareModal()}>
                 <FaShare className="text-white"/>
                 <p className="text-sm font-medium ml-[3px] text-white">
                   Share card

@@ -3,16 +3,45 @@ import google from '../../imgs/google.png'
 import fb from '../../imgs/fblogo.png'
 
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../Firebase'
+import { auth, db } from '../Firebase'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {AiFillEye} from 'react-icons/ai'
 import {AiFillEyeInvisible} from 'react-icons/ai'
+import { onValue, ref } from 'firebase/database'
+import { handleSignUpFacebook, handleSignUpGoogle } from '../services/ExternalAuthSrvc'
 
 
 
 const Login = () => {
+
+
+
+  let [objkeys, setobjkeys] = useState([]);
+
+
+   // --------------------------geting the all users data from firebase------------------------
+
+   useEffect(() => {
+    let getingdata = async () => {
+
+        const starCountRef = ref(db, `User/`);
+        onValue(starCountRef, async (snapshot) => {
+            // const data = await snapshot.val();
+      setobjkeys(Object.keys(snapshot.val()))
+           
+            MediaKeyStatusMap
+          
+        });
+    }
+
+    getingdata();
+
+
+}, [])
+console.log(objkeys)
+
 
   let [showPass,setShowPass]=useState(false)
 
@@ -100,8 +129,8 @@ const handleLogin = () => {
           <div class="w-[70%] mt-3"><h2 class="text-sm font-medium ">Password</h2><div class='w-[100%] h-[50px] bg-[#f7f7f7] flex mt-2 items-center rounded-lg'><input type={ showPass? `text` :`password`} placeholder="Password" class=" outline-none rounded-lg border-none w-[92%] h-[50px] bg-[#f7f7f7]  p-5 placeholder:text-sm" onChange={(e) => { setdata({ ...data, password: e.target.value }) }} value={data.password}/>{showPass ? <AiFillEye class='text-xl cursor-pointer' onClick={()=>toggleShowPass()}/>: <AiFillEyeInvisible class='text-xl cursor-pointer' onClick={()=>toggleShowPass()}/>}</div></div>
           <div class="mt-5  w-[50%] h-[40px] bg-black rounded-3xl text-white flex justify-center items-center cursor-pointer" onClick={()=>handleLogin()}>Login</div>
 
-          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]"><img src={google} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Google</div>
-          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]"><img src={fb} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Facebook</div>
+          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]" onClick={()=>handleSignUpGoogle(objkeys,navigate)}><img src={google} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Google</div>
+          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]" onClick={()=>handleSignUpFacebook(objkeys,navigate)}><img src={fb} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Facebook</div>
 
 
           <div class="flex mt-3"><h2 class="font-medium">Already have account ?</h2><Link class="ml-2 font-medium text-[#0b567f]" to="/register">Register</Link></div>

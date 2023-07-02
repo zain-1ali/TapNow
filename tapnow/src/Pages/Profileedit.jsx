@@ -14,6 +14,9 @@ const Profileedit = () => {
   let userName=location.state.name
 
 
+  
+
+
   return (
     <div className="w-[100%] flex ">
       <Sidebar />

@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { db } from "../../Firebase";
@@ -9,6 +9,12 @@ const ProfileEditing = ({user}) => {
 
 
 console.log(user)
+
+let handleChange = (title, value) => {
+  update(ref(db, `User/${user?.id}/`), { allowTeamLogin: !value });
+};
+
+
   return (
     <div class="mt-[35px]">
       <div>
@@ -27,7 +33,7 @@ console.log(user)
             <Switch
                 // checked={user?.leadMode}
                 // size="small"
-                // onChange={() => handleChangeLead()}
+                // onChange={() => handleChange()}
               />
           </div>
         </div>

@@ -166,7 +166,7 @@ return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style
 
 <div className="w-[70%] flex flex-col justify-evenly">
 <h2 className="font-medium ">{singlelink?.name?.length<17?singlelink?.name : singlelink?.name?.substring(0,16)+'...'}</h2>
-<p className="text-[10px] w-[90%] ">{} {linkDescription?.length<67?linkDescription : linkDescription.substring(0,67)+'...'}</p>
+<p className="text-[10px] w-[90%] "> {linkDescription?.length<67?linkDescription : linkDescription.substring(0,67)+'...'}</p>
 {/* 68 */}
 </div>
 </div>
@@ -183,7 +183,7 @@ link?.map((elm)=>{
 
 <div className="w-[70%] flex flex-col justify-evenly">
 <h2 className="font-medium ">{elm?.name?.length<17?elm?.name : elm?.name?.substring(0,16)+'...'}</h2>
-<p className="text-[10px] w-[90%] ">{} {elm?.description?.length<67?elm?.description : elm?.description.substring(0,67)+'...'}</p>
+<p className="text-[10px] w-[90%] ">{elm?.description?.length<67?elm?.description : elm?.description.substring(0,67)+'...'}</p>
 {/* 68 */}
 </div>
 </div>

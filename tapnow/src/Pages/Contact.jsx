@@ -20,7 +20,7 @@ let handleChange=()=>{
 
 
 
-// --------------------------geting all user data from firebase------------------------
+// ------------------------------------geting all user data from firebase------------------------
 let [alluser,setalluser]=useState([])
 let [childs,setChilds]=useState([])
 useEffect(() => {
@@ -54,18 +54,6 @@ let thechilds=  alluser?.filter((elm)=>{
   setChilds(thechilds)
   // setfiltered(thechilds)
 },[alluser]);
-
-// Function to recursively flatten nested objects
-// let flattenObject=(obj)=> {
-//   return Object.values(obj).flatMap(value => {
-//     if (typeof value === 'object' && !Array.isArray(value)) {
-//       return [value];
-//     } else if (typeof value === 'object' && Array.isArray(value)) {
-//       return extractObjects(value);
-//     }
-//     return [];
-//   });
-// }
 useEffect(()=>{
   // const contactsArray = childs?.map(obj =>obj?.contactRequests && flattenObject(obj?.contactRequests) )
   // setcontacts(contactsArray)
@@ -114,7 +102,7 @@ setfiltered(flattenedArray)
 let [search , setsearch]=useState('')
 
 useEffect(() => {
-  const result = contacts.filter((contact) => {
+  const result = contacts?.filter((contact) => {
     return contact?.name.toLowerCase().match(search.toLowerCase()) || contact?.email.toLowerCase().match(search.toLowerCase()) 
 
   })

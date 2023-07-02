@@ -10,9 +10,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 const  TeamProfileModal = ({teamModal, handleTeamModal}) => {
 
 
-
-
-                  // 
+// 
 let parentId=localStorage.getItem('tapNowUid')
 
   let [data,setdata]=useState({

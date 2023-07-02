@@ -25,8 +25,10 @@ const Organization = () => {
             </div>
           </div>
         </div>
-        <div class="border mt-7"></div>
-        <div class="w-[100%]  flex justify-between  mt-6 items-center ">
+        {/* <div class="border mt-7"></div> */}
+
+        {/* <ProfileEditing user={user}/> */}
+        {/* <div class="w-[100%]  flex justify-between  mt-6 items-center ">
           <div class="w-[30%]  h-[210px]">
             <div class="text-lg font-[500]">Organization Account</div>
           </div>
@@ -53,51 +55,6 @@ const Organization = () => {
             </div>
             <div class="w-[100%] flex justify-between mt-5">
               <div class="w-[55%]  flex justify-between items-center">
-                {/* <div class="MuiFormControl-root css-1r4pjbh">
-                  <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-cktaik"
-                    data-shrink="false"
-                    id="demo-simple-select-label"
-                  >
-                    User
-                  </label>
-                  <div class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall  css-fvipm8">
-                    <div
-                      tabindex="0"
-                      role="button"
-                      aria-expanded="false"
-                      aria-haspopup="listbox"
-                      aria-labelledby="demo-simple-select-label demo-simple-select"
-                      id="demo-simple-select"
-                      class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-182didf"
-                    >
-                      <span class="notranslate">​</span>
-                    </div>
-                    <input
-                      aria-hidden="true"
-                      tabindex="-1"
-                      class="MuiSelect-nativeInput css-1k3x8v3"
-                      value=""
-                    />
-                    <svg
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1636szt"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      data-testid="ArrowDropDownIcon"
-                    >
-                      <path d="M7 10l5 5 5-5z"></path>
-                    </svg>
-                    <fieldset
-                      aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline css-igs3ac"
-                    >
-                      <legend class="css-yjsfm1">
-                        <span>Age</span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div> */}
                 <h2 class="text-sm text-gray-500 font-[500]">
                   Showing 1 to 1 of 1 results
                 </h2>
@@ -115,7 +72,7 @@ const Organization = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <br />
       </div>
     </div>

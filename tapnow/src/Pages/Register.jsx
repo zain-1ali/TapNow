@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import google from '../../imgs/google.png'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithPopup,GoogleAuthProvider } from 'firebase/auth'
 import { auth, db } from '../Firebase'
-import { ref, update } from 'firebase/database'
+import { child, get, onValue, ref, update } from 'firebase/database'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {AiFillEye} from 'react-icons/ai'
 import {AiFillEyeInvisible} from 'react-icons/ai'
+import fb from '../../imgs/fblogo.png'
+import { handleSignUpFacebook, handleSignUpGoogle } from '../services/ExternalAuthSrvc'
+
 
 const Register = () => {
-
 
   let [showPass,setShowPass]=useState(false)
 
@@ -90,6 +92,36 @@ const addData = async () => {
 }
 
 
+
+let [objkeys, setobjkeys] = useState([]);
+
+
+
+
+
+
+
+   // --------------------------geting the all users data from firebase------------------------
+
+   useEffect(() => {
+    let getingdata = async () => {
+
+        const starCountRef = ref(db, `User/`);
+        onValue(starCountRef, async (snapshot) => {
+            // const data = await snapshot.val();
+      setobjkeys(Object.keys(snapshot.val()))
+           
+            MediaKeyStatusMap
+          
+        });
+    }
+
+    getingdata();
+
+
+}, [])
+
+
   return (
     <div className='h-[100vh] w-[100%] border bg-[#f7f7f7]'>
       <div className='h-[100%] w-[49%] bg-white rounded-r-[50px] shadow-xl  pt-2'>
@@ -105,7 +137,7 @@ const addData = async () => {
 
           {/* ----------------------------------input tags----------------------------- */}
 
-          <div className='w-[100%] mt-3 flex items-center flex-col'>
+          <div className='w-[100%] mt-1 flex items-center flex-col'>
           <div class="w-[70%] mt-3"><h2 class="text-sm font-medium ">Email</h2><input type="text" placeholder="Email" class="mt-2 outline-none border-none w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm" onChange={(e) => { setdata({ ...data, email: e.target.value }) }} value={data.email}/></div>
           <div class="w-[70%] mt-3"><h2 class="text-sm font-medium ">Password</h2><div class='w-[100%] h-[50px] bg-[#f7f7f7] flex mt-2 items-center rounded-lg'><input type={ showPass? `text` :`password`} placeholder="Password" class=" outline-none rounded-lg border-none w-[92%] h-[50px] bg-[#f7f7f7]  p-5 placeholder:text-sm" onChange={(e) => { setdata({ ...data, password: e.target.value }) }} value={data.password}/>{showPass ? <AiFillEye class='text-xl cursor-pointer' onClick={()=>toggleShowPass()}/>: <AiFillEyeInvisible class='text-xl cursor-pointer' onClick={()=>toggleShowPass()}/>}</div></div>
           <div class="w-[70%] mt-3"><h2 class="text-sm font-medium ">Name</h2><input type="text" placeholder="Name" class="mt-2 outline-none border-none w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm" onChange={(e) => { setdata({ ...data, name: e.target.value }) }} value={data.name}/></div>
@@ -113,7 +145,8 @@ const addData = async () => {
 
           <div class="mt-5  w-[50%] h-[40px] bg-black rounded-3xl text-white flex justify-center items-center cursor-pointer" onClick={()=>addData()}>Create Account</div>
 
-          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]"><img src={google} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Google</div>
+          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]" onClick={()=>handleSignUpGoogle(objkeys,navigate)}><img src={google} alt="" class="h-[30px] w-[30px] mr-4" />Continue with Google</div>
+          <div class="mt-3  w-[50%] h-[40px] text-sm font-medium  rounded-3xl  flex justify-center items-center border cursor-pointer  hover:bg-[#f7f7f7]" onClick={()=>handleSignUpFacebook(objkeys,navigate)}><img src={fb} alt="" class="h-[30px] w-[30px] mr-4"/>Continue with Facebook</div>
 
           <div class="flex mt-3"><h2 class="font-medium">Already have account ?</h2><Link class="ml-2 font-medium text-[#0b567f]" to="/">Login</Link></div>
 

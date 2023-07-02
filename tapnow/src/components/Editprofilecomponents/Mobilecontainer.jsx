@@ -6,7 +6,7 @@ import { CircularProgress } from "@mui/material";
 const Mobilecontainer = ({user,link}) => {
 
 let openProfile=()=>{
-  window.open(`https://64933991efe14c0787ca88eb--resplendent-paprenjak-4129e4.netlify.app/${user?.userName}`)
+  window.open(`https://649ae613e7ed940a54e724ab--zippy-kashata-6d159e.netlify.app/${user?.userName}`)
 }
 
   return (

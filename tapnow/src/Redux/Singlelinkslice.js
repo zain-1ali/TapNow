@@ -5,7 +5,6 @@ const initialState = {
         name:'',
         img:'',
         placeholder:'',
-        isHighlighted:'',
        }
 };
 
@@ -18,9 +17,6 @@ export const linkSlice = createSlice({
       },
       changeLinkName: (state,action) => {
         state.singleLink.name=action.payload
-      },
-      changeHighlight: (state,action) => {
-        state.singleLink.isHighlighted=action.payload
       },
       
   
@@ -37,6 +33,6 @@ export const linkSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addLink,removeLink,changeLinkName,changeHighlight } = linkSlice.actions;
+export const { addLink,removeLink,changeLinkName } = linkSlice.actions;
 
 export default linkSlice.reducer;
