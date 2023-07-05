@@ -6,9 +6,9 @@ import { CircularProgress } from "@mui/material";
 const Mobilecontainer = ({user,link}) => {
 
 let openProfile=()=>{
-  window.open(`https://649ae613e7ed940a54e724ab--zippy-kashata-6d159e.netlify.app/${user?.userName}`)
+  window.open(`https://64a5317f662c727509f19528--harmonious-stardust-887868.netlify.app/${user?.userName}`)
+  // ${import.meta.env.VITE_PROFILE_URL}
 }
-
   return (
     <div className="max-h-[540px] rounded-r-2xl bg-white w-[320px] mt-5 flex items-center flex-col overflow-y-scroll  scrollbar-hide shadow-xl">
       {

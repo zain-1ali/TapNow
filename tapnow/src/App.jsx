@@ -7,25 +7,33 @@ import Home from './Pages/Home'
 import Login from './Pages/Login'
 import Profileedit from './Pages/Profileedit'
 import Register from './Pages/Register'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import ProtectedRoute from './ProtectedRoute'
+import { BrowserRouter, Navigate, Route, Routes, redirect } from 'react-router-dom'
+// import ProtectedRoute from './ProtectedRoute'
 import Settings from './Pages/Settings'
+import { setAuth } from './Redux/Authslice'
+import { useEffect } from 'react'
 
 
 function App() {
 
+let currentUser=localStorage.getItem('tapNowUid')
 
 const isAuth = useSelector((state) => state.authHandeler.isAuthenticated)
 
-let currentUser=localStorage.getItem('tapNowUid')
+
+useEffect(()=>{
+  setAuth(currentUser)
+},[])
   const RequireAuth = ({ children }) => {
-    return currentUser ? children : <Navigate to='/' />
+    return isAuth ? children : <Navigate to='/' />
   }
 
   const RequireAuthlogin = ({ children }) => {
-    return !currentUser  ? children : <Navigate to='/home' />
+    return !isAuth  ? children : <Navigate to='/home' />
 
   }
+
+
 
   return (
     <>
@@ -33,12 +41,15 @@ let currentUser=localStorage.getItem('tapNowUid')
         <Routes>
           <Route path='/register' element={<Register />} />
           <Route path='/' element={<Login />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/profileedit' element={<Profileedit />} />
-          <Route path='/contacts' element={<Contact />} />
-          <Route path='/analytics' element={<Analytics />} />
-          <Route path='/settings' element={<Settings />} />
-
+         
+        
+          <Route path='/home' element={<RequireAuth><Home /></RequireAuth>} />
+          <Route path='/profileedit' element={<RequireAuth><Profileedit /></RequireAuth>} />
+          <Route path='/contacts' element={<RequireAuth><Contact /></RequireAuth>} />
+          <Route path='/analytics' element={<RequireAuth><Analytics /></RequireAuth>} />
+          <Route path='/settings' element={<RequireAuth><Settings userId={currentUser}/></RequireAuth>} />
+     
+ 
 
 
 

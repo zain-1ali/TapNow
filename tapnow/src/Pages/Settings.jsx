@@ -7,7 +7,7 @@ import Organization from '../components/SettingsComponent/Organization';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../Firebase';
 
-const Settings = () => {
+const Settings = ({userId}) => {
 
 let [value,setValue]=useState(0)
 
@@ -17,7 +17,7 @@ setValue(val)
 
 
 
-  let userId=localStorage.getItem('tapNowUid')
+  // let userId=localStorage.getItem('tapNowUid')
   let [user,setuser]=useState({})
    // --------------------------geting the user data from firebase------------------------
   
@@ -28,7 +28,7 @@ setValue(val)
         onValue(starCountRef, async (snapshot) => {
             const data = await snapshot.val();
             //  console.log(data)
-            MediaKeyStatusMap
+            // MediaKeyStatusMap
             setuser(data)
             
             

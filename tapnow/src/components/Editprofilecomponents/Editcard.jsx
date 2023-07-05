@@ -16,6 +16,7 @@ import { setName,setBio,setColor,setCompany,setJob,setLocation,setProfileImg,set
 import Qrcontainer from "./Qrcontainer";
 import {setQrLogo,setQrColor} from '../../Redux/UserinfoSlice'
 import {setFormHeader} from '../../Redux/UserinfoSlice'
+import { Addlinks } from "../../Redux/LinksSlice";
 
 
 
@@ -65,9 +66,10 @@ dispatch(setFormHeader(user?.formHeader))
             onValue(starCountRef, async (snapshot) => {
                 const data = await snapshot.val();
                 //  console.log(data)
-                MediaKeyStatusMap
+                // MediaKeyStatusMap
                 setuser(data)
                 setlink(Object.values(data?.links))
+                dispatch(Object.values(data?.links))
 
 
   
@@ -90,19 +92,19 @@ console.log(user)
     <div className="flex">
       <div class="h-[540px] w-[730px] bg-white rounded-l-2xl border mt-5 flex shadow-xl">
         <div class="w-[200px]  border-r h-[100%] p-5">
-          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openContent())}>
+          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openContent())} style={iscontent ? {backgroundColor :'#b2d9ee'}:null}>
             <BsFillHddStackFill className="text-[#0b567f]"/>
             <p class=" ml-2">Content</p>
           </div>
-          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openAbout())}>
+          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openAbout())} style={isabout ? {backgroundColor :'#b2d9ee'}:null}>
           <BsFillPersonFill className="text-[#0b567f]"/>
             <p class=" ml-2">About</p>
           </div>
-          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openQr())}>
+          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openQr())} style={isqr ? {backgroundColor :'#b2d9ee'}:null}>
           <BsQrCode className="text-[#0b567f]"/>
             <p class=" ml-2">Qr code</p>
           </div>
-          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openLead())}>
+          <div class="w-[160px]  flex items-center rounded-lg h-[40px] hover:bg-[#b2d9ee] p-3 cursor-pointer mt-4" onClick={()=>dispatch(openLead())} style={islead ? {backgroundColor :'#b2d9ee'}:null}>
           <FiFilter className="text-[#0b567f]"/>
             <p class=" ml-2">Lead capture</p>
           </div>

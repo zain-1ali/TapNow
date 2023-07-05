@@ -1,13 +1,17 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+// import { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
-const ProtectedRoute = ({isAuth}) => {
-    if(!isAuth){
-return <Navigate to={'/'}/>
-    }
-  return (
-    <div>ProtectedRoute</div>
-  )
-}
+// const useRequireAuth = () => {
+//   const isAuthenticated =localStorage.getItem('tapNowUid')
+//   const history = useNavigate();
 
-export default ProtectedRoute
+//   useEffect(() => {
+//     if (!isAuthenticated) {
+//       history('/login');
+//     }
+//   }, [isAuthenticated, history]);
+
+//   return isAuthenticated;
+// };
+
+// export default useRequireAuth;

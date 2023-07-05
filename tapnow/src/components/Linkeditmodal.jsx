@@ -63,7 +63,7 @@ const Linkeditmodal = ({ user, link }) => {
   const addData = () => {
     if (theLink.value && theLink.name) {
         
-        update(ref(db, `User/${user?.id}/links/${singlelink.name}`),  theLink).then(()=>{
+        update(ref(db, `User/${user?.id}/links/${singlelink.title}`),  theLink).then(()=>{
           toast.success('Link added successfuly')
           dispatch(openLinkModal())
           dispatch(removeLink())
@@ -131,7 +131,7 @@ settheLink({
               type="text"
               placeholder={singlelink?.name}
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,value:e.target.value,title:singlelink.name})}
+              onChange={(e)=>settheLink({...theLink,value:e.target.value,title:singlelink.title})}
               value={theLink.value}
             />
           </div>

@@ -28,6 +28,8 @@ const logoImg = useSelector((state) => state.userInfoHandeler.userInfo.logoImg)
 const bgImg = useSelector((state) => state.userInfoHandeler.userInfo.bgImg)
 const linkHighlighted = useSelector((state) => state.userInfoHandeler.userInfo.linkHighlighted)
 const linkDescription = useSelector((state) => state.userInfoHandeler.userInfo.linkDescription)
+const linkupdateModal = useSelector((state) => state.modalHandeler.linkupdateModal)
+let allLinks= useSelector((state) => state.LinkHandeler.allLinks)
 
 
 
@@ -125,7 +127,7 @@ const modal = useSelector((state) => state.modalHandeler.modal);
         </div>
         <div className="w-[100%] grid grid-cols-3 gap-x-4 mt-3">
 
-      {singlelink.img &&  <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={checkAdded(singlelink?.name) || linkHighlighted ?{display:'none'}:null}>
+      {singlelink.img &&  <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={ linkHighlighted ?{display:'none'}:null}>
 <img
   src={singlelink.img}
   alt="social"
@@ -136,8 +138,8 @@ const modal = useSelector((state) => state.modalHandeler.modal);
 
 
           {
-            link?.map((elm)=>{
-return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={elm?.isHide===true || elm?.isHighLighted===true ?{display:'none'}:null}>
+            allLinks?.map((elm)=>{
+return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style={elm?.isHide===true || elm?.isHighLighted===true || (linkupdateModal && elm?.title===singlelink?.title) ?{display:'none'}:null}>
 <img
   src={returnIcons(elm?.title)}
   alt="social"
@@ -166,7 +168,7 @@ return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style
 
 <div className="w-[70%] flex flex-col justify-evenly">
 <h2 className="font-medium ">{singlelink?.name?.length<17?singlelink?.name : singlelink?.name?.substring(0,16)+'...'}</h2>
-<p className="text-[10px] w-[90%] "> {linkDescription?.length<67?linkDescription : linkDescription.substring(0,67)+'...'}</p>
+<p className="text-[10px] w-[90%] break-all"> {linkDescription?.length<56?linkDescription : linkDescription.substring(0,56)+'...'}</p>
 {/* 68 */}
 </div>
 </div>
@@ -176,14 +178,14 @@ return <div className="h-[70px] w-[70px]  flex flex-col items-center mt-5" style
 {
 link?.map((elm)=>{
   return  <>
-  <div className="w-[100%] h-[65px] mt-4 bg-[#f7f7f7] flex" style={elm?.isHide===true || elm?.isHighLighted===false ?{display:'none'}:null}>
+  <div className="w-[100%] h-[65px] mt-4 bg-[#f7f7f7] flex" style={elm?.isHide===true || elm?.isHighLighted===false || (linkupdateModal && elm?.title===singlelink?.title) ?{display:'none'}:null}>
 <div className="w-[30%]  flex justify-center items-center">
 <img src={returnIcons(elm?.title)} alt=""  className="h-[50px] w-[50px]"/>
 </div>
 
 <div className="w-[70%] flex flex-col justify-evenly">
 <h2 className="font-medium ">{elm?.name?.length<17?elm?.name : elm?.name?.substring(0,16)+'...'}</h2>
-<p className="text-[10px] w-[90%] ">{elm?.description?.length<67?elm?.description : elm?.description.substring(0,67)+'...'}</p>
+<p className="text-[10px] w-[90%] break-all">{elm?.description?.length<56?elm?.description : elm?.description.substring(0,56)+'...'}</p>
 {/* 68 */}
 </div>
 </div>

@@ -6,6 +6,9 @@ import {AiOutlineSearch, AiTwotoneDelete} from 'react-icons/ai'
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
 import ContactModal from "../components/ContactModal";
+import DownloadExcel from "../components/DownloadExcel";
+import {AiFillEye} from 'react-icons/ai'
+
 
 const Contact = () => {
   let userId=localStorage.getItem('tapNowUid')
@@ -32,7 +35,7 @@ useEffect(() => {
       onValue(starCountRef, async (snapshot) => {
           const data = await snapshot.val();
           //  console.log(data)
-          MediaKeyStatusMap
+          // MediaKeyStatusMap
           setalluser(Object.values(data))
 
           // updateStarCount(postElement, data);
@@ -85,6 +88,7 @@ setfiltered(flattenedArray)
 
   let handlecontactModal=()=>{
     setcontactModal(!contactModal)
+    setdeleteModal(false)
   }
 
   let handledeleteCloseModal=()=>{
@@ -93,6 +97,7 @@ setfiltered(flattenedArray)
 
   let handledeleteOpenModal=()=>{
     setdeleteModal(true)
+    setcontactModal(!contactModal)
   }
 
 
@@ -170,27 +175,10 @@ useEffect(() => {
 
 
               <div class="ml-[10px] border h-[40px] rounded-md w-[140px] flex justify-center items-center text-gray-700 hover:bg-gray-100 cursor-pointer  font-[500]">
-              Export via CSV
+              {/* Export via CSV
+               */}
+               <DownloadExcel data={filtered}/>
             </div>
-              {/* <div className="ml-[10px]">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectVal}
-                  label="Age"
-                  style={{ width: "150px", height: "40px" }}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Newest</MenuItem>
-                  <MenuItem value={20}>Oldest</MenuItem>
-                  <MenuItem value={30}>A tO Z</MenuItem>
-                  <MenuItem value={40}>Z tO A</MenuItem>
-
-                </Select>
-              </FormControl>
-            </div> */}
             </div>
           </div>
         </div>
@@ -204,11 +192,17 @@ useEffect(() => {
         </p>
       </div> */}
 
-      <div className="w-[80%] flex justify-around  mt-6" >
+{
+  filtered?.length>0 ?
+  <>
+
+      <div className="w-[100%] flex justify-around  mt-6" >
 <h2 className="text-sm font-medium text-gray-700">Contact</h2>
 <h2 className="text-sm font-medium text-gray-700">Email</h2>
 <h2 className="text-sm font-medium text-gray-700">Conected with</h2>
 <h2 className="text-sm font-medium text-gray-700 ">Date</h2>
+<h2 className="text-sm font-medium text-gray-700 ">Actions</h2>
+
 
       </div>
 
@@ -216,7 +210,7 @@ useEffect(() => {
         {
           filtered?.map((elm)=>{
             return <>
-            <div className="bg-[#fafafa] w-[100%] h-[70px] rounded-[30px] mt-3 shadow-sm flex justify-around items-center cursor-pointer" onClick={()=>{handlecontactModal(),setcontactDetails(elm)}}>
+            <div className="bg-[#fafafa] w-[100%] h-[70px] rounded-[30px] mt-3 shadow-sm flex justify-around items-center cursor-pointer" >
 
 <div className="flex items-center w-[10%] ">
 <img src={elm?.imgUrl ? elm?.imgUrl :"https://placehold.co/35x35"} alt="img" className="h-[45px] w-[45px] rounded-full shadow-md mr-6"/>
@@ -225,8 +219,10 @@ useEffect(() => {
 
 
 <div className="w-[10%] ">
-<h2 className="text-sm font font-medium">{elm?.email}</h2>
+<h2 className="text-sm font font-medium">{elm?.email?.length<24 ? elm?.email : elm?.email?.substring(0,25)+'...'}</h2>
 </div>
+
+
 
 
 
@@ -235,13 +231,26 @@ useEffect(() => {
 <h2 className="text-sm font font-medium">{elm?.connectedWith?.name}</h2>
 </div>
 
-<div className="w-[10%] ">
+<div className="w-[7%] ml-4">
 <h2 className="text-sm font font-medium">{elm?.date}</h2>
 </div>
 
-{/* <div className="w-[1%]"> */}
-<AiTwotoneDelete className="text-red-600 text-2xl" onClick={()=>handledeleteOpenModal()}/>
-{/* </div> */}
+
+
+
+<div className="flex items-center  ml-5" >
+<div className="" onClick={()=> {return handledeleteOpenModal()}}>
+  <AiTwotoneDelete className="text-red-600 text-2xl" />
+  </div>
+
+  
+  
+  <div onClick={()=>{handlecontactModal(),setcontactDetails(elm)}} className="ml-5">
+  <AiFillEye className="text-[#0b567f] text-2xl " />
+
+  </div>
+  
+</div>
 
 
 
@@ -251,6 +260,17 @@ useEffect(() => {
         }
 
       </div>
+      </>
+      :
+      <div class="w-[100%] h-[300px] flex flex-col items-center justify-center">
+        <h2 class="text-2xl font-[500]">No results</h2>
+        <p class="text-gray-500 mt-3 flex">
+          You can activate a lead-generation form on the card profile settings.
+          Contacts collected via that form will be stored here.{" "}
+          <h2 class="font-[500] text-[#0b567f] cursor-pointer">Learn more.</h2>
+        </p>
+      </div>
+      }
     </div>
     </div>
   );

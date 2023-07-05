@@ -1,8 +1,29 @@
-import React from "react";
+import { ref, update } from "firebase/database";
+import React, { useEffect, useState } from "react";
 import {MdOutlineKeyboardArrowDown} from 'react-icons/md'
 import {RiArrowLeftSLine,RiArrowRightSLine} from 'react-icons/ri'
+import { db } from "../../Firebase";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
-const Organization = () => {
+const Organization = ({user}) => {
+
+  let [organization,SetOrganization]=useState('')
+
+
+  useEffect(()=>{ 
+    user.organization &&  SetOrganization(user.organization)
+    },[user])
+ 
+  let addData=()=>{
+    if(organization)
+    update(ref(db, `User/${user?.id}`), { organization }).then(()=>{
+      toast.success('Information updated successfuly')
+  });
+  }
+
+
+
   return (
     <div class="mt-[35px]">
       <div>
@@ -16,14 +37,18 @@ const Organization = () => {
               <input
                 type="text"
                 class="border outline-none w-[65%] h-[45px] rounded-md p-2  "
+                onChange={(e)=>SetOrganization(e.target.value)}
+                value={organization}
               />
             </div>
             <div class="mt-[16px] border-t flex items-center h-[60px]">
-              <div class="flex justify-center items-center h-[38px] w-[75px] rounded-md bg-[#0b567f] text-white font-[500] cursor-pointer text-sm ">
+              <div class="flex justify-center items-center h-[38px] w-[75px] rounded-md bg-[#0b567f] text-white font-[500] cursor-pointer text-sm " onClick={()=>addData()}>
                 Save
               </div>
             </div>
           </div>
+      <ToastContainer position="top-center" autoClose={2000} />
+
         </div>
         {/* <div class="border mt-7"></div> */}
 

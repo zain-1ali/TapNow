@@ -3,18 +3,20 @@ import { onValue, ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { db } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
 
 const ProfileEditing = ({user}) => {
 
-
+  let navigate=useNavigate()
 
 console.log(user)
 
-let handleChange = (title, value) => {
-  update(ref(db, `User/${user?.id}/`), { allowTeamLogin: !value });
-};
+let handleChange = (value) => {
+  update(ref(db, `User/${user?.id}/`), { allowTeamLogin: !value }).then(()=>{
+// navigate('/settings')
+  })
 
-
+}
   return (
     <div class="mt-[35px]">
       <div>
@@ -22,7 +24,7 @@ let handleChange = (title, value) => {
           <div class="w-[30%]  ">
             <div class="text-lg font-[500]">Employee editing access</div>
             <p>
-              Grant employees access to edit their own profiles within the Tapt
+              Grant employees access to edit their own profiles within the Tap Now
               app
             </p>
           </div>
@@ -31,9 +33,9 @@ let handleChange = (title, value) => {
               Grant all employees profile editing access
             </p>
             <Switch
-                // checked={user?.leadMode}
-                // size="small"
-                // onChange={() => handleChange()}
+                checked={user?.allowTeamLogin}
+                size="small"
+                onChange={() => handleChange(user?.allowTeamLogin)}
               />
           </div>
         </div>

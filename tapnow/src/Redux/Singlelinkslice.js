@@ -4,6 +4,7 @@ const initialState = {
     singleLink:{
         name:'',
         img:'',
+        title:'',
         placeholder:'',
        }
 };

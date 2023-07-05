@@ -8,7 +8,7 @@ import {
   openModal,
   closeAllModal,
 } from "../Redux/Modalslice";
-import {addLink,removeLink} from '../Redux/Singlelinkslice'
+import {addLink,changeLinkName,removeLink} from '../Redux/Singlelinkslice'
 import { Box } from "@mui/material";
 import { contactIcons , socialIcons ,media,payment,more } from "../assets/ReturnSocialIcons";
 import {RxCross2} from 'react-icons/rx'
@@ -17,7 +17,7 @@ import Linkeditmodal from "./Linkeditmodal";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import LinkupdateModal from "./LinkupdateModal";
-import {setLinkHighlight} from '../Redux/UserinfoSlice'
+import {setLinkDescription, setLinkHighlight} from '../Redux/UserinfoSlice'
 
 
 // import { removeLink } from "../Redux/Singlelinkslice";
@@ -44,19 +44,34 @@ const LinksModal = ({user, link} ) => {
     width: 1000,
     height: 600,
     bgcolor: "white",
+    borderRadius:'18px',
     // overflow: 'auto',
     // border: '2px solid #000',
     boxShadow: 24,
-    p: linkModal ?"32px":'2px',
+    p: linkModal ?"30px":'2px',
   };
 
 
   let checkAdded=(name)=>{
 
 return link?.some((elm)=>{
-return elm?.title===name
+return elm?.title===name 
 })
+// return check
   }
+
+
+
+let addlinkname=async(name)=>{
+let findlink= await link?.filter((item)=>{
+return  item?.title===name 
+  })
+
+  console.log(findlink)
+  dispatch(changeLinkName(findlink[0]?.name))
+  dispatch(setLinkDescription(findlink[0]?.description))
+  dispatch(setLinkHighlight(findlink[0]?.isHighLighted))
+}
 
   return (
     <>
@@ -91,7 +106,7 @@ linkModal &&
               {/* flex justify-around flex-wrap */}
                 {
                     contactIcons.map((elm)=>{
-return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={checkAdded(elm?.name) ? ()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={checkAdded(elm?.name) ? ()=>{addlinkname(elm?.name), dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
     {
     checkAdded(elm?.name) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
@@ -192,7 +207,7 @@ return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7
                   {/* flex justify-around flex-wrap */}
                     {
                         payment?.map((elm)=>{
-return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.title)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
     checkAdded(elm?.name) &&

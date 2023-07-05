@@ -13,11 +13,12 @@ import {
   openModal,
   closeAllModal,
 } from "../Redux/Modalslice";
-import { addLink, removeLink } from "../Redux/Singlelinkslice";
+import { addLink, changeLinkName, removeLink } from "../Redux/Singlelinkslice";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { db } from "../Firebase";
 import {AiTwotoneDelete} from 'react-icons/ai'
+import { setLinkDescription, setLinkHighlight } from "../Redux/UserinfoSlice";
 
 const LinkupdateModal = ({ user, link }) => {
   let dispatch = useDispatch();
@@ -44,7 +45,7 @@ const LinkupdateModal = ({ user, link }) => {
   // ----------------------------------------------------Finding link to update---------------------------------------------
 
   let  linkToUpdate=link?.filter((elm)=>{
-return singlelink.name===elm?.title
+return singlelink.title===elm?.title
   })
 
 
@@ -62,7 +63,7 @@ return singlelink.name===elm?.title
     console.log(linkToUpdate)
   },[linkToUpdate[0]])
 
-
+console.log(theLink.name)
 
   
 
@@ -75,9 +76,13 @@ return singlelink.name===elm?.title
   let handleLinkHihlight=()=>{
     if(theLink.isHighLighted){
       settheLink({...theLink,isHighLighted:false})
+      dispatch(setLinkHighlight(false))
+
     }
     else{
       settheLink({...theLink,isHighLighted:true})
+      dispatch(setLinkHighlight(true))
+
     }
   }
 
@@ -91,7 +96,7 @@ return singlelink.name===elm?.title
   const addData = () => {
     if (theLink.value && theLink.name) {
         
-        update(ref(db, `User/${user?.id}/links/${singlelink.name}`),  theLink).then(()=>{
+        update(ref(db, `User/${user?.id}/links/${singlelink.title}`),  theLink).then(()=>{
           toast.success('Link updated successfuly')
 settheLink({
   
@@ -113,7 +118,7 @@ settheLink({
 
 
 const handleDelete = () => {
-    remove(ref(db, `User/${user?.id}/links/${singlelink.name}`))
+    remove(ref(db, `User/${user?.id}/links/${singlelink.title}`))
     toast.success('Link deleted successfuly')
 }
 
@@ -123,7 +128,7 @@ const handleDelete = () => {
         <div className="w-[65%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
-            onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}
+            onClick={() => {dispatch(openLinkModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false)),dispatch(setLinkDescription(''))}}
           >
             {/* <svg
             className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall cursor-pointer css-1k33q06"
@@ -168,7 +173,7 @@ const handleDelete = () => {
               type="text"
               placeholder="Phone number"
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,value:e.target.value,title:singlelink.name})}
+              onChange={(e)=>settheLink({...theLink,value:e.target.value})}
               value={theLink.value}
             />
           </div>
@@ -178,7 +183,8 @@ const handleDelete = () => {
               type="text"
               placeholder={singlelink.name}
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,name:e.target.value})}
+              onChange={(e)=>{settheLink({...theLink,name:e.target.value}),dispatch(changeLinkName(e.target.value))}}
+              // ,dispatch(changeLinkName(e.target.value))
               value={theLink.name}
             />
           </div>
@@ -191,7 +197,8 @@ const handleDelete = () => {
               type="text"
               placeholder="description"
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,description:e.target.value})}
+              onChange={(e)=>{settheLink({...theLink,description:e.target.value}) ,dispatch(setLinkDescription(e.target.value))}}
+              // ,dispatch(setLinkDescription(e.target.value))
               value={theLink.description}
             />
           </div>

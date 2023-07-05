@@ -16,27 +16,68 @@ const Leadcapture = ({user}) => {
   };
 
   let handleChangename = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), { Fname: !user?.leadForm?.Fname });
+if(user?.leadForm?.company===false && user?.leadForm?.job===false && user?.leadForm?.email===false && user?.leadForm?.company===false && user?.leadForm?.note===false && user?.leadForm?.phone===false){
+  toast.warning('Form should not be empty')
+
+}
+else{
+  update(ref(db, `User/${user?.id}/leadForm`), { Fname: !user?.leadForm?.Fname });
+
+}
+
   };
 
   let handleChangecompany = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), { company: !user?.leadForm?.company });
+    if(user?.leadForm?.Fname===false && user?.leadForm?.job===false && user?.leadForm?.email===false && user?.leadForm?.company===false && user?.leadForm?.note===false && user?.leadForm?.phone===false){
+      toast.warning('Form should not be empty')
+    
+    }else{
+      update(ref(db, `User/${user?.id}/leadForm`), { company: !user?.leadForm?.company });
+
+    }
   };
 
   let handleChangejob = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), { job: !user?.leadForm?.job });
+    if(user?.leadForm?.Fname===false && user?.leadForm?.company===false && user?.leadForm?.email===false && user?.leadForm?.company===false && user?.leadForm?.note===false && user?.leadForm?.phone===false){
+      toast.warning('Form should not be empty')
+    
+    }else{
+      update(ref(db, `User/${user?.id}/leadForm`), { job: !user?.leadForm?.job });
+    }
   };
 
   let handleChangeemail = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), { email: !user?.leadForm?.email });
+    if(user?.leadForm?.Fname===false && user?.leadForm?.company===false && user?.leadForm?.job===false && user?.leadForm?.company===false && user?.leadForm?.note===false && user?.leadForm?.phone===false){
+      toast.warning('Form should not be empty')
+    
+    }else{
+      update(ref(db, `User/${user?.id}/leadForm`), { email: !user?.leadForm?.email });
+
+    }
+
+
   };
 
   let handleChangenote = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), {note: !user?.leadForm?.note });
+
+    if(user?.leadForm?.Fname===false && user?.leadForm?.company===false && user?.leadForm?.job===false && user?.leadForm?.company===false && user?.leadForm?.email===false && user?.leadForm?.phone===false){
+      toast.warning('Form should not be empty')
+    
+    }else{
+      update(ref(db, `User/${user?.id}/leadForm`), {note: !user?.leadForm?.note });
+    }
+
+
   };
 
   let handleChangephone = () => {
-    update(ref(db, `User/${user?.id}/leadForm`), { phone: !user?.leadForm?.phone });
+    if(user?.leadForm?.Fname===false && user?.leadForm?.company===false && user?.leadForm?.job===false && user?.leadForm?.company===false && user?.leadForm?.email===false){
+      toast.warning('Form should not be empty')
+    
+    }else{
+      update(ref(db, `User/${user?.id}/leadForm`), { phone: !user?.leadForm?.phone });
+
+    }
   };
 
 

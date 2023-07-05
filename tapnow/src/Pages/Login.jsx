@@ -31,7 +31,7 @@ const Login = () => {
             // const data = await snapshot.val();
       setobjkeys(Object.keys(snapshot.val()))
            
-            MediaKeyStatusMap
+            // MediaKeyStatusMap
           
         });
     }
@@ -50,7 +50,7 @@ console.log(objkeys)
  }
 
 let navigate=useNavigate()
-let currentUser=localStorage.getItem('tapNowUid')
+// let currentUser=localStorage.getItem('tapNowUid')
 
 //   useEffect(()=>{
 // if(!currentUser){
@@ -76,9 +76,45 @@ const handleLogin = () => {
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
-          localStorage.setItem('tapNowUid',user.uid)
-          navigate('/home')
-          toast.success('Login Sucessfuly')
+
+
+          const starCountRef = ref(db, `/User/${user?.uid}`);
+          onValue(starCountRef, async (snapshot) => {
+              const data = await snapshot.val();
+              // MediaKeyStatusMap
+// console.log(data.parentId)
+              if(data?.parentId){
+
+                const starCountRef2 = ref(db, `/User/${data?.parentId}`);
+                onValue(starCountRef2, async (thesnapshot) => {
+                    const parentdata = await thesnapshot.val();
+                    // MediaKeyStatusMap
+// console.log(parentdata)
+if(parentdata?.allowTeamLogin===true){
+  localStorage.setItem('tapNowUid',user.uid)
+  navigate('/home')
+  toast.success('Login Sucessfuly')
+  window.location.reload(true)
+}
+else{
+  toast.warning('Access Denied!')
+
+}
+
+
+                  })
+
+              }else{
+                localStorage.setItem('tapNowUid',user.uid)
+                toast.success('Login Sucessfuly')
+                navigate('/home')
+                window.location.reload(true)
+                
+              }
+
+          })
+
+          
           // toast.success('Login Sucessfuly')
 
           // navigate('/home')

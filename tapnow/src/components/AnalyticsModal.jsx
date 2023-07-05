@@ -85,7 +85,7 @@ const AnalyticsModal = ({modal, handleModal,userdata}) => {
 
 <div className='w-[47%] h-[110px] bg-[white] rounded-lg shadow-md flex flex-col justify-center items-center'>
 <div className='flex w-[85%] justify-between mb-2'>
-<h2 className='text-[13px] font-medium'>Conatact downloads</h2>
+<h2 className='text-[13px] font-medium'>Contact downloads</h2>
 <p>{userdata?.Analytics?.tContactsMeCrntWk ? userdata?.Analytics?.tContactsMeCrntWk :0}</p>
 </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { AiOutlineSearch } from "react-icons/ai";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,7 +8,7 @@ import Select from "@mui/material/Select";
 import {MdAdminPanelSettings, MdOutlineModeEdit} from 'react-icons/md'
 import {FaShare} from 'react-icons/fa'
 import {GrAdd} from 'react-icons/gr'
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import { db } from "../Firebase";
 import { Navigate, useNavigate } from "react-router-dom";
 import OptionModal from "../components/CreateNewPrflModal/OptionModal";
@@ -25,8 +25,13 @@ const Home = () => {
 
 
   let dispatch=useDispatch()
-  let [selectVal, setselectVal] = useState("");
-  let handleChange = () => {};
+  let [selectVal, setselectVal] = useState("Sort");
+  let handleChange = (event) => {
+    setselectVal(event.target.value)
+  };
+
+
+  // useMemo(() => window.location.reload(true), [])
 
   let navigate=useNavigate()
 
@@ -46,7 +51,7 @@ let [filtered,setfiltered]=useState([])
           onValue(starCountRef, async (snapshot) => {
               const data = await snapshot.val();
               //  console.log(data)
-              MediaKeyStatusMap
+              // MediaKeyStatusMap
               setuser(data)
               dispatch(getData(data))
           });
@@ -70,7 +75,7 @@ let [filtered,setfiltered]=useState([])
         onValue(starCountRef, async (snapshot) => {
             const data = await snapshot.val();
             //  console.log(data)
-            MediaKeyStatusMap
+            // MediaKeyStatusMap
             setalluser(Object.values(data))
 
             // updateStarCount(postElement, data);
@@ -93,8 +98,8 @@ let [filtered,setfiltered]=useState([])
 
 useEffect(()=>{
   let thechilds=  alluser?.filter((elm)=>{
-    if(elm?.parentId){
-     return elm?.parentId===userId
+    if(elm?.parentId || elm?.id===userId){
+     return elm?.parentId===userId || elm?.id===userId
 
     }
     })
@@ -170,12 +175,36 @@ let [search , setsearch]=useState('')
 
 // console.log(Date.now())
 
-
+let [url ,seturl]=useState('')
 let [shareModal,setshareModal]=useState(false)
 
-let handleShareModal=()=>{
+let handleShareModal=(username)=>{
   setshareModal(!shareModal)
+  seturl(`https://64a5317f662c727509f19528--harmonious-stardust-887868.netlify.app/${username}`)
 }
+
+
+
+// -------------------------------------------------Sort functionality-------------------------------------------------
+
+
+const sortByAscending = () => {
+  const sortedData = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+  setfiltered(sortedData);
+};
+
+
+const sortByDescending = () => {
+  const sortedData = [...filtered].sort((a, b) => b.name.localeCompare(a.name));
+  setfiltered(sortedData);
+};
+
+
+
+let returnJobCompany=(job,company)=>{
+return `${job} at ${company}`
+}
+
 
   return (
     <div className="w-[100%] flex max-h-[100vh]">
@@ -184,7 +213,7 @@ let handleShareModal=()=>{
         user?.id ?
 
       <div className="w-[85%]  pb-4 overflow-y-scroll scrollbar-hide">
-      <ShareCardModal shareModal={shareModal} handleShareModal={handleShareModal}/>
+      <ShareCardModal shareModal={shareModal} handleShareModal={handleShareModal} url={url}/>
         <OptionModal modal={modal} handleModal={handleModal} user={user} handleTeamModal={handleTeamModal}/>
         <TeamProfileModal teamModal={teamModal} handleTeamModal={handleTeamModal} />
         <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
@@ -220,13 +249,12 @@ let handleShareModal=()=>{
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={selectVal}
-                  label="Age"
+                  label="Sort"
                   style={{ width: "150px", height: "40px" }}
                   onChange={handleChange}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value='A to Z' onClick={()=>sortByAscending()}>A to Z</MenuItem>
+                  <MenuItem value='Z to A' onClick={()=>sortByDescending()}>Z to A</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -270,9 +298,8 @@ let handleShareModal=()=>{
         </div> */}
 <div className="w-[100%] flex justify-center">
         <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4 ">
-          <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
+          {/* <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative ">
-              {/* <MdAdminPanelSettings className="absolute text-3xl text-[#0b567f] left-[5px] top-[5px]"/> */}
               <div className="h-[30px] w-[30px] absolute left-[5px] top-[5px] bg-white  rounded-full flex justify-center items-center">
               <MdAdminPanelSettings className=" text-2xl text-[#0b567f] "/>
               
@@ -328,7 +355,7 @@ let handleShareModal=()=>{
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           { filtered?.map((elm)=>{
             return <>
@@ -338,6 +365,8 @@ let handleShareModal=()=>{
                 { elm?.isSelf ?
               <BsPersonFill className=" text-xl text-[#0b567f] "/>
               :
+              
+              elm?.id===userId ?  <MdAdminPanelSettings className=" text-2xl text-[#0b567f] "/> :
               <BsFillPeopleFill className=" text-xl text-[#0b567f] "/>
                 }
               </div>
@@ -367,15 +396,19 @@ let handleShareModal=()=>{
               {elm?.name}
             </div>
             {elm?.job && elm?.company ?
-            <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
-              {elm?.job} at {elm?.company}
+            <div className="w-[100%] text-center mt-1 text-xs text-gray-400" >
+              {returnJobCompany(elm?.job,elm?.company).length<=52 ? returnJobCompany(elm?.job,elm?.company) : returnJobCompany(elm?.job,elm?.company).substring(0,51)+'...'}
             </div>
             :
             <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
               {elm?.job}
             </div>
           }
-            <div className="w-[100%]  mt-[13px] flex justify-center">
+
+          {/* {!elm?.job || !elm?.company ?
+
+          } */}
+            <div className="w-[100%]  mt-[13px] flex justify-center" style={elm?.job || elm?.company ?{marginTop:'13px'} : {marginTop:'28px'}}>
               <div className="h-[35px] w-[110px] border border-gray-500 rounded-2xl mr-2 flex items-center justify-center cursor-pointer " onClick={()=>navigate('/profileedit',{state:{id:elm?.id,name:elm?.name,profileUrl:elm?.profileUrl}})}>
                 <MdOutlineModeEdit className="text-gray-500"/>
                 <p className="text-sm font-medium ml-[3px] text-gray-500">
@@ -383,7 +416,7 @@ let handleShareModal=()=>{
                   Edit card
                 </p>
               </div>
-              <div className="h-[35px] w-[110px] border rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer" onClick={()=>handleShareModal()}>
+              <div className="h-[35px] w-[110px] border rounded-2xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer" onClick={()=>handleShareModal(elm?.userName)}>
                 <FaShare className="text-white"/>
                 <p className="text-sm font-medium ml-[3px] text-white">
                   Share card

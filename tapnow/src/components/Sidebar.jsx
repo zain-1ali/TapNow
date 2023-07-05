@@ -24,6 +24,9 @@ let logOut=()=>{
   })
 }
 
+
+let currentPath=window.location.href
+
   return (
     <div className="w-[15%] min-h-[100vh] border-r flex flex-col sticky">
       <div className="h-[90vh]  w-[100%] flex flex-col justify-between items-center">
@@ -40,8 +43,9 @@ let logOut=()=>{
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               onClick={()=>navigate("/home")}
+              style={currentPath.includes('/home') ? {backgroundColor :'#b2d9ee'}:null}
             >
-              <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
+              <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer" >
                 <BsFillPersonVcardFill className='text-[#0b567f] text-xl ml-2 '/>
                 <p className="ml-[10px] text-base ">My Profiles</p>
               </div>
@@ -49,6 +53,7 @@ let logOut=()=>{
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               onClick={()=>navigate("/contacts")}
+              style={currentPath.includes('/contacts') ? {backgroundColor :'#b2d9ee'}:null}
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <BsFillPeopleFill className='text-[#0b567f] text-xl ml-2 '/>
@@ -58,6 +63,7 @@ let logOut=()=>{
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               onClick={()=>navigate('/analytics')}
+              style={currentPath.includes('/analytics') ? {backgroundColor :'#b2d9ee'}:null}
 
               
             >
@@ -91,6 +97,7 @@ let logOut=()=>{
             <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               onClick={()=>navigate('/settings')}
+              style={currentPath.includes('/settings') ? {backgroundColor :'#b2d9ee'}:null}
             >
               
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">

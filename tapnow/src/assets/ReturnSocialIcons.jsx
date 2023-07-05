@@ -54,21 +54,25 @@ import custom from './socialLink/customlink.png'
 export const contactIcons=[
 {
     name:'Call',
+    title:'Call',
     img:call,
     placeholder:'Phone Number*'
 },
 {
     name:'Text',
+    title:'Text',
     img:text,
     placeholder:'Phone Number*'
 },
 {
     name:'Whatsapp',
+    title:'Whatsapp',
     img:whatsapp,
     placeholder:'Phone Number*'
 },
 {
     name:'Email',
+    title:'Email',
     img:email,
     placeholder:'Email*'
 },
@@ -79,21 +83,25 @@ export const contactIcons=[
 export const socialIcons=[
     {
         name:'Instagram',
+        title:'Instagram',
         img:instagram,
         placeholder:'Instagram Username*'
     },
     {
         name:'Facebook',
+        title:'Facebook',
         img:facebook,
         placeholder:'Facebook Profile Link*'
     },
     {
         name:'Tiktok',
+        title:'Tiktok',
         img:tiktok,
         placeholder:'Tiktok Username*'
     },
     {
         name:'Twitter',
+        title:'Twitter',
         img:twitter,
         placeholder:'Twitter Username*'
     },
@@ -113,22 +121,26 @@ export const socialIcons=[
     },
     {
         name:'Pinterest',
+        title:'Pinterest',
         img:pinterest,
         placeholder:'Pinterest Username*'
     },
     
     {
         name:'Youtube',
+        title:'Youtube',
         img:youtube,
         placeholder:'Youtube Chanel Url*'
     },
     {
         name:'Snapchat',
+        title:'Snapchat',
         img:snapchat,
         placeholder:'Snapchat Username*'
     },
     {
         name:'Telegram',
+        title:'Telegram',
         img:telegram,
         placeholder:'Telegram Number*'
     },
@@ -138,16 +150,19 @@ export const socialIcons=[
 
     {
         name:'Reddit',
+        title:'Reddit',
         img:reddit,
         placeholder:'reddit profile Url*'
     },
     {
         name:'Discord',
+        title:'Discord',
         img:discord,
         placeholder:'Discord server link*'
     },
     {
         name:'Tumblr',
+        title:'Tumblr',
         img:tumblr,
         placeholder:'Telegram Number*'
     },
@@ -158,16 +173,19 @@ export const socialIcons=[
     export const media=[
         {
             name:'Spotify',
+           title :'Spotify',
             img:spotify,
             placeholder:'Spotify link*'
         },
         {
             name:'Apple Music',
+            title:'AppleMusic',
             img:applemusic,
             placeholder:'Link to Apple Music*'
         },
         {
             name:'SoundCloud',
+           title :'SoundCloud',
             img:soundcloud,
             placeholder:'SoundCloud username*'
         },
@@ -179,11 +197,13 @@ export const socialIcons=[
         export const payment=[
             {
                 name:'Cash App',
+                title:'CashApp',
                 img:cashapp,
                 placeholder:'Cash App username*'
             },
             {
                 name:'PayPal',
+                title:'PayPal',
                 img:paypal,
                 placeholder:'paypal.me link*'
             },
@@ -194,16 +214,19 @@ export const socialIcons=[
             export const more=[
                 {
                     name:'Website',
+                   title :'Website',
                     img:website,
                     placeholder:'Website link*'
                 },
                 {
                     name:'Calendly',
+                    title:'Calendly',
                     img:calendly,
                     placeholder:'Calendly link*'
                 },
                 {
                     name:'Custom link',
+                    title:'Custom',
                     img:custom,
                     placeholder:'Custom link*'
                 },

@@ -5,6 +5,7 @@ import singleLinkHandeler from './Singlelinkslice'
 import userInfoHandeler from './UserinfoSlice'
 import authHandeler from './Authslice'
 import adminHandeler from './Adminslice'
+import LinkHandeler from './LinksSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     singleLinkHandeler:singleLinkHandeler,
     userInfoHandeler:userInfoHandeler,
     authHandeler:authHandeler,
-    adminHandeler:adminHandeler
+    adminHandeler:adminHandeler,
+    LinkHandeler:LinkHandeler
 
   },
 })
