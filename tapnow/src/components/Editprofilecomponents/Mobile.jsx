@@ -185,7 +185,7 @@ link?.map((elm)=>{
 
 <div className="w-[70%] flex flex-col justify-evenly">
 <h2 className="font-medium ">{elm?.name?.length<17?elm?.name : elm?.name?.substring(0,16)+'...'}</h2>
-<p className="text-[10px] w-[90%] break-all">{elm?.description?.length<56?elm?.description : elm?.description.substring(0,56)+'...'}</p>
+<p className="text-[10px] w-[90%] break-all">{elm?.description?.length<56?elm?.description : elm?.description?.substring(0,56)+'...'}</p>
 {/* 68 */}
 </div>
 </div>

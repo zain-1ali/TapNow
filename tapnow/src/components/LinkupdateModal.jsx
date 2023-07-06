@@ -4,7 +4,7 @@ import Mobilecontainer from "./Editprofilecomponents/Mobilecontainer";
 import Mobile from "./Editprofilecomponents/Mobile";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Switch } from "@mui/material";
-import {update,ref, remove} from 'firebase/database'
+import { update, ref, remove, set } from "firebase/database";
 
 import {
   openLinkModal,
@@ -15,112 +15,140 @@ import {
 } from "../Redux/Modalslice";
 import { addLink, changeLinkName, removeLink } from "../Redux/Singlelinkslice";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css';
+import "react-toastify/dist/ReactToastify.min.css";
 import { db } from "../Firebase";
-import {AiTwotoneDelete} from 'react-icons/ai'
+import { AiTwotoneDelete } from "react-icons/ai";
 import { setLinkDescription, setLinkHighlight } from "../Redux/UserinfoSlice";
 
 const LinkupdateModal = ({ user, link }) => {
   let dispatch = useDispatch();
 
- 
- 
   // ----------------------------------------------------State from redux---------------------------------------------
   const singlelink = useSelector(
     (state) => state.singleLinkHandeler.singleLink
   );
 
-
-
-
-  let [theLink,settheLink] = useState({
+  let [theLink, settheLink] = useState({
     isHide: false,
     isHighLighted: false,
     name: singlelink.name,
     title: "",
     value: "",
-    description:""
+    description: "",
   });
 
   // ----------------------------------------------------Finding link to update---------------------------------------------
 
-  let  linkToUpdate=link?.filter((elm)=>{
-return singlelink.title===elm?.title
-  })
+  let linkToUpdate = link?.filter((elm) => {
+    return singlelink.title === elm?.title;
+  });
 
-
-  useEffect(()=>{
-    if(linkToUpdate[0]){
-    settheLink({
+  useEffect(() => {
+    if (linkToUpdate[0]) {
+      settheLink({
         isHide: linkToUpdate[0]?.isHide,
-        isHighLighted:linkToUpdate[0]?.isHighLighted ,
+        isHighLighted: linkToUpdate[0]?.isHighLighted,
         name: linkToUpdate[0]?.name,
         title: linkToUpdate[0]?.title,
         value: linkToUpdate[0]?.value,
-        description:linkToUpdate[0]?.description
-      })
+        description: linkToUpdate[0]?.description,
+      });
     }
-    console.log(linkToUpdate)
-  },[linkToUpdate[0]])
+    console.log(linkToUpdate);
+  }, [linkToUpdate[0]]);
 
-console.log(theLink.name)
+  console.log(theLink.name);
 
-  
-
-
-
- 
   // ----------------------------------------------------handle Link Hihlight---------------------------------------------
 
-
-  let handleLinkHihlight=()=>{
-    if(theLink.isHighLighted){
-      settheLink({...theLink,isHighLighted:false})
-      dispatch(setLinkHighlight(false))
-
+  let handleLinkHihlight = () => {
+    if (theLink.isHighLighted) {
+      settheLink({ ...theLink, isHighLighted: false });
+      dispatch(setLinkHighlight(false));
+    } else {
+      settheLink({ ...theLink, isHighLighted: true });
+      dispatch(setLinkHighlight(true));
     }
-    else{
-      settheLink({...theLink,isHighLighted:true})
-      dispatch(setLinkHighlight(true))
+  };
 
-    }
-  }
+  // ------------------------------------------Validation Function----------------------------------------------
 
+  let isURL = (str) => {
+    // Regular expression pattern for URL validation
+    const urlPattern =
+      /^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]+)+(?:\/[\w-]+)*\/?$/;
 
+    // Test the string against the pattern
+    return urlPattern.test(str);
+  };
 
   // ----------------------------------------------------Add link to database---------------------------------------------
 
-
-
-
-  const addData = () => {
+  const addData = (title) => {
     if (theLink.value && theLink.name) {
-        
-        update(ref(db, `User/${user?.id}/links/${singlelink.title}`),  theLink).then(()=>{
-          toast.success('Link updated successfuly')
-settheLink({
-  
-    isHide: false,
-    isHighLighted: false,
-    name: singlelink.name,
-    title: "",
-    value: "",
-    description:""
-  
-})
-        });
-    }
-}
+      let toUpdate = link.filter((elm) => {
+        return theLink.title != elm.title;
+      });
 
+      if (
+        title.includes("Link") ||
+        title.includes("link") ||
+        title.includes("Url")
+      ) {
+        if (isURL(theLink.value)) {
+          set(ref(db, `User/${user?.id}/links/`), [...toUpdate, theLink]).then(
+            () => {
+              toast.success("Link updated successfuly");
+
+              settheLink({
+                isHide: false,
+                isHighLighted: false,
+                name: singlelink.name,
+                title: "",
+                value: "",
+                description: "",
+              });
+
+              dispatch(openLinkModal()),
+              dispatch(removeLink());
+            }
+          );
+        } else {
+          toast.error("Invalid link or url");
+        }
+      } else {
+        set(ref(db, `User/${user?.id}/links/`), [...toUpdate, theLink]).then(
+          () => {
+            toast.success("Link updated successfuly");
+            settheLink({
+              isHide: false,
+              isHighLighted: false,
+              name: singlelink.name,
+              title: "",
+              value: "",
+              description: "",
+            });
+            dispatch(openLinkModal()),
+            dispatch(removeLink());
+          }
+        );
+      }
+    }
+  };
 
   // ----------------------------------------------------Delete link to database---------------------------------------------
 
+  const handleDelete = () => {
+    let toUpdate = link?.filter((elm) => {
+      return elm.title != singlelink.title;
+    });
 
-
-const handleDelete = () => {
-    remove(ref(db, `User/${user?.id}/links/${singlelink.title}`))
-    toast.success('Link deleted successfuly')
-}
+    if (toUpdate) {
+      set(ref(db, `User/${user?.id}/links/`), [...toUpdate]).then(() => {
+        toast.success("Link deleted successfuly");
+      });
+    }
+  };
 
   return (
     <>
@@ -128,7 +156,12 @@ const handleDelete = () => {
         <div className="w-[65%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
-            onClick={() => {dispatch(openLinkModal()),dispatch(removeLink()),dispatch(setLinkHighlight(false)),dispatch(setLinkDescription(''))}}
+            onClick={() => {
+              dispatch(openLinkModal()),
+                dispatch(removeLink()),
+                dispatch(setLinkHighlight(false)),
+                dispatch(setLinkDescription(""));
+            }}
           >
             {/* <svg
             className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall cursor-pointer css-1k33q06"
@@ -160,20 +193,22 @@ const handleDelete = () => {
             <span className="MuiSwitch-track css-1ju1kxc"></span>
           </span> */}
             <Switch
-            checked={theLink.isHighLighted}
-            onChange={() =>
-              handleLinkHihlight()
-            }
+              checked={theLink.isHighLighted}
+              onChange={() => handleLinkHihlight()}
             />
             <p className="ml-1 text-sm font-medium">Highlight</p>
           </div>
           <div className="mt-5">
             <h3 className="text-sm font-medium">{singlelink.placeholder}</h3>
             <input
-              type="text"
+              type={`${
+                singlelink.placeholder.includes("Number") ? "number" : "text"
+              }`}
               placeholder="Phone number"
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>settheLink({...theLink,value:e.target.value})}
+              onChange={(e) =>
+                settheLink({ ...theLink, value: e.target.value })
+              }
               value={theLink.value}
             />
           </div>
@@ -183,54 +218,76 @@ const handleDelete = () => {
               type="text"
               placeholder={singlelink.name}
               className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>{settheLink({...theLink,name:e.target.value}),dispatch(changeLinkName(e.target.value))}}
+              onChange={(e) => {
+                settheLink({ ...theLink, name: e.target.value }),
+                  dispatch(changeLinkName(e.target.value));
+              }}
               // ,dispatch(changeLinkName(e.target.value))
               value={theLink.name}
             />
           </div>
-{
-  theLink.isHighLighted &&
-
-          <div className="mt-6">
-            <h3 className="text-sm font-medium">Description</h3>
-            <input
-              type="text"
-              placeholder="description"
-              className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
-              onChange={(e)=>{settheLink({...theLink,description:e.target.value}) ,dispatch(setLinkDescription(e.target.value))}}
-              // ,dispatch(setLinkDescription(e.target.value))
-              value={theLink.description}
-            />
-          </div>
-         } 
+          {theLink.isHighLighted && (
+            <div className="mt-6">
+              <h3 className="text-sm font-medium">Description</h3>
+              <input
+                type="text"
+                placeholder="description"
+                className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                onChange={(e) => {
+                  settheLink({ ...theLink, description: e.target.value }),
+                    dispatch(setLinkDescription(e.target.value));
+                }}
+                // ,dispatch(setLinkDescription(e.target.value))
+                value={theLink.description}
+              />
+            </div>
+          )}
           <div className="w-[55%] h-[70px]  absolute bottom- flex justify-between items-center mt-5">
-
-<div className=" flex h-[40px] w-[100px] justify-center items-center cursor-pointer rounded-3xl hover:bg-[#f7f7f7]" onClick={()=>{handleDelete(),dispatch(openLinkModal()),dispatch(removeLink())}}>
-<AiTwotoneDelete className="text-red-600 text-lg mr-[1px]"/>
-<h1 class="text-red-600  font-medium ml-[1px]">Remove</h1>
-</div>
-
+            <div
+              className=" flex h-[40px] w-[100px] justify-center items-center cursor-pointer rounded-3xl hover:bg-[#f7f7f7]"
+              onClick={() => {
+                handleDelete(),
+                  dispatch(openLinkModal()),
+                  dispatch(removeLink());
+              }}
+            >
+              <AiTwotoneDelete className="text-red-600 text-lg mr-[1px]" />
+              <h1 class="text-red-600  font-medium ml-[1px]">Remove</h1>
+            </div>
 
             <div className="flex justify-between items-center w-[250px]">
-              <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white" onClick={() => {dispatch(openLinkModal()),dispatch(removeLink())}}>
+              <div
+                className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
+                onClick={() => {
+                  dispatch(openLinkModal()), dispatch(removeLink());
+                }}
+              >
                 <p className="text-sm font-medium ml-[3px] ">Cancel</p>
               </div>
-              <div className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer" style={theLink.value && theLink.name ? {backgroundColor:'black',color:'white'}:{backgroundColor:'#f7f7f7',color:'#a6a3af'}} onClick={()=>{addData(),dispatch(openLinkModal()),dispatch(removeLink())}}>
-                <p className="text-sm font-medium ml-[3px] ">
-                  Update
-                </p>
+              <div
+                className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
+                style={
+                  theLink.value && theLink.name
+                    ? { backgroundColor: "black", color: "white" }
+                    : { backgroundColor: "#f7f7f7", color: "#a6a3af" }
+                }
+                onClick={() => 
+                  addData(singlelink.placeholder)
+                }
+           
+              >
+                <p className="text-sm font-medium ml-[3px] ">Update</p>
               </div>
             </div>
           </div>
         </div>
         {/* <div className="w-[35%] h-[100%] border-l relative "> */}
-          <div className="w-[35%] border-l flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
-            <Mobile user={user} link={link} />
-          </div>
+        <div className="w-[35%] border-l flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
+          <Mobile user={user} link={link} />
+        </div>
         {/* </div> */}
       </div>
-      <ToastContainer position="top-center" autoClose={2000} />
-
+      {/* <ToastContainer position="top-center" autoClose={2000} /> */}
     </>
   );
 };

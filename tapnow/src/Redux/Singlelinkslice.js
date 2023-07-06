@@ -19,6 +19,9 @@ export const linkSlice = createSlice({
       changeLinkName: (state,action) => {
         state.singleLink.name=action.payload
       },
+      changeLinkTitle: (state,action) => {
+        state.singleLink.title=action.payload
+      },
       
   
       removeLink: (state) => {
@@ -34,6 +37,6 @@ export const linkSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addLink,removeLink,changeLinkName } = linkSlice.actions;
+export const { addLink,removeLink,changeLinkName,changeLinkTitle } = linkSlice.actions;
 
 export default linkSlice.reducer;

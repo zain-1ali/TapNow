@@ -39,8 +39,11 @@ const LeadForm = ({user}) => {
 }
       </div>
       <div class=" w-[100%] flex justify-center mt-3 ">
-        <div class="h-[30px] w-[90%] bg-[#2f80ed] flex justify-center items-center text-sm font-medium text-white rounded-lg">
-          Connect
+        <div class="h-[30px] w-[40%] mr-2 bg-[#0b567f] flex justify-center items-center text-sm font-medium text-white rounded-2xl">
+          Submit
+        </div>
+        <div class="h-[30px] w-[40%] ml-2 bg-[#0b567f] flex justify-center items-center text-sm font-medium text-white rounded-2xl">
+          Cancel
         </div>
       </div>
     </div>

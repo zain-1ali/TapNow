@@ -108,7 +108,7 @@ linkModal &&
                     contactIcons.map((elm)=>{
 return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5  relative" onClick={checkAdded(elm?.name) ? ()=>{addlinkname(elm?.name), dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
     {
-    checkAdded(elm?.name) &&
+    checkAdded(elm?.title) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
 }
 <div className="flex justify-between items-center w-[100%]">
@@ -141,7 +141,7 @@ return <div className=" h-[70px] shadow-sm w-[270px] rounded-xl  bg-[#f7f7f7] ho
 return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
-    checkAdded(elm?.name) &&
+    checkAdded(elm?.title) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
 }
 
@@ -173,10 +173,10 @@ return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7
                   {/* flex justify-around flex-wrap */}
                     {
                         media?.map((elm)=>{
-return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.title)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
-    checkAdded(elm?.name) &&
+    checkAdded(elm?.title) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
 }
 
@@ -210,7 +210,7 @@ return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7
 return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.title)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
-    checkAdded(elm?.name) &&
+    checkAdded(elm?.title) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
 }
 
@@ -243,10 +243,10 @@ return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7
                   {/* flex justify-around flex-wrap */}
                     {
                         more?.map((elm)=>{
-return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.name)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
+return        <div className=" h-[70px] shadow-sm w-[270px] rounded-xl   bg-[#f7f7f7] hover:bg-white hover:shadow-xl cursor-pointer p-2 flex items-center mt-5 relative" onClick={checkAdded(elm?.title)?()=>{dispatch(openLinkUpdateModal()),dispatch(addLink(elm))}:()=>{dispatch(openLinkEditModal()),dispatch(addLink(elm))}}>
 
 {
-    checkAdded(elm?.name) &&
+    checkAdded(elm?.title) &&
 <HiBadgeCheck className='absolute right-[-4px] top-[-7px] text-green-500 text-2xl'/>
 }
 

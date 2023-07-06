@@ -111,11 +111,13 @@ export const socialIcons=[
 
     {
         name:'Linkedin',
+        title:'Linkedin',
         img:linkedin,
         placeholder:'Linkedin Profile Link*'
     },
     {
         name:'Twitch',
+        title:'Twitch',
         img:twitch,
         placeholder:'Twitch Username*'
     },
@@ -164,7 +166,7 @@ export const socialIcons=[
         name:'Tumblr',
         title:'Tumblr',
         img:tumblr,
-        placeholder:'Telegram Number*'
+        placeholder:'Tumblr Profile Link*'
     },
     ]
 
@@ -225,7 +227,7 @@ export const socialIcons=[
                     placeholder:'Calendly link*'
                 },
                 {
-                    name:'Custom link',
+                    name:'Custom Link',
                     title:'Custom',
                     img:custom,
                     placeholder:'Custom link*'
@@ -300,6 +302,22 @@ else if (name==='Cash App') {
 else if (name==='PayPal') {
     return paypal
 }
+else if (name==='Calendly') {
+    return calendly
+}
+else if (name==='Website') {
+    return website
+}
+else if (name==='Custom') {
+    return custom
+}
+else if (name==='CashApp') {
+    return cashapp
+}
+else if (name==='AppleMusic') {
+    return applemusic
+}
+
     }
 
 

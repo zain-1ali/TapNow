@@ -24,6 +24,7 @@ const isAuth = useSelector((state) => state.authHandeler.isAuthenticated)
 useEffect(()=>{
   setAuth(currentUser)
 },[])
+
   const RequireAuth = ({ children }) => {
     return isAuth ? children : <Navigate to='/' />
   }

@@ -69,7 +69,7 @@ dispatch(setFormHeader(user?.formHeader))
                 // MediaKeyStatusMap
                 setuser(data)
                 setlink(Object.values(data?.links))
-                dispatch(Object.values(data?.links))
+                dispatch(Addlinks(Object.values(data?.links)))
 
 
   

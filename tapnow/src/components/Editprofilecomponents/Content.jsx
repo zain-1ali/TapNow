@@ -4,7 +4,7 @@ import { GrAdd } from "react-icons/gr";
 import Switch from "@mui/material/Switch";
 import { RiAddFill } from "react-icons/ri";
 import { returnIcons } from "../../assets/ReturnSocialIcons";
-import { ref, update } from "firebase/database";
+import { ref, set, update } from "firebase/database";
 import { db } from "../../Firebase";
 import { useSelector,useDispatch } from "react-redux";
 import { openLinkModal,openLinkEditModal,openLinkUpdateModal,openModal,closeAllModal } from '../../Redux/Modalslice'
@@ -50,8 +50,36 @@ let dispatch =useDispatch()
   // Handle to hide or show link
 
   let handleHidelLink = (title, value) => {
-    update(ref(db, `User/${user?.id}/links/${title}`), { isHide: !value });
-  };
+    // const objectToUpdate = link?.find(obj => obj?.title === title);
+    // if (objectToUpdate) {
+    //   Update the value of the desired property
+    //   objectToUpdate.isHide = !value;
+
+    //   Update the array in the Firebase Realtime Database
+    //   set(ref(db, `User/${user?.id}/links/`), [...link]);
+
+    // }
+
+
+
+ // Find the index of the object with the given ID
+ const objectIndex = link?.findIndex(obj => obj.title === title);
+
+ // Check if the object exists
+ if (objectIndex !== -1) {
+   // Create a copy of the object
+   const updatedObject = { ...link[objectIndex] };
+
+   // Update the value of the desired property
+   updatedObject.isHide = !value;
+
+   // Create a new array with the updated object
+   const updatedArray = [...link];
+   updatedArray[objectIndex] = updatedObject;
+      set(ref(db, `User/${user?.id}/links/`), [...updatedArray]);
+
+
+  };}
 
    // Add to direct
 
@@ -77,8 +105,24 @@ const handleDragEnd = (result) => {
   const updatedItems = [...items];
   const [movedItem] = updatedItems.splice(result.source.index, 1);
   updatedItems.splice(result.destination.index, 0, movedItem);
-dispatch(Addlinks(updatedItems))
-  // setItems(updatedItems);
+// dispatch(Addlinks(updatedItems))
+  setItems(updatedItems);
+
+// Convert array of object into object of object 
+// const objectOfObjects = {};
+
+// updatedItems.forEach((obj,index)  => {
+//   const { title, ...rest } = obj;
+//   objectOfObjects[title] = {title,...rest,index};
+// });
+
+// updating at firebase 
+
+
+ set(ref(db, `User/${user?.id}/links/`),  [...updatedItems] ).then(()=>{
+  console.log(objectOfObjects)
+});
+
 };
 
   return (
@@ -166,7 +210,8 @@ dispatch(Addlinks(updatedItems))
   <Droppable droppableId="droppable">
     {(provided) => (
       <div {...provided.droppableProps} ref={provided.innerRef}>
-        {allLinks?.map((elm, index) => (
+        {/* allLinks */}
+        {items?.map((elm, index) => (
           <Draggable key={elm.title} draggableId={elm.title} index={index}>
             {(provided) => (
               <div
