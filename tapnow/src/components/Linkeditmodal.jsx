@@ -61,7 +61,11 @@ const Linkeditmodal = ({ user, link }) => {
 
   const addData = (title) => {
     if (theLink.value && theLink.name) {
-      if (title.includes("Link") || title.includes("link") || title.includes("Url")) {
+      if (
+        title.includes("Link") ||
+        title.includes("link") ||
+        title.includes("Url")
+      ) {
         if (isURL(theLink.value)) {
           if (link) {
             set(ref(db, `User/${user?.id}/links/`), [...link, theLink]).then(
@@ -83,7 +87,7 @@ const Linkeditmodal = ({ user, link }) => {
             );
           }
         } else {
-          toast.error("Invalid url or profile link");
+          toast.error("Invalid url or link");
         }
       } else {
         if (link) {
@@ -194,7 +198,7 @@ const Linkeditmodal = ({ user, link }) => {
               />
             </div>
           )}
-          <div className="w-[55%] h-[70px]  absolute bottom- flex flex-row-reverse ">
+          <div className="w-[50%] h-[70px]  absolute bottom- flex justify-center mt-2">
             <div className="flex justify-between items-center w-[250px]">
               <div
                 className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
@@ -211,12 +215,12 @@ const Linkeditmodal = ({ user, link }) => {
                 className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
                 style={
                   theLink.value && theLink.name
-                    ? { backgroundColor: "black", color: "white" }
+                    ? { backgroundColor: "#0b567f", color: "white" }
                     : { backgroundColor: "#f7f7f7", color: "#a6a3af" }
                 }
                 onClick={() => addData(singlelink.placeholder)}
               >
-                <p className="text-sm font-medium ml-[3px] ">Update</p>
+                <p className="text-sm font-medium ml-[3px] ">Add</p>
               </div>
             </div>
           </div>

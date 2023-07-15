@@ -466,7 +466,7 @@ const addData = async () => {
           <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white">
             <p className="text-sm font-medium ml-[3px] ">Cancel</p>
           </div>
-          <div className="h-[40px] w-[120px] border rounded-3xl ml-2 bg-black flex items-center justify-center cursor-pointer" onClick={()=>addData()}>
+          <div className="h-[40px] w-[120px] border rounded-3xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer" onClick={()=>addData()}>
             <p className="text-sm font-medium ml-[3px] text-white">Update</p>
           </div>
         </div>

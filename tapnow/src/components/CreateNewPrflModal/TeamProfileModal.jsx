@@ -118,8 +118,8 @@ let parentId=localStorage.getItem('tapNowUid')
           <div class="w-[70%] mt-3"><h2 class="text-sm font-medium ">User Name</h2><input type="text" placeholder="User name" class="mt-2 outline-none border-none w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm" onChange={(e) => { setdata({ ...data, userName: e.target.value }) }} value={data.userName}/></div>
 
           <div className='w-[100%] flex justify-center mt-7'>
-          <div class="  w-[37%] h-[40px] bg-black rounded-3xl text-white flex justify-center items-center cursor-pointer mr-2" onClick={()=>addData()}>Create Account</div>
-          <div class="  w-[37%] h-[40px] bg-black rounded-3xl text-white flex justify-center items-center cursor-pointer ml-2" onClick={()=>handleTeamModal()}>Cancel</div>
+          <div class="  w-[37%] h-[40px] bg-[#0b567f] rounded-3xl text-white flex justify-center items-center cursor-pointer mr-2" onClick={()=>addData()}>Create Account</div>
+          <div class="  w-[37%] h-[40px] bg-[#0b567f] rounded-3xl text-white flex justify-center items-center cursor-pointer ml-2" onClick={()=>handleTeamModal()}>Cancel</div>
 
           </div>
 

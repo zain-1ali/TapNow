@@ -211,7 +211,7 @@ const Qrcode = ({user}) => {
       </div>
       <div class="w-[95%] h-[70px]  absolute bottom-[30px] right-[20px] flex flex-row-reverse ">
         <div class="flex justify-end items-center w-[250px]" onClick={()=>addData()}>
-          <div class="h-[40px] w-[120px] border rounded-3xl mr-2 bg-black flex items-center justify-center cursor-pointer">
+          <div class="h-[40px] w-[120px] border rounded-3xl mr-2 bg-[#0b567f] flex items-center justify-center cursor-pointer">
             <p class="text-sm font-medium ml-[3px] text-white">Update</p>
           </div>
         </div>

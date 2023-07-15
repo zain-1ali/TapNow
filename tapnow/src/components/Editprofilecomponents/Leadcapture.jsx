@@ -200,8 +200,8 @@ else{
           </div>
         </div>
       </div>
-      <div class="w-[100%] flex justify-end mt-3" onClick={()=>addData()}>
-        <div class="h-[40px] w-[120px] border rounded-3xl mr-2 bg-black flex items-center justify-center cursor-pointer">
+      <div class="w-[100%] flex justify-end mt-[35px]" onClick={()=>addData()}>
+        <div class="h-[40px] w-[120px] border rounded-3xl mr-2 bg-[#0b567f] flex items-center justify-center cursor-pointer">
           <p class="text-sm font-medium ml-[3px] text-white">Update</p>
         </div>
       </div>

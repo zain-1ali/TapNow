@@ -268,7 +268,7 @@ const LinkupdateModal = ({ user, link }) => {
                 className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
                 style={
                   theLink.value && theLink.name
-                    ? { backgroundColor: "black", color: "white" }
+                    ? { backgroundColor: "#0b567f", color: "white" }
                     : { backgroundColor: "#f7f7f7", color: "#a6a3af" }
                 }
                 onClick={() => 

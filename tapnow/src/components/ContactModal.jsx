@@ -65,10 +65,10 @@ Are you sure to delete this contact ?
 </div>
 
 <div className='w-[100%] flex justify-center mt-4'>
-<div className='h-[40px] w-[100px] bg-black mr-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>deleteContact()}>
+<div className='h-[40px] w-[100px] bg-[#0b567f] mr-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>deleteContact()}>
 Yes
 </div>
-<div className='h-[40px] w-[100px] bg-black ml-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={() =>{handlecontactModal(),handledeleteModal()}}>
+<div className='h-[40px] w-[100px] bg-[#0b567f] ml-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={() =>{handlecontactModal(),handledeleteModal()}}>
 Cancel
 </div>
 </div>
@@ -77,7 +77,7 @@ Cancel
 :
 <>
     <div className='mt-3'>
-<img src={contactDetails?.imgUrl} alt="" className='h-[80px] w-[80px] rounded-full shadow-lg ml-5'/>
+<img src={contactDetails?.imgUrl ? contactDetails?.imgUrl : 'https://placehold.co/80x80'} alt="" className='h-[80px] w-[80px] rounded-full shadow-lg ml-5'/>
     </div>
 
 

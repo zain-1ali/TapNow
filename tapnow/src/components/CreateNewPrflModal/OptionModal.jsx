@@ -66,19 +66,19 @@ let createSelfProfile=()=>{
     <div className='w-[94%] flex justify-end  mt-[6px]'> 
     <RxCross2 className="text-black cursor-pointer" onClick={() =>handleModal()}/>
     </div>
-<div className='w-[90%]  h-[25px]  font-medium text-lg'>
+<div className='w-[90%]  h-[25px]  font-medium text-lg text-[#0b567f]'>
 Who is this card for ?
 </div>
 <div className='w-[100%] flex justify-center mt-3'>
 <div className='border h-[100px] w-[120px] rounded-xl mr-4 flex flex-col items-center justify-center cursor-pointer' onClick={()=>setshowmsg(true)}>
-<BsFillPersonFill className='text-3xl'/>
-<h2 className='font-medium text-sm'>Myself</h2>
+<BsFillPersonFill className='text-3xl  text-[#0b567f]'/>
+<h2 className='font-medium text-sm text-[#0b567f]'>Myself</h2>
 </div>
 
 
 <div className='border h-[100px] w-[120px] rounded-xl ml-4 flex flex-col items-center justify-center cursor-pointer' onClick={()=>{handleTeamModal(),handleModal()}}>
-<BsFillPeopleFill className='text-3xl'/>
-<h2 className='font-medium text-sm'>A Team Member</h2>
+<BsFillPeopleFill className='text-3xl text-[#0b567f]'/>
+<h2 className='font-medium text-sm text-[#0b567f]'>A Team Member</h2>
 </div>
 </div> 
 </>
@@ -87,16 +87,16 @@ Who is this card for ?
 <>
 
 <div className='w-[100%] flex justify-center mt-12'>
-<h2 className='text-lg font-medium'>
+<h2 className='text-lg font-medium text-[#0b567f]'>
 Are you sure to create a new profile ?
 </h2>
 </div>
 
 <div className='w-[100%] flex justify-center mt-4'>
-<div className='h-[40px] w-[100px] bg-black mr-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>createSelfProfile()}>
+<div className='h-[40px] w-[100px] bg-[#0b567f] mr-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>createSelfProfile()}>
 Yes
 </div>
-<div className='h-[40px] w-[100px] bg-black ml-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>{handleModal(),setshowmsg(false)}}>
+<div className='h-[40px] w-[100px] bg-[#0b567f] ml-2 rounded-full text-white flex justify-center items-center cursor-pointer' onClick={()=>{handleModal(),setshowmsg(false)}}>
 No
 </div>
 </div>
