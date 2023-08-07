@@ -6,6 +6,9 @@ import ProfileEditing from "../components/SettingsComponent/ProfileEditing";
 import Organization from "../components/SettingsComponent/Organization";
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
+import TheDrawer from "../components/Drawer";
+import MobileScreenUpper from "../components/MobileScreenUpper";
+import { useMediaQuery } from "react-responsive";
 
 const Settings = ({ userId }) => {
   let [value, setValue] = useState(0);
@@ -34,9 +37,27 @@ const Settings = ({ userId }) => {
     getingdata();
   }, []);
 
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+
+  let [drawer, setDrawer] = useState(false);
+
+  let handleDrawer = () => {
+    setDrawer(!drawer);
+    // console.log("test");
+  };
+
+  let closeDrawer = () => {
+    setDrawer(false);
+  };
+
   return (
-    <div className="flex w-[100%]">
-      <Sidebar user={user} />
+    <div className="laptop:flex w-[100%]">
+      {isDesktopOrLaptop && <Sidebar />}
+      {isTabletOrMobile && <MobileScreenUpper handleDrawer={handleDrawer} />}
+      <TheDrawer drawer={drawer} handleDrawer={closeDrawer} />
 
       <div className="w-[100%] flex items-center flex-col">
         <div class=" w-[100%] h-[100px] mt-[35px] flex justify-center">

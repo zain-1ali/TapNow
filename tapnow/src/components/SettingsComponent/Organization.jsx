@@ -1,54 +1,52 @@
 import { ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import {MdOutlineKeyboardArrowDown} from 'react-icons/md'
-import {RiArrowLeftSLine,RiArrowRightSLine} from 'react-icons/ri'
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { db } from "../../Firebase";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css';
+import "react-toastify/dist/ReactToastify.min.css";
 
-const Organization = ({user}) => {
+const Organization = ({ user }) => {
+  let [organization, SetOrganization] = useState("");
 
-  let [organization,SetOrganization]=useState('')
+  useEffect(() => {
+    user.organization && SetOrganization(user.organization);
+  }, [user]);
 
-
-  useEffect(()=>{ 
-    user.organization &&  SetOrganization(user.organization)
-    },[user])
- 
-  let addData=()=>{
-    if(organization)
-    update(ref(db, `User/${user?.id}`), { organization }).then(()=>{
-      toast.success('Information updated successfuly')
-  });
-  }
-
-
+  let addData = () => {
+    if (organization)
+      update(ref(db, `User/${user?.id}`), { organization }).then(() => {
+        toast.success("Information updated successfuly");
+      });
+  };
 
   return (
     <div class="mt-[35px]">
       <div>
-        <div class="w-[100%]  flex justify-between h-max">
-          <div class="w-[30%]  h-[170px]">
+        <div class="w-[100%]  lg:flex lg:justify-between ">
+          <div class="lg:w-[30%] w-[90%]  lg:h-[170px]">
             <div class="text-lg font-[500]">Organization Settings</div>
           </div>
-          <div class="w-[60%] border h-[170px] rounded-md shadow-md p-5">
+          <div class="lg:w-[60%] w-[90%] border lg:h-[170px] lg:mt-0 mt-3 rounded-md shadow-md p-5">
             <div>
               <p class="text-sm font-[500] mb-1">Organization Name</p>
               <input
                 type="text"
                 class="border outline-none w-[65%] h-[45px] rounded-md p-2  "
-                onChange={(e)=>SetOrganization(e.target.value)}
+                onChange={(e) => SetOrganization(e.target.value)}
                 value={organization}
               />
             </div>
             <div class="mt-[16px] border-t flex items-center h-[60px]">
-              <div class="flex justify-center items-center h-[38px] w-[75px] rounded-md bg-[#0b567f] text-white font-[500] cursor-pointer text-sm " onClick={()=>addData()}>
+              <div
+                class="flex justify-center items-center h-[38px] w-[75px] rounded-md bg-[#0b567f] text-white font-[500] cursor-pointer text-sm "
+                onClick={() => addData()}
+              >
                 Save
               </div>
             </div>
           </div>
-      <ToastContainer position="top-center" autoClose={2000} />
-
+          <ToastContainer position="top-center" autoClose={2000} />
         </div>
         {/* <div class="border mt-7"></div> */}
 

@@ -5,9 +5,7 @@ import { CircularProgress } from "@mui/material";
 
 const Mobilecontainer = ({ user, link }) => {
   let openProfile = () => {
-    window.open(
-      `https://64ad38d81eab7a15ab5ad2b5--jolly-brigadeiros-9ab0fa.netlify.app/${user?.userName}`
-    );
+    window.open(`https://tapnowprofile.link2avicenna.com/${user?.userName}`);
     // ${import.meta.env.VITE_PROFILE_URL}
   };
   return (

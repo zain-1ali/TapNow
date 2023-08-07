@@ -20,10 +20,18 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { getData } from "../Redux/Adminslice";
 import { useDispatch } from "react-redux";
 import ShareCardModal from "../components/ShareCardModal";
+import { useMediaQuery } from "react-responsive";
+import MobileScreenUpper from "../components/MobileScreenUpper";
+import TheDrawer from "../components/Drawer";
+// import { Drawer } from "@mui/material";
 
 const Home = () => {
   let dispatch = useDispatch();
   let [selectVal, setselectVal] = useState("Sort");
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
   let handleChange = (event) => {
     setselectVal(event.target.value);
   };
@@ -160,9 +168,7 @@ const Home = () => {
 
   let handleShareModal = (username) => {
     setshareModal(!shareModal);
-    seturl(
-      `https://64ad38d81eab7a15ab5ad2b5--jolly-brigadeiros-9ab0fa.netlify.app/${username}`
-    );
+    seturl(`https://tapnowprofile.link2avicenna.com/${username}`);
   };
 
   // -------------------------------------------------Sort functionality-------------------------------------------------
@@ -185,11 +191,24 @@ const Home = () => {
     return `${job} at ${company}`;
   };
 
+  let [drawer, setDrawer] = useState(false);
+
+  let handleDrawer = () => {
+    setDrawer(!drawer);
+    // console.log("test");
+  };
+
+  let closeDrawer = () => {
+    setDrawer(false);
+  };
+
   return (
-    <div className="w-[100%] flex max-h-[100vh]">
-      <Sidebar user={user} />
+    <div className="w-[100%] laptop:flex max-h-[100vh]">
+      {isDesktopOrLaptop && <Sidebar user={user} />}
+      {isTabletOrMobile && <MobileScreenUpper handleDrawer={handleDrawer} />}
+      <TheDrawer drawer={drawer} handleDrawer={closeDrawer} />
       {user?.id ? (
-        <div className="w-[85%]  pb-4 overflow-y-scroll scrollbar-hide">
+        <div className="laptop:w-[85%] w-[100%]  pb-4 overflow-y-scroll scrollbar-hide border">
           <ShareCardModal
             shareModal={shareModal}
             handleShareModal={handleShareModal}
@@ -205,9 +224,12 @@ const Home = () => {
             teamModal={teamModal}
             handleTeamModal={handleTeamModal}
           />
-          <div className=" w-[100%] h-[100px] mt-[35px] flex justify-center">
+          <div className=" w-[100%] laptop:h-[100px] h-[60px] mt-[35px] flex justify-center ">
             <div className="w-[95%] flex justify-between">
-              <h2 className="text-4xl font-[500]">My Profiles</h2>
+              {isDesktopOrLaptop && (
+                <h2 className="text-4xl font-[500]">My Profiles</h2>
+              )}
+
               {/* <div className="h-[50px] w-[280px]  flex justify-between">
               <div className="border h-[45px] w-[180px] flex justify-center items-center rounded-md text-gray-700 hover:bg-gray-100 cursor-pointer">
                 Activate products
@@ -258,6 +280,11 @@ const Home = () => {
               </div>
             </div>
           </div>
+          {isTabletOrMobile && (
+            <h2 className="text-3xl font-[500] text-gray-900 ml-[4%]">
+              My Profiles
+            </h2>
+          )}
 
           {/* <div className="flex justify-end h-[60px]">
           <div className="flex w-[500px]  justify-center">
@@ -292,7 +319,18 @@ const Home = () => {
           </div>
         </div> */}
           <div className="w-[100%] flex justify-center">
-            <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4 ">
+            <div
+              className="w-[90%]  grid laptop:grid-cols-3 grid-cols-1 laptop:gap-x-4 gap-y-4 "
+              style={
+                isTabletOrMobile
+                  ? {
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }
+                  : null
+              }
+            >
               {/* <div className="h-[270px] w-[300px] border rounded-lg mt-5 shadow-lg flex flex-col items-center " style={{backgroundColor:hexToRGBA(user?.colorCode)}}>
             <div className="w-[95%] h-[140px]  rounded-md mt-[6px] relative ">
               <div className="h-[30px] w-[30px] absolute left-[5px] top-[5px] bg-white  rounded-full flex justify-center items-center">

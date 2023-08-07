@@ -63,7 +63,7 @@ const Sidebar = () => {
               style={user?.isAdmin === true ? { display: "none" } : null}
               className="h-[100%]  w-[100%]"
             > */}
-            <div
+            {/* <div
               className="hover:bg-[#b2d9ee] hover:text-[#0b567f] h-[12%]  w-[100%] rounded-md flex items-center"
               onClick={() => navigate("/dashboard")}
               style={
@@ -76,7 +76,7 @@ const Sidebar = () => {
                 <MdDashboard className="text-[#0b567f] text-xl ml-2 " />
                 <p className="ml-[10px] text-base ">Dashboard</p>
               </div>
-            </div>
+            </div> */}
             {/* </div> */}
             {/* )} */}
             <div

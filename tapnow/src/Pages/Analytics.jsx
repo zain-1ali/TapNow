@@ -8,6 +8,9 @@ import { SlGraph } from "react-icons/sl";
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
 import AnalyticsModal from "../components/AnalyticsModal";
+import MobileScreenUpper from "../components/MobileScreenUpper";
+import TheDrawer from "../components/Drawer";
+import { useMediaQuery } from "react-responsive";
 
 const Analytics = () => {
   let userId = localStorage.getItem("tapNowUid");
@@ -106,10 +109,28 @@ const Analytics = () => {
     setfiltered(result);
   }, [search]);
 
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
+
+  let [drawer, setDrawer] = useState(false);
+
+  let handleDrawer = () => {
+    setDrawer(!drawer);
+    // console.log("test");
+  };
+
+  let closeDrawer = () => {
+    setDrawer(false);
+  };
+
   return (
-    <div class="w-[100%] min-h-[100vh] flex">
-      <Sidebar />
-      <div class="w-[85%] h-[100%]">
+    <div class="w-[100%] min-h-[100vh] laptop:flex">
+      {isDesktopOrLaptop && <Sidebar />}
+      {isTabletOrMobile && <MobileScreenUpper handleDrawer={handleDrawer} />}
+      <TheDrawer drawer={drawer} handleDrawer={closeDrawer} />
+      <div class="laptop:w-[85%] w-[95%] h-[100%]">
         <AnalyticsModal
           modal={modal}
           handleModal={handleModal}
@@ -178,7 +199,7 @@ const Analytics = () => {
 
         {filtered?.length > 0 ? (
           <div className="w-[100%] flex justify-center">
-            <div className="w-[90%]  grid grid-cols-3 gap-x-4 gap-y-4">
+            <div className="w-[90%]  grid laptop:grid-cols-3 grid-cols-1 gap-x-4 gap-y-4">
               {filtered?.map((elm) => {
                 return (
                   <>
@@ -220,17 +241,18 @@ const Analytics = () => {
                   </>
                 );
               })}
+              <br />
             </div>
           </div>
         ) : (
           <div class="w-[100%] h-[300px] flex flex-col items-center justify-center">
             <h2 class="text-2xl font-[500]">No results</h2>
-            <p class="text-gray-500 mt-3 flex">
+            <p class="text-gray-500 mt-3 flex text-center">
               There are no card profiles in this category or matching your
               search query.
-              <h2 class="font-[500] text-[#0b567f] cursor-pointer">
+              {/* <h2 class="font-[500] text-[#0b567f] cursor-pointer">
                 Learn more.
-              </h2>
+              </h2> */}
             </p>
           </div>
         )}

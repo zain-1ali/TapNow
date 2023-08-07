@@ -132,11 +132,11 @@ const Content = ({ user, link }) => {
 
   return (
     <>
-      <div class="w-[73%] h-[100%] 2xl:h-[740px] desktop:h-[1100px]">
+      <div class="laptop:w-[73%] w-[100%] h-[100%] 2xl:h-[740px] desktop:h-[1100px]">
         {user?.id ? (
           <>
-            <div class="w-[100%] h-[15%]  flex items-center justify-around shadow-sm">
-              <div class="h-[50%] w-[44%] rounded-3xl flex border p-2 justify-around items-center desktop:rounded-full">
+            <div class="w-[100%] laptop:h-[15%] h-[100px]  flex items-center justify-around shadow-sm">
+              <div class="h-[50%] laptop:w-[44%] w-[60%] rounded-3xl flex border p-2 justify-around items-center desktop:rounded-full">
                 {/* w-[250px] */}
                 <div class="flex">
                   <p class="text-sm font-medium desktop:text-2xl">Lead Mode</p>
@@ -157,20 +157,20 @@ const Content = ({ user, link }) => {
                 </div>
               </div>
               <div
-                class="h-[50%] w-[42%] rounded-3xl flex border bg-[#0b567f] text-white p-2 items-center cursor-pointer justify-center desktop:rounded-full"
+                class="h-[50%] laptop:w-[42%] w-[33%] rounded-3xl flex border bg-[#0b567f] text-white p-2 items-center cursor-pointer justify-center desktop:rounded-full"
                 onClick={() => dispatch(openModal())}
               >
                 <RiAddFill className="text-white text-2xl" />
-                <p class="text-sm ml-1 font-medium desktop:text-3xl ">
-                  Add Links and Contact
+                <p class="text-sm laptop:ml-1 ml-[2px] font-medium desktop:text-3xl ">
+                  Add Links
                 </p>
               </div>
             </div>
             {link[0] ? (
-              <div className="w-[100%] h-[76%] p-5  overflow-y-scroll ">
+              <div className="w-[100%] laptop:h-[76%] h-[100%] p-5  overflow-y-scroll ">
                 {user?.directMode ? (
                   <>
-                    <div className="w-[100%] h-[16%] shadow-md rounded-lg bg-[#fafafa] mt-3 flex items-center p-3 justify-between ">
+                    <div className="w-[100%] h-[65px] shadow-md rounded-lg bg-[#fafafa] mt-3 flex items-center p-3 justify-between ">
                       <div className="flex items-center w-[85%]  cursor-pointer">
                         <img
                           src={returnIcons(user?.direct?.title)}
@@ -187,7 +187,7 @@ const Content = ({ user, link }) => {
                       return (
                         <>
                           <div
-                            class="w-[100%] h-[16%] shadow-sm rounded-lg bg-white mt-3 flex items-center p-3 justify-between "
+                            class="w-[100%] h-[65px] shadow-sm rounded-lg bg-white mt-3 flex items-center p-3 justify-between "
                             // style="display: none;"
                             style={
                               elm?.title === user?.direct?.title
