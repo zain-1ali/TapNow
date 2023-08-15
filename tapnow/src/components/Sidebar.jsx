@@ -11,11 +11,17 @@ import { useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { onValue, ref } from "firebase/database";
 import { db } from "../Firebase";
+import LogoutModal from "./LogoutModal";
 
 const Sidebar = () => {
   let navigate = useNavigate();
   let userId = localStorage.getItem("tapNowUid");
   let [user, setuser] = useState({});
+  let [modal, setModal] = useState(false);
+
+  let handleModal = () => {
+    setModal(!modal);
+  };
 
   // --------------------------geting the user data from firebase------------------------
 
@@ -41,6 +47,7 @@ const Sidebar = () => {
     promise.then(() => {
       navigate("/");
     });
+    setModal(!modal);
   };
 
   let currentPath = window.location.href;
@@ -90,7 +97,7 @@ const Sidebar = () => {
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <BsFillPersonVcardFill className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">My Profiles</p>
+                <p className="ml-[10px] text-[14px] ">My Profiles</p>
               </div>
             </div>
             <div
@@ -104,7 +111,7 @@ const Sidebar = () => {
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <BsFillPeopleFill className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">Contacts</p>
+                <p className="ml-[10px] text-[14px] ">Contacts</p>
               </div>
             </div>
             <div
@@ -118,7 +125,7 @@ const Sidebar = () => {
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <SiGoogleanalytics className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">Analytics</p>
+                <p className="ml-[10px] text-[14px] ">Analytics</p>
               </div>
             </div>
             <div
@@ -132,7 +139,7 @@ const Sidebar = () => {
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <FaShoppingCart className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">Shop</p>
+                <p className="ml-[10px] text-[14px] ">Shop</p>
               </div>
             </div>
             <div
@@ -147,7 +154,7 @@ const Sidebar = () => {
               {" "}
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <FaClipboardList className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">Orders</p>
+                <p className="ml-[10px] text-[14px] ">Orders</p>
               </div>
             </div>
 
@@ -162,7 +169,7 @@ const Sidebar = () => {
             >
               <div className=" flex items-center rounded-md hover:bg-[#b2d9ee] hover:text-[#0b567f] cursor-pointer">
                 <AiFillSetting className="text-[#0b567f] text-xl ml-2 " />
-                <p className="ml-[10px] text-base ">Settings</p>
+                <p className="ml-[10px] text-[14px] ">Settings</p>
               </div>
             </div>
           </div>
@@ -174,13 +181,18 @@ const Sidebar = () => {
           </div>
           <div
             className="h-[20%]  w-[100%] flex items-center rounded-md cursor-pointer ml-2"
-            onClick={() => logOut()}
+            onClick={() => handleModal()}
           >
             <LuLogOut className="text-gray-500 text-xl " />
             <p className="ml-[10px] text-base text-gray-500">Logout</p>
           </div>
         </div>
       </div>
+      <LogoutModal
+        modal={modal}
+        handleModal={handleModal}
+        logoutFunc={logOut}
+      />
     </div>
   );
 };

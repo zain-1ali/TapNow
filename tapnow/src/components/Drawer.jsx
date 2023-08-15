@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 // import logo from "../imgs/Urbanlogo1.png";
@@ -20,9 +20,28 @@ import { BiHelpCircle } from "react-icons/bi";
 import { LuLogOut } from "react-icons/lu";
 import { BsFillBoxSeamFill, BsInfoSquareFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import LogoutModal from "./LogoutModal";
 
 const TheDrawer = ({ drawer, handleDrawer }) => {
   let navigate = useNavigate();
+  let [modal, setModal] = useState(false);
+
+  let handleModal = () => {
+    setModal(!modal);
+  };
+
+  let logOut = () => {
+    let promise = new Promise((res, rej) => {
+      res(localStorage.removeItem("tapNowUid"));
+    });
+
+    promise.then(() => {
+      navigate("/");
+    });
+  };
+
+  let help = () => {};
+
   return (
     <div>
       <Drawer anchor="left" open={drawer} onClose={handleDrawer}>
@@ -131,13 +150,19 @@ const TheDrawer = ({ drawer, handleDrawer }) => {
                 {
                   text: "Help",
                   icon: BiHelpCircle,
+                  func: help,
                 },
                 {
                   text: "Logout",
                   icon: LuLogOut,
+                  func: handleModal,
                 },
               ].map((text, index) => (
-                <ListItem key={index} disablePadding>
+                <ListItem
+                  key={index}
+                  disablePadding
+                  onClick={() => text.func()}
+                >
                   <ListItemButton>
                     <ListItemIcon>
                       <text.icon className="text-xl" />
@@ -150,6 +175,11 @@ const TheDrawer = ({ drawer, handleDrawer }) => {
           </Box>
         </div>
       </Drawer>
+      <LogoutModal
+        modal={modal}
+        handleModal={handleModal}
+        logoutFunc={logOut}
+      />
     </div>
   );
 };

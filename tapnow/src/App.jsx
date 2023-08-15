@@ -39,7 +39,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="select-none" style={{ fontFamily: "Poppins, sans-serif" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -111,7 +111,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

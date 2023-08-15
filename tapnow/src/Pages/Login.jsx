@@ -34,7 +34,7 @@ const Login = () => {
 
     getingdata();
   }, []);
-  console.log(objkeys);
+  // console.log(objkeys);
 
   let [showPass, setShowPass] = useState(false);
 

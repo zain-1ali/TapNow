@@ -22,7 +22,7 @@ const ContactModal = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: deleteModal ? 320 : isTabletOrMobile ? 320 : 390,
+    width: deleteModal ? 320 : isTabletOrMobile ? 330 : 390,
     height: deleteModal ? 150 : 480,
     bgcolor: "white",
     // border: '2px solid #000',
@@ -108,15 +108,19 @@ const ContactModal = ({
                 />
               </div>
 
-              <div className="flex justify-around mt-6">
+              <div className="flex justify-evenly mt-6">
                 <div className="w-[40%] overflow-x-hidden">
                   <h2 className="text-sm font-medium text-gray-700">Name</h2>
-                  <p className="font-medium">{contactDetails?.name}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.name}
+                  </p>
                 </div>
 
-                <div className="w-[40%] overflow-x-hidden">
+                <div className="w-[40%] ">
                   <h2 className="text-sm font-medium text-gray-700">Email</h2>
-                  <p className="font-medium">{contactDetails?.email}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.email}
+                  </p>
                 </div>
               </div>
 
@@ -125,24 +129,32 @@ const ContactModal = ({
                   <h2 className="text-sm font-medium text-gray-700">
                     Job Title
                   </h2>
-                  <p className="font-medium">{contactDetails?.job}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.job}
+                  </p>
                 </div>
 
                 <div className="w-[40%] overflow-x-hidden">
                   <h2 className="text-sm font-medium text-gray-700">Company</h2>
-                  <p className="font-medium">{contactDetails?.company}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.company}
+                  </p>
                 </div>
               </div>
 
               <div className="flex justify-around mt-6">
                 <div className="w-[40%] overflow-x-hidden">
                   <h2 className="text-sm font-medium text-gray-700">Phone</h2>
-                  <p className="font-medium">{contactDetails?.phone}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.phone}
+                  </p>
                 </div>
 
                 <div className="w-[40%] overflow-x-hidden">
                   <h2 className="text-sm font-medium text-gray-700">Date</h2>
-                  <p className="font-medium">{contactDetails?.date}</p>
+                  <p className="font-medium laptop:text-base text-sm">
+                    {contactDetails?.date}
+                  </p>
                 </div>
               </div>
 

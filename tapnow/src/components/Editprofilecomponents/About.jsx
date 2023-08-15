@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import { IoMdColorFilter } from "react-icons/io";
+import { MdOutlineCancel } from "react-icons/md";
 import {
   setName,
   setBio,
@@ -173,6 +174,18 @@ const About = ({ user, link }) => {
     dispatch(setBgImg(user?.bgImg));
   }, [user]);
 
+  let handleCancel = () => {
+    dispatch(setName(user?.name));
+    dispatch(setLocation(user?.location));
+    dispatch(setCompany(user?.company));
+    dispatch(setJob(user?.job));
+    dispatch(setColor(user?.colorCode));
+    dispatch(setBio(user?.bio));
+    dispatch(setProfileImg(user?.profileUrl));
+    dispatch(setlogoImg(user?.logoImg));
+    dispatch(setBgImg(user?.bgImg));
+  };
+
   console.log(name);
   // let [data,setdata]=useState({
   //     name:'',
@@ -191,6 +204,9 @@ const About = ({ user, link }) => {
         job,
         company,
         bio,
+        profileUrl,
+        logoImg,
+        bgImg,
       }).then(() => {
         toast.success("Information updated sucessfuly");
       });
@@ -329,21 +345,28 @@ const About = ({ user, link }) => {
                   Profile picture
                 </p>
                 <div className="laptop:h-[90px] h-[120px] laptop:w-[90px] w-[120px] rounded-full mt-2 relative ">
-                  <label
-                    for="img"
-                    className="absolute right-[0px] top-[-1px] cursor-pointer"
-                  >
-                    <MdAddCircleOutline className="text-3xl" />
-
-                    <input
-                      type="file"
-                      name="img"
-                      id="img"
-                      className="opacity-0 w-[0px] h-[0px]"
-                      onChange={handlePrflImageChange}
-                      //   onChange={()=> dispatch(setProfileImg())}
+                  {profileUrl ? (
+                    <MdOutlineCancel
+                      className="text-2xl text-[#0b567f] absolute right-[0px] top-[4px] cursor-pointer"
+                      onClick={() => dispatch(setProfileImg(""))}
                     />
-                  </label>
+                  ) : (
+                    <label
+                      for="img"
+                      className="absolute right-[0px] top-[4px] cursor-pointer"
+                    >
+                      <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                      <input
+                        type="file"
+                        name="img"
+                        id="img"
+                        className="opacity-0 w-[0px] h-[0px]"
+                        onChange={handlePrflImageChange}
+                        //   onChange={()=> dispatch(setProfileImg())}
+                      />
+                    </label>
+                  )}
                   <img
                     src={profileUrl ? profileUrl : "https://placehold.co/90x90"}
                     alt="profile"
@@ -355,20 +378,27 @@ const About = ({ user, link }) => {
               <div className="ml-[50px]">
                 <p className="font-medium text-xs text-center ">Company Logo</p>
                 <div className="laptop:h-[90px] h-[120px] laptop:w-[90px] w-[120px] rounded-full mt-2 relative">
-                  <label
-                    for="logoImg"
-                    className="absolute right-[0px] top-[-1px] cursor-pointer"
-                  >
-                    <MdAddCircleOutline className="text-3xl" />
-
-                    <input
-                      type="file"
-                      name="logoImg"
-                      id="logoImg"
-                      className="opacity-0 w-[0px] h-[0px]"
-                      onChange={handlelogoImageChange}
+                  {logoImg ? (
+                    <MdOutlineCancel
+                      className="text-2xl text-[#0b567f] absolute right-[0px] top-[4px] cursor-pointer"
+                      onClick={() => dispatch(setlogoImg(""))}
                     />
-                  </label>
+                  ) : (
+                    <label
+                      for="logoImg"
+                      className="absolute right-[0px] top-[4px] cursor-pointer"
+                    >
+                      <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                      <input
+                        type="file"
+                        name="logoImg"
+                        id="logoImg"
+                        className="opacity-0 w-[0px] h-[0px]"
+                        onChange={handlelogoImageChange}
+                      />
+                    </label>
+                  )}
                   <img
                     src={logoImg ? logoImg : "https://placehold.co/90x90"}
                     alt="profile"
@@ -380,21 +410,28 @@ const About = ({ user, link }) => {
               <div className="mt-[20px]">
                 <p className="font-medium text-xs text-center">Cover photo</p>
                 <div className="laptop:h-[90px] laptop:w-[240px] h-[120px] w-[300px] rounded-lg mt-2 relative">
-                  <label
-                    for="coverImg"
-                    className="absolute right-[-10px] top-[-4px] cursor-pointer"
-                  >
-                    <MdAddCircleOutline className="text-3xl" />
-
-                    <input
-                      type="file"
-                      name="coverImg"
-                      id="coverImg"
-                      className="opacity-0 w-[0px] h-[0px]"
-                      onChange={handlebgImageChange}
-                      //   ,setlogoImg,setBgImg
+                  {bgImg ? (
+                    <MdOutlineCancel
+                      className="text-2xl text-[#0b567f] absolute right-[-13px] top-[-12px] cursor-pointer"
+                      onClick={() => dispatch(setBgImg(""))}
                     />
-                  </label>
+                  ) : (
+                    <label
+                      for="coverImg"
+                      className="absolute right-[-16px] top-[-12px] cursor-pointer"
+                    >
+                      <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                      <input
+                        type="file"
+                        name="coverImg"
+                        id="coverImg"
+                        className="opacity-0 w-[0px] h-[0px]"
+                        onChange={handlebgImageChange}
+                        //   ,setlogoImg,setBgImg
+                      />
+                    </label>
+                  )}
                   <img
                     src={bgImg ? bgImg : "https://placehold.co/240x90"}
                     alt="profile"
@@ -409,21 +446,28 @@ const About = ({ user, link }) => {
             <div>
               <p className="font-medium text-xs text-center">Profile picture</p>
               <div className="h-[90px] w-[90px] rounded-full mt-2 relative ">
-                <label
-                  for="img"
-                  className="absolute right-[0px] top-[-1px] cursor-pointer"
-                >
-                  <MdAddCircleOutline className="text-2xl" />
-
-                  <input
-                    type="file"
-                    name="img"
-                    id="img"
-                    className="opacity-0 w-[0px] h-[0px]"
-                    onChange={handlePrflImageChange}
-                    //   onChange={()=> dispatch(setProfileImg())}
+                {profileUrl ? (
+                  <MdOutlineCancel
+                    className="text-2xl text-[#0b567f] absolute right-[0px] top-[-1px] cursor-pointer"
+                    onClick={() => dispatch(setProfileImg(""))}
                   />
-                </label>
+                ) : (
+                  <label
+                    for="img"
+                    className="absolute right-[0px] top-[-1px] cursor-pointer"
+                  >
+                    <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                    <input
+                      type="file"
+                      name="img"
+                      id="img"
+                      className="opacity-0 w-[0px] h-[0px]"
+                      onChange={handlePrflImageChange}
+                      //   onChange={()=> dispatch(setProfileImg())}
+                    />
+                  </label>
+                )}
                 <img
                   src={profileUrl ? profileUrl : "https://placehold.co/90x90"}
                   alt="profile"
@@ -435,21 +479,28 @@ const About = ({ user, link }) => {
             <div>
               <p className="font-medium text-xs text-center">Cover photo</p>
               <div className="h-[90px] w-[240px] rounded-lg mt-2 relative">
-                <label
-                  for="coverImg"
-                  className="absolute right-[-10px] top-[-4px] cursor-pointer"
-                >
-                  <MdAddCircleOutline className="text-2xl" />
-
-                  <input
-                    type="file"
-                    name="coverImg"
-                    id="coverImg"
-                    className="opacity-0 w-[0px] h-[0px]"
-                    onChange={handlebgImageChange}
-                    //   ,setlogoImg,setBgImg
+                {bgImg ? (
+                  <MdOutlineCancel
+                    className="text-2xl text-[#0b567f] absolute right-[-13px] top-[-12px] cursor-pointer"
+                    onClick={() => dispatch(setBgImg(""))}
                   />
-                </label>
+                ) : (
+                  <label
+                    for="coverImg"
+                    className="absolute right-[-13px] top-[-12px] cursor-pointer"
+                  >
+                    <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                    <input
+                      type="file"
+                      name="coverImg"
+                      id="coverImg"
+                      className="opacity-0 w-[0px] h-[0px]"
+                      onChange={handlebgImageChange}
+                      //   ,setlogoImg,setBgImg
+                    />
+                  </label>
+                )}
                 <img
                   src={bgImg ? bgImg : "https://placehold.co/240x90"}
                   alt="profile"
@@ -461,20 +512,27 @@ const About = ({ user, link }) => {
             <div>
               <p className="font-medium text-xs text-center">Company Logo</p>
               <div className="h-[90px] w-[90px] rounded-full mt-2 relative">
-                <label
-                  for="logoImg"
-                  className="absolute right-[0px] top-[-1px] cursor-pointer"
-                >
-                  <MdAddCircleOutline className="text-2xl" />
-
-                  <input
-                    type="file"
-                    name="logoImg"
-                    id="logoImg"
-                    className="opacity-0 w-[0px] h-[0px]"
-                    onChange={handlelogoImageChange}
+                {logoImg ? (
+                  <MdOutlineCancel
+                    className="text-2xl text-[#0b567f] absolute right-[0px] top-[-1px] cursor-pointer"
+                    onClick={() => dispatch(setlogoImg(""))}
                   />
-                </label>
+                ) : (
+                  <label
+                    for="logoImg"
+                    className="absolute right-[0px] top-[-1px] cursor-pointer"
+                  >
+                    <MdAddCircleOutline className="text-2xl text-[#0b567f]" />
+
+                    <input
+                      type="file"
+                      name="logoImg"
+                      id="logoImg"
+                      className="opacity-0 w-[0px] h-[0px]"
+                      onChange={handlelogoImageChange}
+                    />
+                  </label>
+                )}
                 <img
                   src={logoImg ? logoImg : "https://placehold.co/90x90"}
                   alt="profile"
@@ -599,7 +657,12 @@ const About = ({ user, link }) => {
       <div className="w-[95%] h-[70px]  absolute bottom-0 flex flex-row-reverse border-t">
         <div className="flex justify-between items-center w-[250px]">
           <div className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white">
-            <p className="text-sm font-medium ml-[3px] ">Cancel</p>
+            <p
+              className="text-sm font-medium ml-[3px] "
+              onClick={() => handleCancel()}
+            >
+              Cancel
+            </p>
           </div>
           <div
             className="h-[40px] w-[120px] border rounded-3xl ml-2 bg-[#0b567f] flex items-center justify-center cursor-pointer"

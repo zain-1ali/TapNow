@@ -145,15 +145,15 @@ const Editcard = ({ userID }) => {
         user={user}
         link={link}
       />
-      <div class="laptop:h-[540px]   laptop:w-[730px] w-[100%] 2xl:h-[740px] 2xl:w-[1000px] desktop:h-[1100px] desktop:w-[1700px]  bg-white laptop:rounded-l-2xl rounded-xl border mt-5 laptop:flex shadow-xl">
-        <div class="laptop:w-[27%] w-[100%] border-b flex laptop:flex-col justify-evenly  border-r laptop:h-[100%] h-[70px] laptop:p-5">
+      <div class="laptop:h-[540px]   laptop:w-[730px] w-[100%] 2xl:h-[740px] 2xl:w-[1000px] desktop:h-[1100px] desktop:w-[1700px]  bg-white laptop:rounded-l-2xl laptop:rounded-none rounded-xl border mt-5 laptop:flex shadow-xl">
+        <div class="laptop:w-[27%] w-[100%] border-b flex laptop:flex-col laptop:justify-normal justify-evenly  border-r laptop:h-[100%] h-[70px] laptop:p-5">
           <div
             class="laptop:w-[160px] w-[70px]  flex laptop:flex-row flex-col  items-center justify-evenly laptop:justify-start  laptop:rounded-lg laptop:h-[40px] h-[70px]  hover:bg-[#b2d9ee] laptop:p-3 cursor-pointer laptop:mt-4"
             onClick={() => dispatch(openContent())}
             style={iscontent ? { backgroundColor: "#b2d9ee" } : null}
           >
             <BsFillHddStackFill className="text-[#0b567f]" />
-            <p class=" laptop:ml-2 laptop:text-lg text-sm">Content</p>
+            <p class=" laptop:ml-2 laptop:text-sm text-sm ">Content</p>
           </div>
           <div
             class="laptop:w-[160px] w-[70px]  flex items-center laptop:flex-row flex-col justify-evenly laptop:justify-start  laptop:rounded-lg laptop:h-[40px] h-[70px]  hover:bg-[#b2d9ee] laptop:p-3 cursor-pointer laptop:mt-4"
@@ -161,7 +161,7 @@ const Editcard = ({ userID }) => {
             style={isabout ? { backgroundColor: "#b2d9ee" } : null}
           >
             <BsFillPersonFill className="text-[#0b567f]" />
-            <p class=" laptop:ml-2 laptop:text-lg text-sm">About</p>
+            <p class=" laptop:ml-2 laptop:text-sm text-sm ">About</p>
           </div>
           <div
             class="laptop:w-[160px] w-[70px]  flex items-center laptop:flex-row flex-col justify-evenly laptop:justify-start laptop:rounded-lg laptop:h-[40px] h-[70px]  hover:bg-[#b2d9ee] laptop:p-3 cursor-pointer laptop:mt-4"
@@ -169,7 +169,7 @@ const Editcard = ({ userID }) => {
             style={isqr ? { backgroundColor: "#b2d9ee" } : null}
           >
             <BsQrCode className="text-[#0b567f]" />
-            <p class=" laptop:ml-2 laptop:text-lg text-sm">Qr code</p>
+            <p class=" laptop:ml-2 laptop:text-sm text-sm ">Qr code</p>
           </div>
           <div
             class="laptop:w-[160px] w-[70px]  flex items-center laptop:flex-row flex-col justify-evenly laptop:justify-start laptop:rounded-lg laptop:h-[40px] h-[70px]  hover:bg-[#b2d9ee] laptop:p-3 cursor-pointer laptop:mt-4"
@@ -177,7 +177,7 @@ const Editcard = ({ userID }) => {
             style={islead ? { backgroundColor: "#b2d9ee" } : null}
           >
             <FiFilter className="text-[#0b567f]" />
-            <p class=" laptop:ml-2 laptop:text-lg text-sm">Leads</p>
+            <p class=" laptop:ml-2 laptop:text-sm text-sm ">Leads</p>
           </div>
 
           {isDesktopOrLaptop && (
@@ -202,11 +202,12 @@ const Editcard = ({ userID }) => {
         {islead && <Leadcapture user={user} link={link} />}
       </div>
 
-      {/* {isqr ? (
-        <Qrcontainer user={user} />
-      ) : (
-        <Mobilecontainer user={user} link={link} />
-      )} */}
+      {isDesktopOrLaptop &&
+        (isqr ? (
+          <Qrcontainer user={user} />
+        ) : (
+          <Mobilecontainer user={user} link={link} />
+        ))}
     </div>
   );
 };

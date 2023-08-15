@@ -27,7 +27,7 @@ import TheDrawer from "../components/Drawer";
 
 const Home = () => {
   let dispatch = useDispatch();
-  let [selectVal, setselectVal] = useState("Sort");
+  let [selectVal, setselectVal] = useState("A to Z");
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
@@ -102,7 +102,11 @@ const Home = () => {
       }
     });
     setChilds(thechilds);
-    setfiltered(thechilds);
+    // setfiltered(thechilds);
+    const sortedData = [...thechilds].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setfiltered(sortedData);
   }, [alluser]);
 
   // console.log(childs)
@@ -239,8 +243,8 @@ const Home = () => {
               </div>
             </div> */}
 
-              <div className="flex w-[500px]  justify-center">
-                <div className=" ml-[5px] border h-[40px] rounded-md w-[200px] flex justify-center items-center">
+              <div className="flex laptop:w-[500px] w-[100%]   justify-center">
+                <div className=" ml-[5px] border border-[#d3d3d3] h-[40px] rounded-md w-[200px] flex justify-center items-center">
                   <AiOutlineSearch className="text-gray-500" />
                   <input
                     type="text"
@@ -281,9 +285,19 @@ const Home = () => {
             </div>
           </div>
           {isTabletOrMobile && (
-            <h2 className="text-3xl font-[500] text-gray-900 ml-[4%]">
-              My Profiles
-            </h2>
+            <div className="w-[100%]   flex justify-between items-center mt-[15px]">
+              <h2 className="text-[26px] font-[500] text-gray-900 ml-[4%]">
+                My Profiles
+              </h2>
+
+              <div
+                className="w-[164px] h-[50px] rounded-full bg-[#0b567f] mr-[4%] flex items-center justify-center text-white text-sm font-400"
+                onClick={() => handleModal()}
+              >
+                <span className="text-2xl mr-1 mt-[2px]">+</span>
+                Create New Card
+              </div>
+            </div>
           )}
 
           {/* <div className="flex justify-end h-[60px]">
@@ -445,7 +459,7 @@ const Home = () => {
                         {elm?.name}
                       </div>
                       {elm?.job && elm?.company ? (
-                        <div className="w-[100%] text-center mt-1 text-xs text-gray-400">
+                        <div className="w-[100%] text-center mt-1 text-xs font-[300] text-gray-400">
                           {returnJobCompany(elm?.job, elm?.company).length <= 52
                             ? returnJobCompany(elm?.job, elm?.company)
                             : returnJobCompany(
@@ -454,7 +468,7 @@ const Home = () => {
                               ).substring(0, 51) + "..."}
                         </div>
                       ) : (
-                        <div className="w-[100%] text-center mt-1 text-sm text-gray-400 ">
+                        <div className="w-[100%] text-center mt-1 text-xs text-gray-400 ">
                           {elm?.job}
                         </div>
                       )}
@@ -483,7 +497,7 @@ const Home = () => {
                           }
                         >
                           <MdOutlineModeEdit className="text-gray-500" />
-                          <p className="text-sm font-medium ml-[3px] text-gray-500">
+                          <p className="text-xs font-medium ml-[3px] text-gray-500">
                             Edit card
                           </p>
                         </div>
@@ -492,7 +506,7 @@ const Home = () => {
                           onClick={() => handleShareModal(elm?.userName)}
                         >
                           <FaShare className="text-white" />
-                          <p className="text-sm font-medium ml-[3px] text-white">
+                          <p className="text-xs font-medium ml-[3px] text-white">
                             Share card
                           </p>
                         </div>
@@ -516,7 +530,7 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        <div className="w-[85%] flex justify-center items-center">
+        <div className="laptop:w-[85%] w-[100%] h-[100vh]  flex justify-center items-center">
           <CircularProgress />
         </div>
       )}

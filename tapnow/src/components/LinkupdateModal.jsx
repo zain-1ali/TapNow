@@ -20,7 +20,7 @@ import { db } from "../Firebase";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { setLinkDescription, setLinkHighlight } from "../Redux/UserinfoSlice";
 
-const LinkupdateModal = ({ user, link }) => {
+const LinkupdateModal = ({ user, link, isDesktopOrLaptop }) => {
   let dispatch = useDispatch();
 
   // ----------------------------------------------------State from redux---------------------------------------------
@@ -109,8 +109,7 @@ const LinkupdateModal = ({ user, link }) => {
                 description: "",
               });
 
-              dispatch(openLinkModal()),
-              dispatch(removeLink());
+              dispatch(openLinkModal()), dispatch(removeLink());
             }
           );
         } else {
@@ -128,8 +127,7 @@ const LinkupdateModal = ({ user, link }) => {
               value: "",
               description: "",
             });
-            dispatch(openLinkModal()),
-            dispatch(removeLink());
+            dispatch(openLinkModal()), dispatch(removeLink());
           }
         );
       }
@@ -153,7 +151,7 @@ const LinkupdateModal = ({ user, link }) => {
   return (
     <>
       <div className="flex w-[100%] h-[100%]">
-        <div className="w-[65%] p-[30px]">
+        <div className="laptop:w-[65%] w-[95%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
             onClick={() => {
@@ -205,7 +203,7 @@ const LinkupdateModal = ({ user, link }) => {
                 singlelink.placeholder.includes("Number") ? "number" : "text"
               }`}
               placeholder="Phone number"
-              className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+              className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
               onChange={(e) =>
                 settheLink({ ...theLink, value: e.target.value })
               }
@@ -217,7 +215,7 @@ const LinkupdateModal = ({ user, link }) => {
             <input
               type="text"
               placeholder={singlelink.name}
-              className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+              className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
               onChange={(e) => {
                 settheLink({ ...theLink, name: e.target.value }),
                   dispatch(changeLinkName(e.target.value));
@@ -232,7 +230,7 @@ const LinkupdateModal = ({ user, link }) => {
               <input
                 type="text"
                 placeholder="description"
-                className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
                 onChange={(e) => {
                   settheLink({ ...theLink, description: e.target.value }),
                     dispatch(setLinkDescription(e.target.value));
@@ -242,9 +240,9 @@ const LinkupdateModal = ({ user, link }) => {
               />
             </div>
           )}
-          <div className="w-[55%] h-[70px]  absolute bottom- flex justify-between items-center mt-5">
+          <div className="laptop:w-[55%] w-[85%] h-[70px]  absolute bottom- flex justify-between items-center mt-5">
             <div
-              className=" flex h-[40px] w-[100px] justify-center items-center cursor-pointer rounded-3xl hover:bg-[#f7f7f7]"
+              className="flex h-[40px] w-[100px] justify-center items-center cursor-pointer rounded-3xl hover:bg-[#f7f7f7]"
               onClick={() => {
                 handleDelete(),
                   dispatch(openLinkModal()),
@@ -255,9 +253,9 @@ const LinkupdateModal = ({ user, link }) => {
               <h1 class="text-red-600  font-medium ml-[1px]">Remove</h1>
             </div>
 
-            <div className="flex justify-between items-center w-[250px]">
+            <div className="flex justify-around items-center w-[200px] m">
               <div
-                className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
+                className="laptop:h-[40px] h-[38px]  laptop:w-[100px] w-[90px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
                 onClick={() => {
                   dispatch(openLinkModal()), dispatch(removeLink());
                 }}
@@ -265,16 +263,13 @@ const LinkupdateModal = ({ user, link }) => {
                 <p className="text-sm font-medium ml-[3px] ">Cancel</p>
               </div>
               <div
-                className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
+                className="laptop:h-[40px] h-[38px]  laptop:w-[120px] w-[90px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
                 style={
                   theLink.value && theLink.name
                     ? { backgroundColor: "#0b567f", color: "white" }
                     : { backgroundColor: "#f7f7f7", color: "#a6a3af" }
                 }
-                onClick={() => 
-                  addData(singlelink.placeholder)
-                }
-           
+                onClick={() => addData(singlelink.placeholder)}
               >
                 <p className="text-sm font-medium ml-[3px] ">Update</p>
               </div>
@@ -282,9 +277,11 @@ const LinkupdateModal = ({ user, link }) => {
           </div>
         </div>
         {/* <div className="w-[35%] h-[100%] border-l relative "> */}
-        <div className="w-[35%] border-l flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
-          <Mobile user={user} link={link} />
-        </div>
+        {isDesktopOrLaptop && (
+          <div className="w-[35%] border-l flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide pt-10">
+            <Mobile user={user} link={link} />
+          </div>
+        )}
         {/* </div> */}
       </div>
       {/* <ToastContainer position="top-center" autoClose={2000} /> */}

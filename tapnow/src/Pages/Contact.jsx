@@ -118,6 +118,13 @@ const Contact = () => {
     setDrawer(false);
   };
 
+  let sliceText = (text, num) => {
+    let shortText = text?.slice(0, num);
+    return shortText + "...";
+  };
+
+  let thename = "Muhammad Abdullah Ali";
+
   return (
     <div class="w-[100%] max-h-[100vh] laptop:flex">
       {isDesktopOrLaptop && <Sidebar />}
@@ -145,15 +152,15 @@ const Contact = () => {
                     <div>
                       <HiOutlineInformationCircle class="text-xl mt-[2px]" />
                     </div>
-                    <p class="ml-[12px] font-[500]">
+                    <p class="ml-[12px] font-[500] text-sm mt-1">
                       Ensure you have enabled contact exchange
                     </p>
                   </div>
-                  <p class="ml-[30px] mt-1 text-gray-500">
+                  <p class="ml-[30px] mt-2 text-gray-500 text-sm">
                     These are the contacts you have received if contact exchange
                     is enabled on your profile.
                   </p>
-                  <div class=" w-[115px] ml-[30px] cursor-pointer flex justify-between font-[500] text-[#0b567f] items-center">
+                  <div class=" w-[115px] ml-[30px] cursor-pointer flex justify-between font-[500] text-[#0b567f] mt-1 items-center text-sm">
                     Learn more
                     <div></div>
                   </div>
@@ -171,7 +178,7 @@ const Contact = () => {
                   <input
                     type="text"
                     placeholder="Search..."
-                    class="border-none outline-none ml-2 w-[150px]"
+                    class="border-none outline-none ml-2 w-[150px] placeholder:text-sm"
                     onChange={(e) => setsearch(e.target.value)}
                     value={search}
                   />
@@ -224,7 +231,7 @@ const Contact = () => {
                 return (
                   <>
                     <div className="bg-[#fafafa] w-[100%] h-[70px] rounded-[30px] mt-3 shadow-sm flex justify-around items-center cursor-pointer">
-                      <div className="flex items-center w-[10%] ">
+                      <div className="flex items-center w-[15%] ">
                         <img
                           src={
                             elm?.imgUrl
@@ -234,8 +241,11 @@ const Contact = () => {
                           alt="img"
                           className="laptop:h-[45px] h-[30px] laptop:w-[45px] w-[30px] rounded-full shadow-md laptop:mr-6"
                         />
-                        <h2 className="laptop:text-sm text-[10px] font font-medium laptop:ml-0 ml-2">
-                          {elm?.name}
+                        <h2 className="laptop:text-xs text-[10px] font font-medium laptop:ml-0 ml-2">
+                          {elm?.name.length <= 9
+                            ? elm?.name
+                            : sliceText(elm?.name, 8)}
+                          {/* Muhammad Abdullah */}
                         </h2>
                       </div>
 
@@ -244,12 +254,12 @@ const Contact = () => {
                           <h2 className="laptop:text-sm text-[10px] font font-medium">
                             {elm?.email?.length < 24
                               ? elm?.email
-                              : elm?.email?.substring(0, 25) + "..."}
+                              : elm?.email?.sliceText(thename, 25)}
                           </h2>
                         </div>
                       )}
 
-                      <div className="flex items-center laptop:mr-2 laptop:ml-0 ml-5 w-[35%] ">
+                      <div className="flex items-center laptop:justify-normal justify-center laptop:mr-2 laptop:ml-0 ml-10 laptop:w-[15%] w-[35%]">
                         <img
                           src={
                             elm?.connectedWith?.img
@@ -257,22 +267,25 @@ const Contact = () => {
                               : "https://placehold.co/35x35"
                           }
                           alt="img"
-                          className="h-[35px] w-[35px] rounded-full shadow-md mr-5"
+                          className="h-[35px] w-[35px] rounded-full shadow-md laptop:mr-5 mr-2"
                         />
-                        <h2 className="text-sm font font-medium">
-                          {elm?.connectedWith?.name}
+                        <h2 className="laptop:text-xs text-[10px] font font-medium">
+                          {/* {elm?.connectedWith?.name} */}
+                          {elm?.connectedWith?.name?.length <= 9
+                            ? elm?.connectedWith?.name
+                            : sliceText(elm?.connectedWith?.name, 8)}
                         </h2>
                       </div>
 
                       {isDesktopOrLaptop && (
-                        <div className="w-[7%] ml-4">
-                          <h2 className="text-sm font font-medium">
+                        <div className="w-[10%] ml-4 ">
+                          <h2 className="text-sm font font-medium ">
                             {elm?.date}
                           </h2>
                         </div>
                       )}
 
-                      <div className="flex items-center  ml-5">
+                      <div className="flex items-center  ml-5 ">
                         <div
                           className=""
                           onClick={() => {
@@ -298,7 +311,7 @@ const Contact = () => {
             </div>
           </>
         ) : (
-          <div class="w-[100%] h-[300px] flex flex-col items-center justify-center border">
+          <div class="w-[100%] h-[300px] flex flex-col items-center justify-center ">
             <h2 class="text-2xl font-[500]">No results</h2>
             <p class="text-gray-500 mt-3 flex text-center w-[90%]">
               You can activate a lead-generation form on the card profile

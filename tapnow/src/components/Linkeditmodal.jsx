@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { db } from "../Firebase";
 import { setLinkHighlight, setLinkDescription } from "../Redux/UserinfoSlice";
 
-const Linkeditmodal = ({ user, link }) => {
+const Linkeditmodal = ({ user, link, isDesktopOrLaptop }) => {
   let dispatch = useDispatch();
   // ----------------------------------------------------State from redux---------------------------------------------
   const singlelink = useSelector(
@@ -116,7 +116,7 @@ const Linkeditmodal = ({ user, link }) => {
   return (
     <>
       <div className="flex w-[100%] h-[100%]">
-        <div className="w-[65%] p-[30px]">
+        <div className="laptop:w-[65%] w-[95%] p-[30px]">
           <div
             className="flex items-center cursor-pointer"
             onClick={() => {
@@ -159,7 +159,7 @@ const Linkeditmodal = ({ user, link }) => {
                 singlelink.placeholder.includes("Number") ? "number" : "text"
               }`}
               placeholder={singlelink?.name}
-              className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+              className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg laptop:p-5 p-4 placeholder:text-sm"
               onChange={(e) =>
                 settheLink({
                   ...theLink,
@@ -175,7 +175,7 @@ const Linkeditmodal = ({ user, link }) => {
             <input
               type="text"
               placeholder={singlelink.name}
-              className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+              className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg laptop:p-5 p-4 placeholder:text-sm"
               onChange={(e) => {
                 settheLink({ ...theLink, name: e.target.value }),
                   dispatch(changeLinkName(e.target.value));
@@ -189,7 +189,7 @@ const Linkeditmodal = ({ user, link }) => {
               <input
                 type="text"
                 placeholder="description"
-                className="mt-2 outline-none border-none w-[500px] h-[50px] bg-[#f7f7f7] rounded-lg p-5 placeholder:text-sm"
+                className="mt-2 outline-none border-none laptop:w-[500px] w-[100%] h-[50px] bg-[#f7f7f7] rounded-lg laptop:p-5 p-4 placeholder:text-sm"
                 onChange={(e) => {
                   settheLink({ ...theLink, description: e.target.value }),
                     dispatch(setLinkDescription(e.target.value));
@@ -198,10 +198,10 @@ const Linkeditmodal = ({ user, link }) => {
               />
             </div>
           )}
-          <div className="w-[50%] h-[70px]  absolute bottom- flex justify-center mt-2">
-            <div className="flex justify-between items-center w-[250px]">
+          <div className="laptop:w-[50%] w-[70%] h-[70px]  absolute bottom- flex justify-center mt-2">
+            <div className="flex justify-between items-center laptop:w-[250px] w-[250px] ">
               <div
-                className="h-[40px] w-[100px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
+                className="laptop:h-[40px] h-[38px]  laptop:w-[120px] w-[110px] border rounded-3xl mr-2 flex items-center justify-center cursor-pointer bg-white"
                 onClick={() => {
                   dispatch(openLinkModal()),
                     dispatch(removeLink()),
@@ -212,7 +212,7 @@ const Linkeditmodal = ({ user, link }) => {
                 <p className="text-sm font-medium ml-[3px] ">Cancel</p>
               </div>
               <div
-                className="h-[40px] w-[120px] border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
+                className="laptop:h-[40px] h-[38px]  laptop:w-[120px] w-[110px]  border rounded-3xl ml-2   flex items-center justify-center cursor-pointer"
                 style={
                   theLink.value && theLink.name
                     ? { backgroundColor: "#0b567f", color: "white" }
@@ -226,9 +226,11 @@ const Linkeditmodal = ({ user, link }) => {
           </div>
         </div>
         {/* <div className="w-[35%] h-[100%] border-l relative "> */}
-        <div className="border-l w-[35%]  flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide ">
-          <Mobile user={user} link={link} />
-        </div>
+        {isDesktopOrLaptop && (
+          <div className="border-l w-[35%]  flex justify-center h-[100%] items-center overflow-y-scroll scrollbar-hide ">
+            <Mobile user={user} link={link} />
+          </div>
+        )}
         {/* </div> */}
       </div>
       {/* <ToastContainer position="top-center" autoClose={2000} /> */}

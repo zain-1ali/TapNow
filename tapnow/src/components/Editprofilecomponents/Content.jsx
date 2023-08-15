@@ -126,7 +126,7 @@ const Content = ({ user, link }) => {
     // updating at firebase
 
     set(ref(db, `User/${user?.id}/links/`), [...updatedItems]).then(() => {
-      console.log(objectOfObjects);
+      // console.log(objectOfObjects);
     });
   };
 
